@@ -1,0 +1,2 @@
+GIF98A RFC : http://www.w3.org/Graphics/GIF/spec-gif89a.txt
+LZW wikipedia page : http://fr.wikipedia.org/wiki/Lempel-Ziv-Welch
