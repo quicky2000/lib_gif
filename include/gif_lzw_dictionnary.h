@@ -19,6 +19,7 @@
 
 #include "gif_lzw_dictionnary_entry.h"
 #include <vector>
+#include <map>
 #include <sstream>
 
 namespace lib_gif
@@ -31,12 +32,14 @@ namespace lib_gif
     inline ~gif_lzw_dictionnary(void);
     inline bool contains(const unsigned int & p_index);
     inline const gif_lzw_dictionnary_entry<T> & get(const unsigned int & p_index)const;
-    inline void add(const gif_lzw_dictionnary_entry<T> & p_entry);
+    inline void add(const gif_lzw_dictionnary_entry<T> & p_entry,unsigned int & p_current_code_size);
     inline void clear(void);
-    inline unsigned int size(void)const;
+    inline bool contains(const gif_lzw_dictionnary_entry<T> & p_entry)const;
+    inline const unsigned int & get_code(const gif_lzw_dictionnary_entry<T> & p_entry)const;
   private:
     unsigned int m_size;
     std::vector<gif_lzw_dictionnary_entry<T> *> m_content;
+    std::map<gif_lzw_dictionnary_entry<T>,unsigned int> m_content2index;
   };
 
   //----------------------------------------------------------------------------  
@@ -46,7 +49,9 @@ namespace lib_gif
     {
       for(unsigned int l_index = 0 ; l_index < p_size ; ++l_index)
 	{
-	  m_content.push_back(new gif_lzw_dictionnary_entry<T>((T)l_index));
+          gif_lzw_dictionnary_entry<T> * l_new_entry = new gif_lzw_dictionnary_entry<T>((T)l_index);
+          m_content2index.insert(typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::value_type(*l_new_entry,l_index));
+	  m_content.push_back(l_new_entry);
 	}
       m_content.push_back(nullptr); // Index of clear code
       m_content.push_back(nullptr); // Index of end of information code
@@ -95,9 +100,34 @@ namespace lib_gif
 
   //----------------------------------------------------------------------------  
   template <typename T>
-    void gif_lzw_dictionnary<T>::add(const gif_lzw_dictionnary_entry<T> & p_entry)
+    bool gif_lzw_dictionnary<T>::contains(const gif_lzw_dictionnary_entry<T> & p_entry)const
     {
+      typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::const_iterator l_iter = m_content2index.find(p_entry);
+      return m_content2index.end() != l_iter;
+    }
+
+  //----------------------------------------------------------------------------  
+  template <typename T>
+  const unsigned int & gif_lzw_dictionnary<T>::get_code(const gif_lzw_dictionnary_entry<T> & p_entry)const
+    {
+      typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::const_iterator l_iter = m_content2index.find(p_entry);
+      assert(m_content2index.end() != l_iter);
+      return l_iter->second;
+   }
+
+  //----------------------------------------------------------------------------  
+  template <typename T>
+    void gif_lzw_dictionnary<T>::add(const gif_lzw_dictionnary_entry<T> & p_entry,unsigned int & p_current_code_size)
+    {
+      m_content2index.insert(typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::value_type(p_entry,m_content.size()));
       m_content.push_back(new gif_lzw_dictionnary_entry<T>(p_entry));
+
+
+      if(p_current_code_size < 11 && (unsigned int)((2 << p_current_code_size )) == m_content.size())
+	{
+	  ++p_current_code_size;
+	}
+
     }
   //----------------------------------------------------------------------------  
   template <typename T>
@@ -108,12 +138,7 @@ namespace lib_gif
           delete m_content[l_index];
         }
       m_content.resize(m_size + 2);
-    }
- //----------------------------------------------------------------------------  
-  template <typename T>
-    unsigned int gif_lzw_dictionnary<T>::size(void)const
-    {
-      return m_content.size();
+      m_content2index.clear();
     }
 
 }
