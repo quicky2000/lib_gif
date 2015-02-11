@@ -17,113 +17,105 @@
 #ifndef GIF_LZW_DECODER_H
 #define GIF_LZW_DECODER_H
 
-#include "gif_lzw_dictionnary.h"
+#include "gif_lzw_base.h"
+      //TO DELETE#include "gif_lzw_dictionnary.h"
 #include <iostream>
 
 namespace lib_gif
 {
   template<typename T>
-    class gif_lzw_decoder
+    class gif_lzw_decoder: public gif_lzw_base<T>
     {
     public:
       inline gif_lzw_decoder(const unsigned int & p_minimum_code_size);
       inline const gif_lzw_dictionnary_entry<T> & decode(const unsigned int & p_coded_value,unsigned int & p_current_code_size);
-      typedef gif_lzw_dictionnary_entry<T> t_dictionnary_entry;
-      const unsigned int & get_clear_code(void)const;
-      const unsigned int & get_end_information_code(void)const;
     private:
-      unsigned int m_minimum_code_size;
-      unsigned int m_clear_code;
-      unsigned int m_end_information_code;
-      gif_lzw_dictionnary<T> m_dictionnary;
-      gif_lzw_dictionnary_entry<T> m_word;
       gif_lzw_dictionnary_entry<T> m_entry;
     };
 
   //----------------------------------------------------------------------------
   template<typename T>
     gif_lzw_decoder<T>::gif_lzw_decoder(const unsigned int & p_minimum_code_size):
-    m_minimum_code_size(p_minimum_code_size),
-    m_clear_code(1 << m_minimum_code_size),
-    m_end_information_code(m_clear_code + 1),
-    m_dictionnary(m_clear_code)
-      {
-      }
-
-  //----------------------------------------------------------------------------
-  template<typename T>
-    const unsigned int & gif_lzw_decoder<T>::get_clear_code(void)const
+    gif_lzw_base<T>(p_minimum_code_size)
     {
-      return m_clear_code;
     }
-  
-  //----------------------------------------------------------------------------
-  template<typename T>
-    const unsigned int & gif_lzw_decoder<T>::get_end_information_code(void)const
-    {
-      return m_end_information_code;
-    }
-
-
+    
     //----------------------------------------------------------------------------
     template<typename T>
       const gif_lzw_dictionnary_entry<T> & gif_lzw_decoder<T>::decode(const unsigned int & p_coded_value,unsigned int & p_current_code_size)
       {
-	 //TO DELETE std::cout << "Word = ";
-        //TO DELETE        	m_word.display();
-	 //TO DELETE std::cout << std::endl ;
-	 //TO DELETE std::cout << "Entry = ";
-        //TO DELETE        	m_entry.display();
-	 //TO DELETE std::cout << std::endl ;
 
-	 //TO DELETE std::cout << "Value to decode =0x" << std::hex << (unsigned int) p_coded_value << std::dec << " ";
-	if(m_word.size())
+	if(gif_lzw_base<T>::get_word().size())
 	  {
-	    if(p_coded_value > m_end_information_code)
+	    if(p_coded_value > gif_lzw_base<T>::get_end_information_code())
 	      {
-		 //TO DELETE std::cout << "Compressed code";
-		if(m_dictionnary.contains(p_coded_value))
+		if(gif_lzw_base<T>::get_dictionnary().contains(p_coded_value))
 		  {
-		    m_entry = m_dictionnary.get(p_coded_value);
+		    m_entry = gif_lzw_base<T>::get_dictionnary().get(p_coded_value);
 		  }
 		else
 		  {
-		    m_entry = m_word;
-		    m_entry = m_entry + m_word[0];
+		    m_entry = gif_lzw_base<T>::get_word();
+		    m_entry = m_entry + gif_lzw_base<T>::get_word()[0];
 		  }
 	      }
-	    else if(p_coded_value < m_clear_code)
+	    else if(p_coded_value < gif_lzw_base<T>::get_clear_code())
 	      {
-		 //TO DELETE std::cout << "Basic code";
 		m_entry = gif_lzw_dictionnary_entry<T>(p_coded_value);
 	      }
-	    else if(p_coded_value == m_clear_code)
+	    else if(p_coded_value == gif_lzw_base<T>::get_clear_code())
 	      {
-		 //TO DELETE std::cout << "Clean code ";
-		p_current_code_size = m_minimum_code_size;
-		m_dictionnary.clear();
+		p_current_code_size = gif_lzw_base<T>::get_minimum_code_size();
+		gif_lzw_base<T>::get_dictionnary().clear();
 		m_entry = gif_lzw_dictionnary_entry<T>();
-		m_word = gif_lzw_dictionnary_entry<T>();
+		gif_lzw_base<T>::set_word(gif_lzw_dictionnary_entry<T>());
 		return m_entry;
 	      }
-	     //TO DELETE std::cout << std::endl ;
-	    m_dictionnary.add(m_word + m_entry[0]);
-             //TO DELETE std::cout << "Dictionnary size : " << m_dictionnary.size() << std::endl ;
-	    m_word = m_entry;
-             //TO DELETE std::cout << (unsigned int)((2 << p_current_code_size ) - 1) << std::endl ;
-	    if(p_current_code_size < 11 && (unsigned int)((2 << p_current_code_size )) == m_dictionnary.size())
-	      {
-		++p_current_code_size;
-                 //TO DELETE std::cout << "Increase code size to " <<  p_current_code_size << std::endl ;
-	      }
+	    
+	    gif_lzw_base<T>::get_dictionnary().add(gif_lzw_dictionnary_entry<T>(gif_lzw_base<T>::get_word()) + m_entry[0],p_current_code_size);
+	    gif_lzw_base<T>::set_word(m_entry);
 	    return m_entry;
 	  }
 	else
 	  {
-	    m_word = gif_lzw_dictionnary_entry<T>(p_coded_value);
-	    return m_word;
+	    gif_lzw_base<T>::set_word(gif_lzw_dictionnary_entry<T>(p_coded_value));
+	    return gif_lzw_base<T>::get_word();
 	  }
       }
 }
+
+//-----------------------------------------------------
+//- Check of Decoder
+//-----------------------------------------------------
+#if 0
+      std::cout << "TOBEORNOTTOBEORTOBEORNOT" << std::endl ;
+      std::vector<unsigned int> l_coded_values = {'T','O','B','E','O','R','N','O','T',256,258,260,265,259,261,263};
+      lib_gif::gif_lzw_decoder<uint8_t> l_decoder(8);
+      unsigned int l_current_code_size = 9;
+      for(auto l_iter : l_coded_values)
+        {
+          const lib_gif::gif_lzw_decoder<uint8_t>::t_dictionnary_entry & l_decoded_values = l_decoder.decode(l_iter + (l_iter < 256 ? 0 : 2),l_current_code_size);
+          for(unsigned int l_index = 0 ; l_index < l_decoded_values.size() ; ++l_index)
+            {
+              std::cout << l_decoded_values[l_index] ;
+            }
+        }
+      std::cout << std::endl;
+      std::cout << "ababcbababaaaaaaa" << std::endl ;
+      std::vector<unsigned int> l_coded_values = {0,1,3,2, 4, 7, 0, 9, 10, 0};
+      lib_gif::gif_lzw_decoder<uint8_t> l_decoder(2);
+      unsigned int l_current_code_size = 2;
+      for(auto l_iter : l_coded_values)
+        {
+          const lib_gif::gif_lzw_decoder<uint8_t>::t_dictionnary_entry & l_decoded_values = l_decoder.decode(l_iter + (l_iter < 3 ? 0 : 3),l_current_code_size);
+          for(unsigned int l_index = 0 ; l_index < l_decoded_values.size() ; ++l_index)
+            {
+              std::cout << (uint8_t)('a'+l_decoded_values[l_index]);
+            }
+        }
+      std::cout << std::endl ;
+#endif
+
+
 #endif
 //EOF
