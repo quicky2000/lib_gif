@@ -29,7 +29,7 @@ namespace lib_gif
   class gif
   {
   public:
-    gif(const std::string & p_file_name);
+    gif(std::ifstream & p_file);
     ~gif(void);
     inline const uint16_t & get_width(void)const;
     inline const uint16_t & get_height(void)const;

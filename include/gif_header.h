@@ -18,6 +18,7 @@
 #define GIF_HEADER_H
 
 #include <string>
+#include <cstring>
 #include <sstream>
 #include "quicky_exception.h"
 
@@ -28,39 +29,48 @@ namespace lib_gif
   public:
     inline gif_header(void);
     inline void set_signature(const std::string & p_signature);
-    inline const std::string & get_signature(void)const;
+    inline const std::string get_signature(void)const;
     inline void set_version(const std::string & p_version);
-    inline const std::string & get_version(void)const;
+    inline const std::string get_version(void)const;
     static inline unsigned int get_size(void);
-    static inline unsigned int get_signature_size(void);
-    static inline unsigned int get_version_size(void);
   private:
-    std::string m_signature;
-    std::string m_version;
+    uint8_t m_signature[3];
+    uint8_t m_version[3];
   };
 
   //----------------------------------------------------------------------------
+  inline std::ostream & operator<<(std::ostream & p_stream,const gif_header & p_header)
+    {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF Header :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "Signature : " << p_header.get_signature() << std::endl ;
+      p_stream << "Version : " << p_header.get_version() << std::endl ;
+      return p_stream;
+    }
+
+  //----------------------------------------------------------------------------
   gif_header::gif_header(void):
-    m_signature("GIF"),
-    m_version("89a")
+    m_signature{'G','I','F'},
+    m_version{'8','9','a'}
   {
   }
     //----------------------------------------------------------------------------
     void gif_header::set_version(const std::string & p_version)
     {
-    if(m_version.size() > 3)
+    if(p_version.size() > 3)
       {
         std::stringstream l_stream;
-        l_stream << m_version.size();
+        l_stream << p_version.size();
         throw quicky_exception::quicky_logic_exception("GIF header version is "+l_stream.str()+" bytes instead of 3",__LINE__,__FILE__);
       }
-    m_version = p_version;
+    strncpy((char*)m_version,p_version.c_str(),3);
     }
 
     //----------------------------------------------------------------------------
-    const std::string & gif_header::get_version(void)const
+    const std::string gif_header::get_version(void)const
       {
-        return m_version;
+        return std::string((char*)m_version,3);
       }
  
     //----------------------------------------------------------------------------
@@ -70,29 +80,19 @@ namespace lib_gif
       {
         throw quicky_exception::quicky_logic_exception("GIF header signature is \""+p_signature+"\" instead of \"GIF\"",__LINE__,__FILE__);
       }
-    m_signature = p_signature;
+      strncpy((char*)m_signature,p_signature.c_str(),3);
     }
 
     //----------------------------------------------------------------------------
-    const std::string & gif_header::get_signature(void)const
+    const std::string gif_header::get_signature(void)const
       {
-        return m_signature;
+        return std::string((char*)m_signature,3);
       }
  
     //----------------------------------------------------------------------------
     unsigned int gif_header::get_size(void)
     {
       return 6;
-    }
-    //----------------------------------------------------------------------------
-    unsigned int gif_header::get_signature_size(void)
-      {
-        return 3;
-      }
-  //----------------------------------------------------------------------------
-    unsigned int gif_header::get_version_size(void)
-    {
-      return 3;
     }
   
 }
