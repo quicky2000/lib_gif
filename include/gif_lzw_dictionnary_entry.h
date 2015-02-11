@@ -30,6 +30,7 @@ namespace lib_gif
     inline gif_lzw_dictionnary_entry(void);
     inline gif_lzw_dictionnary_entry<T> & operator+(const T & p_char);
     inline const T & operator[](size_t p_index)const;
+    inline bool operator<(const gif_lzw_dictionnary_entry<T> & p_entry)const;
     inline size_t size(void)const;
     inline void display(void)const;
   private:
@@ -55,6 +56,13 @@ namespace lib_gif
       {
 	m_word.push_back(p_char);
 	return *this;
+      }
+
+  //----------------------------------------------------------------------------
+    template <typename T>
+      bool gif_lzw_dictionnary_entry<T>::operator<(const gif_lzw_dictionnary_entry<T> & p_entry)const
+      {
+        return m_word < p_entry.m_word;
       }
 
     //----------------------------------------------------------------------------
@@ -86,7 +94,7 @@ namespace lib_gif
 	std::cout << "{" << std::hex;
 	for(auto l_iter:m_word)
 	  {
-	    std::cout << " 0x" << l_iter ;
+	    std::cout << " 0x" << (unsigned int) l_iter ;
 	  }
 	std::cout << "}" << std::dec << std::endl ;
       }    
