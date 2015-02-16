@@ -20,6 +20,7 @@
 #include "gif_application_extension.h"
 #include "gif_comment_extension.h"
 #include "gif_graphic_control_extension.h"
+#include "gif_plain_text_extension.h"
 
 namespace lib_gif
 {
@@ -41,6 +42,9 @@ namespace lib_gif
 #endif // DEBUG_GIF_EXTENSION_BLOCK_FACTORY
       switch(l_block_type_identifier)
         {
+        case gif_extension_block::t_gif_extension_block_key::PLAIN_TEXT_EXTENSION:
+          l_result = new gif_plain_text_extension(p_file);
+          break;
 	case gif_extension_block::t_gif_extension_block_key::GRAPHIC_CONTROL_EXTENSION :
 	  l_result = new gif_graphic_control_extension(p_file);
 	  break;

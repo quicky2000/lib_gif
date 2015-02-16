@@ -25,7 +25,8 @@ namespace lib_gif
   {
   public:
     typedef enum class gif_extension_block_key : uint8_t {
-      GRAPHIC_CONTROL_EXTENSION=0xF9,
+      PLAIN_TEXT_EXTENSION=0x1,
+        GRAPHIC_CONTROL_EXTENSION=0xF9,
         COMMENT_EXTENSION=0xFE,
 	APPLICATION_EXTENSION=0xFF
         }
@@ -48,6 +49,9 @@ namespace lib_gif
     {
       switch(p_key)
         {
+        case t_gif_extension_block_key::PLAIN_TEXT_EXTENSION:
+          return "PLAIN_TEXT_EXTENSION";
+          break;
         case t_gif_extension_block_key::GRAPHIC_CONTROL_EXTENSION:
           return "GRAPHIC_CONTROL_EXTENSION";
           break;
