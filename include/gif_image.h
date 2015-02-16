@@ -91,12 +91,11 @@ namespace lib_gif
         unsigned int l_first_code = 0;
         for(unsigned int l_index = 0 ; l_index < l_compressed_data_size ; ++l_index)
           {
-            l_bitfield.set(l_compressed_data[l_index],8,8 * (l_compressed_data_size - l_index - 1));
+            l_bitfield.set(l_compressed_data[l_index],8,8 * l_index);
           }
         free(l_compressed_data);
 
-        l_bitfield.get(l_first_code,(unsigned int)(m_lzw_minimum_code_size + 1),(unsigned int)(l_compressed_data_size * 8 - m_lzw_minimum_code_size - 1));
-	
+        l_bitfield.get(l_first_code,(unsigned int)(m_lzw_minimum_code_size + 1),0);
 
 #ifdef DEBUG_GIF_IMAGE
         std::cout << "First code = 0x" << std::hex << l_first_code << std::dec << std::endl ;
@@ -114,12 +113,12 @@ namespace lib_gif
 
         unsigned int l_current_lzw_minimum_code_size = m_lzw_minimum_code_size;
         unsigned int l_extracted_value = 0x0;
-        unsigned int l_remaining_size = l_compressed_data_size * 8 - l_current_lzw_minimum_code_size - 1;
+        unsigned int l_decoded_size = l_current_lzw_minimum_code_size + 1;
         unsigned int l_content_index = 0;
 
 
-        l_bitfield.get(l_extracted_value,l_current_lzw_minimum_code_size + 1,l_remaining_size - l_current_lzw_minimum_code_size - 1);
-        l_remaining_size -= l_current_lzw_minimum_code_size + 1;
+        l_bitfield.get(l_extracted_value,l_current_lzw_minimum_code_size + 1,l_decoded_size);
+        l_decoded_size += l_current_lzw_minimum_code_size + 1;
 	do
 	  {
 	    gif_lzw_dictionnary_entry<t_content> l_decoded_value = l_decoder.decode(l_extracted_value,l_current_lzw_minimum_code_size);
@@ -133,10 +132,10 @@ namespace lib_gif
 	      }
 	    l_content_index += l_decoded_value.size();
 
-            if(l_remaining_size >= l_current_lzw_minimum_code_size + 1)
+            if(l_decoded_size < l_compressed_data_size * 8)
               {
-                l_bitfield.get(l_extracted_value,l_current_lzw_minimum_code_size + 1,l_remaining_size - l_current_lzw_minimum_code_size - 1);
-                l_remaining_size -= l_current_lzw_minimum_code_size + 1;
+                l_bitfield.get(l_extracted_value,l_current_lzw_minimum_code_size + 1,l_decoded_size);
+                l_decoded_size += l_current_lzw_minimum_code_size + 1;
               }
             else
               {
