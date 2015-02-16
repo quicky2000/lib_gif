@@ -32,6 +32,7 @@ namespace lib_gif
     inline bool is_supported(void)const;
     inline void print(std::ostream & p_stream)const;
     inline const unsigned int & get_loop_counter(void)const;
+    inline void write_extension(std::ofstream & p_file)const;
   private:
     uint8_t m_block_size;
     char m_identifier[8];
@@ -50,6 +51,22 @@ namespace lib_gif
     {
       return m_loop_counter;
     }
+
+  //----------------------------------------------------------------------------
+  void gif_application_extension::write_extension(std::ofstream & p_file)const
+  {
+    uint8_t l_extension_label = 0xFF;
+    p_file.write((char*)&l_extension_label,sizeof(l_extension_label));
+    uint8_t l_block_size = 11;
+    p_file.write((char*)&l_block_size,sizeof(l_block_size));
+    p_file.write((char*)m_identifier,8*sizeof(uint8_t));
+    p_file.write((char*)m_authentication_code,3*sizeof(uint8_t));
+    gif_data_sub_block l_block(3);
+    l_block.set_data(0,0x1);
+    l_block.set_data(1,m_loop_counter & 0xFF);
+    l_block.set_data(2,m_loop_counter >> 8);
+    l_block.write(p_file);
+  }
 
   //----------------------------------------------------------------------------
   gif_application_extension::gif_application_extension(std::ifstream & p_file):

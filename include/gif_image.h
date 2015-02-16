@@ -22,6 +22,7 @@
 #include "gif_color_table.h"
 #include "gif_data_sub_block.h"
 #include "gif_lzw_decoder.h"
+#include "gif_lzw_encoder.h"
 #include "quicky_bitfield.h"
 #include <iostream>
 #include <vector>
@@ -46,6 +47,7 @@ namespace lib_gif
     inline const unsigned int & get_color_index(const unsigned int & p_x, const unsigned int & p_y)const;
     inline void print(std::ostream & p_stream)const;
     inline unsigned int deinterlace(const unsigned int & p_y)const;
+    inline void write(std::ofstream & p_file)const;
   private:
     gif_image_descriptor m_descriptor;
     gif_color_table * m_color_table;
@@ -53,7 +55,102 @@ namespace lib_gif
     typedef unsigned int t_content;
     t_content * m_content;
   };
+  //----------------------------------------------------------------------------
+  void gif_image::write(std::ofstream & p_file)const
+  {
+    uint8_t l_image_introducer = 0x2C;
+    p_file.write((char*)&l_image_introducer,sizeof(l_image_introducer));
+    p_file.write((char*) & m_descriptor,m_descriptor.get_size());
+    if(m_descriptor.get_local_color_table_flag())
+      {
+        m_color_table->write(p_file);
+      }
+    p_file.write((char*)&m_lzw_minimum_code_size,sizeof(m_lzw_minimum_code_size));
  
+    gif_lzw_encoder<uint8_t> l_encoder(m_lzw_minimum_code_size);
+    unsigned int l_current_code_size = m_lzw_minimum_code_size;
+    unsigned int l_current_bit = l_current_code_size + 1;
+    unsigned int l_content_size = m_descriptor.get_image_width() * m_descriptor.get_image_height();
+    // Bitfield max size is (l_content_size + 2) * 12 :
+    // 12 bits max per coded value
+    // l_content + 2 = l_content + clear code + end of information code
+    // * 2 to be sure to have place for clean code
+    quicky_utils::quicky_bitfield l_compressed_data(2 * (l_content_size + 2) * 12);
+
+    // Add clear code first
+    unsigned int l_coded_value = l_encoder.get_clear_code();
+    l_compressed_data.set(l_coded_value,l_current_code_size+1,0);
+
+    unsigned int l_prev_code_size = l_current_code_size;
+    // Add compressed content
+    for(unsigned int l_index = 0 ; l_index < l_content_size ; ++l_index)
+      {
+	bool l_clean = false;
+        unsigned int l_coded_value_size;
+        if(l_encoder.encode(m_content[l_index],l_coded_value,l_coded_value_size,l_current_code_size,l_clean))
+          {
+#ifdef DEBUG_GIF_IMAGE
+	    std::cout << l_index << "\t" << std::hex << "Encoded value 0x" << l_coded_value << "\tWidth : " << std::dec << l_prev_code_size+1 << std::hex << "\t0x" << l_current_bit / 8 / 255  << "\t0x" << (l_current_bit / 8) % 255 << std::dec << std::endl ;
+#endif // DEBUG_GIF_IMAGE
+	    l_compressed_data.set(l_coded_value,l_prev_code_size+1,l_current_bit);
+	    l_current_bit += l_prev_code_size+1;
+            l_prev_code_size = l_coded_value_size;
+          }
+	if(l_clean)
+	  {
+	    l_coded_value = l_encoder.get_clear_code();
+
+#ifdef DEBUG_GIF_IMAGE
+	    std::cout << std::hex << "Encoded value 0x" << l_coded_value << "\t0x" << l_current_bit / 8 /255  << "\t0x" << (l_current_bit / 8) % 255 << std::dec << std::endl ;
+#endif // DEBUG_GIF_IMAGE
+	    l_compressed_data.set(l_coded_value,l_prev_code_size+1,l_current_bit);
+	    l_current_bit += l_prev_code_size+1;
+	    l_current_code_size = m_lzw_minimum_code_size;
+            l_prev_code_size = l_current_code_size;
+	  }
+      }
+    l_encoder.encode(l_coded_value);
+    l_compressed_data.set(l_coded_value,l_current_code_size+1,l_current_bit);
+    l_current_bit += l_current_code_size + 1;
+
+    // Add end of information code
+    l_coded_value = l_encoder.get_end_information_code();
+    l_compressed_data.set(l_coded_value,l_current_code_size+1,l_current_bit);
+    l_current_bit += l_current_code_size;
+
+    // Split in sub data blocks
+    unsigned int l_compressed_data_size = l_current_bit / 8 + (l_current_bit % 8 ? 1:0);
+    unsigned int l_nb_data_sub_block = l_compressed_data_size / 255;
+    for(unsigned int l_index = 0 ; l_index < l_nb_data_sub_block ; ++l_index)
+      {
+        gif_data_sub_block l_block(255);
+        for(unsigned int l_index2 = 0 ;l_index2 < 255 ; ++l_index2)
+          {
+            unsigned int l_byte;
+            l_compressed_data.get(l_byte,8,8 * (l_index * 255 + l_index2));
+            l_block.set_data(l_index2,(uint8_t)l_byte);
+          }
+#ifdef DEBUG_GIF_IMAGE
+        std::cout << "Block Number : " << l_index << std::endl ;
+#endif // DEBUG_GIF_IMAGE
+        l_block.write(p_file);
+      }
+    unsigned int l_remaining_size = l_compressed_data_size % 255;
+    if(l_remaining_size)
+      {
+        gif_data_sub_block l_block(l_remaining_size);
+        for(unsigned int l_index = 0 ; l_index < l_remaining_size ; ++l_index)
+          {
+            unsigned int l_byte;
+            l_compressed_data.get(l_byte,8,8 * (l_nb_data_sub_block * 255 + l_index));
+	    l_block.set_data(l_index,(uint8_t)l_byte);
+          }
+        l_block.write(p_file);
+      }
+    uint8_t l_block_terminator = 0x0;
+    p_file.write((char*)&l_block_terminator,sizeof(l_block_terminator));
+  }
+
   //----------------------------------------------------------------------------
   gif_image::gif_image(std::ifstream & p_file):
     m_color_table(nullptr),

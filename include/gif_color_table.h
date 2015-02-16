@@ -30,6 +30,7 @@ namespace lib_gif
     inline ~gif_color_table(void);
     inline const unsigned int & get_size(void)const;
     inline const gif_color & operator[](const size_t & p_index)const;
+    inline void write(std::ofstream & p_file);
   private:
     unsigned int m_size;
     gif_color *m_colors;
@@ -51,6 +52,12 @@ namespace lib_gif
 	  throw quicky_exception::quicky_logic_exception("Trying to create an empty color table",__LINE__,__FILE__);
 	}
       p_file.read((char*) m_colors,p_size * sizeof(gif_color));      
+    }
+
+    //----------------------------------------------------------------------------
+    void gif_color_table::write(std::ofstream & p_file)
+    {
+      p_file.write((char*) m_colors,m_size * sizeof(gif_color));
     }
 
   //----------------------------------------------------------------------------

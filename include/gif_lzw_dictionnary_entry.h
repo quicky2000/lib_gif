@@ -62,6 +62,7 @@ namespace lib_gif
     template <typename T>
       bool gif_lzw_dictionnary_entry<T>::operator<(const gif_lzw_dictionnary_entry<T> & p_entry)const
       {
+	if(m_word.size() != p_entry.m_word.size()) return m_word.size() < p_entry.m_word.size();
         return m_word < p_entry.m_word;
       }
 

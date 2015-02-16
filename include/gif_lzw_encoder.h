@@ -28,7 +28,7 @@ namespace lib_gif
     {
     public:
       inline gif_lzw_encoder(const unsigned int & p_minimum_code_size);
-      inline bool encode(const T & p_value_to_code,unsigned int & p_coded_value,unsigned int & p_current_code_size);
+      inline bool encode(const T & p_value_to_code,unsigned int & p_coded_value,unsigned int & p_coded_value_size,unsigned int & p_current_code_size,bool & p_clean);
       inline void encode(unsigned int & p_coded_value);
     private:
     };
@@ -42,22 +42,34 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
   template<typename T>
-    bool gif_lzw_encoder<T>::encode(const T & p_value_to_code,unsigned int & p_coded_value,unsigned int & p_current_code_size)
+    bool gif_lzw_encoder<T>::encode(const T & p_value_to_code,unsigned int & p_coded_value,unsigned int & p_coded_value_size,unsigned int & p_current_code_size, bool & p_clean)
     {
+      bool l_result = false;
       gif_lzw_dictionnary_entry<T> l_new_entry(gif_lzw_base<T>::get_word());
       l_new_entry = l_new_entry + p_value_to_code;
       if(gif_lzw_base<T>::get_dictionnary().contains(l_new_entry))
         {
           gif_lzw_base<T>::set_word(l_new_entry);
-          return false;
+          l_result = false;
         }
       else
         {
+          unsigned int l_word_Code_size = p_current_code_size;
+          p_coded_value_size = l_word_Code_size;
           gif_lzw_base<T>::get_dictionnary().add(l_new_entry,p_current_code_size);
           p_coded_value = gif_lzw_base<T>::get_dictionnary().get_code(gif_lzw_base<T>::get_word());
+#ifdef DEBUG_GIF_LZW_ENCODER
+	  std::cout << "Proposed coded value " << p_coded_value << "\t" << p_current_code_size << "\t" << l_word_Code_size<< std::endl ;
+#endif //DEBUG_GIF_LZW_ENCODER
           gif_lzw_base<T>::set_word(p_value_to_code);
-          return true;
+          l_result = true;
         }
+      if(4097 == gif_lzw_base<T>::get_dictionnary().get_nb_entry())
+	{
+	  gif_lzw_base<T>::get_dictionnary().clear();
+	  p_clean = true;
+	}
+      return l_result;
     }
 
     //----------------------------------------------------------------------------

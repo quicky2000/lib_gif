@@ -36,6 +36,7 @@ namespace lib_gif
     inline void clear(void);
     inline bool contains(const gif_lzw_dictionnary_entry<T> & p_entry)const;
     inline const unsigned int & get_code(const gif_lzw_dictionnary_entry<T> & p_entry)const;
+    inline const unsigned int get_nb_entry(void)const;
   private:
     unsigned int m_size;
     std::vector<gif_lzw_dictionnary_entry<T> *> m_content;
@@ -43,6 +44,13 @@ namespace lib_gif
   };
 
   //----------------------------------------------------------------------------  
+  template <typename T>
+  const unsigned int gif_lzw_dictionnary<T>::get_nb_entry(void)const
+    {
+      return m_content.size();
+    }
+
+  //----------------------------------------------------------------------------
   template <typename T>
     gif_lzw_dictionnary<T>::gif_lzw_dictionnary(const unsigned int & p_size):
     m_size(p_size)
@@ -136,12 +144,20 @@ namespace lib_gif
   template <typename T>
     void gif_lzw_dictionnary<T>::clear(void)
     {
+#ifdef DEBUG_GIF_LZW_DICTIONNARY
+      std::cout << "Clear " << m_content.size() << std::endl ;
+#endif // DEBUG_GIF_LZW_DICTIONNARY
       for(unsigned int l_index = m_size + 2; l_index < m_content.size() ; ++l_index)
         {
           delete m_content[l_index];
         }
       m_content.resize(m_size + 2);
-      m_content2index.clear();
+
+      gif_lzw_dictionnary_entry<T>(m_size - 1);
+      typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::iterator l_erase_iter = m_content2index.find(gif_lzw_dictionnary_entry<T>(m_size - 1));
+      assert(m_content2index.end() != l_erase_iter);
+      ++l_erase_iter;
+      m_content2index.erase(l_erase_iter,m_content2index.end());
     }
 
 }

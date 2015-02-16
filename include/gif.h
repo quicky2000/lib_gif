@@ -39,6 +39,7 @@ namespace lib_gif
     inline unsigned int get_nb_data_block(void)const;
     inline const gif_data_block & get_data_block(const unsigned int & p_index)const;
     inline const uint8_t  & get_background_index(void)const;
+    void write(std::ofstream & p_file);
   private:
     gif_header m_header;
     gif_logical_screen m_logical_screen;

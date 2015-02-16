@@ -39,6 +39,16 @@ namespace lib_gif
   }
 
   //----------------------------------------------------------------------------
+  void gif::write(std::ofstream & p_file)
+  {
+    p_file.write((char*)&m_header,m_header.get_size());
+    m_logical_screen.write(p_file);
+    for(auto l_iter : m_data_blocks)
+      {
+        l_iter->write(p_file);
+      }
+  }
+  //----------------------------------------------------------------------------
   gif::~gif(void)
     {
       for(auto l_iter: m_data_blocks)

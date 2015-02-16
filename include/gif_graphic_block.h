@@ -44,6 +44,7 @@ namespace lib_gif
     inline bool is_image(void)const;
     inline void print(std::ostream & p_stream)const;
     inline const gif_image & get_image(void)const;
+    inline void write(std::ofstream & p_file)const;
       private:
     gif_graphic_rendering_block * m_graphic_rendering_block;
   };
@@ -64,11 +65,18 @@ namespace lib_gif
       }
 
     //----------------------------------------------------------------------------
+    void gif_graphic_block::write(std::ofstream & p_file)const
+    {
+       assert(m_graphic_rendering_block);
+      m_graphic_rendering_block->write(p_file);
+    }
+
+    //----------------------------------------------------------------------------
     gif_graphic_block::~gif_graphic_block(void)
       {
 	delete m_graphic_rendering_block;
       }
-    
+
     //----------------------------------------------------------------------------
     bool gif_graphic_block::is_image(void)const
     {

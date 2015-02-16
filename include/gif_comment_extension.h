@@ -29,9 +29,38 @@ namespace lib_gif
   public:
     inline void print(std::ostream & p_stream)const;
     inline gif_comment_extension(std::ifstream & p_file);
+    inline void write_extension(std::ofstream & p_file)const;
   private:
     std::string m_comment;
   };
+
+    //----------------------------------------------------------------------------
+    void gif_comment_extension::write_extension(std::ofstream & p_file)const
+    {
+      uint8_t l_extension_label = 0xFE;
+      p_file.write((char*)&l_extension_label,sizeof(l_extension_label));
+      unsigned int l_nb_data_sub_block = m_comment.size() / 255;
+      for(unsigned int l_index = 0 ; l_index < l_nb_data_sub_block ; ++l_index)
+        {
+          gif_data_sub_block l_block(255);
+          for(unsigned int l_index2 = 0 ;l_index2 < 255 ; ++l_index2)
+            {
+              l_block.set_data(l_index2,m_comment[255 * l_index + l_index2]);
+            }
+          l_block.write(p_file);
+        }
+      unsigned int l_remaining_size = m_comment.size() % 255;
+      if(l_remaining_size)
+        {
+          gif_data_sub_block l_block(l_remaining_size);
+          for(unsigned int l_index = 0 ; l_index < l_remaining_size ; ++l_index)
+            {
+              l_block.set_data(l_index,m_comment[255 * l_nb_data_sub_block + l_index]);
+            }
+          l_block.write(p_file);
+        }
+    }
+
   //----------------------------------------------------------------------------
   gif_comment_extension::gif_comment_extension(std::ifstream & p_file):
     gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)

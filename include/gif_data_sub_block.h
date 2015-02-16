@@ -28,10 +28,13 @@ namespace lib_gif
   {
   public:
     inline gif_data_sub_block(std::ifstream & p_file);
+    inline gif_data_sub_block(const unsigned int & p_size);
     inline const unsigned int get_size(void)const;
     inline const uint8_t & get_data(const unsigned int & p_index)const;
+    inline void set_data(const unsigned int & p_index,const uint8_t & p_data)const;
     inline void copy(uint8_t * p_dest)const;
     inline ~gif_data_sub_block(void);
+    inline void write(std::ofstream & p_file)const;
   private:
     uint8_t m_size;
     uint8_t * m_data;
@@ -60,6 +63,29 @@ namespace lib_gif
         p_file.read((char*)m_data,m_size);
 
       }
+    //----------------------------------------------------------------------------
+    void gif_data_sub_block::write(std::ofstream & p_file)const
+    {
+#ifdef DEBUG_GIF_DATA_SUB_BLOCK
+        std::cout << "----------------------------" << std::endl ;
+        std::cout << "GIF Image Data Sub block :" << std::endl ;
+        std::cout << "----------------------------" << std::endl ;
+        std::cout << "Current position : 0x" << std::hex << p_file.tellp() << std::dec << std::endl ;
+	for(unsigned int l_index = 0 ; l_index < m_size ; ++l_index)
+	  {
+	    std::cout << std::hex  << "[0x" << l_index << "] = 0x" << (unsigned int)m_data[l_index] << std::dec << std::endl ;
+	  }
+#endif // DEBUG_GIF_DATA_SUB_BLOCK
+        p_file.write((char*)&m_size,sizeof(m_size));
+        p_file.write((char*)m_data,m_size);      
+    }
+
+    //----------------------------------------------------------------------------
+    gif_data_sub_block::gif_data_sub_block(const unsigned int & p_size):
+      m_size(p_size),
+      m_data(new uint8_t[m_size])
+      {
+      }
 
     //----------------------------------------------------------------------------
     void gif_data_sub_block::copy(uint8_t * p_dest)const
@@ -84,9 +110,23 @@ namespace lib_gif
           {
             std::stringstream l_stream;
             l_stream << p_index;
-            throw quicky_exception::quicky_logic_exception("Out of bounds : "+l_stream.str(),__LINE__,__FILE__);
+            throw quicky_exception::quicky_logic_exception("Out of bounds read : "+l_stream.str(),__LINE__,__FILE__);
           }
       }
+    //----------------------------------------------------------------------------
+    void gif_data_sub_block::set_data(const unsigned int & p_index,const uint8_t & p_data)const
+    {
+         if(p_index < m_size)
+          {
+            m_data[p_index] = p_data;
+          }
+        else
+          {
+            std::stringstream l_stream;
+            l_stream << p_index;
+            throw quicky_exception::quicky_logic_exception("Out of bounds write : "+l_stream.str(),__LINE__,__FILE__);
+          }
+   }
 
     //----------------------------------------------------------------------------
     gif_data_sub_block::~gif_data_sub_block(void)

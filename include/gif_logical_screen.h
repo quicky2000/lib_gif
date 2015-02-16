@@ -31,6 +31,7 @@ namespace lib_gif
   public:
     inline gif_logical_screen(void);
     inline void read(std::ifstream & p_file);
+    inline void write(std::ofstream & p_file);
     inline const uint16_t & get_width(void)const;
     inline const uint16_t & get_height(void)const;
     inline bool get_global_color_table_flag(void)const;
@@ -84,6 +85,17 @@ namespace lib_gif
       return m_descriptor.get_background_index();
     }
   
+  //----------------------------------------------------------------------------
+  void gif_logical_screen::write(std::ofstream & p_file)
+  {
+    p_file.write((char*) & m_descriptor,m_descriptor.get_size());
+
+    if(m_descriptor.get_global_color_table_flag())
+      {
+	m_global_color_table->write(p_file);
+      }
+  }
+
   //----------------------------------------------------------------------------
   void gif_logical_screen::read(std::ifstream & p_file)
   {

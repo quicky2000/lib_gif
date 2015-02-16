@@ -26,6 +26,7 @@ namespace lib_gif
   public:
     inline void print(std::ostream & p_stream)const;
     inline gif_trailer(void);
+    inline void write(std::ofstream & p_file)const;
   };
 
     //----------------------------------------------------------------------------
@@ -40,6 +41,13 @@ namespace lib_gif
     gif_data_block(gif_data_block::t_gif_data_block_type::TRAILER)
     {
     }
+    //----------------------------------------------------------------------------
+    void gif_trailer::write(std::ofstream & p_file)const
+    {
+      uint8_t l_trailer = 0x3B;
+      p_file.write((char*)&l_trailer,sizeof(l_trailer));
+    }
+
 }
 #endif
 //EOF
