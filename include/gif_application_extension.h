@@ -30,6 +30,7 @@ namespace lib_gif
   public:
     inline gif_application_extension(std::ifstream & p_file);
     inline bool is_supported(void)const;
+    inline void print(std::ostream & p_stream)const;
     inline const unsigned int & get_loop_counter(void)const;
   private:
     uint8_t m_block_size;
@@ -56,10 +57,6 @@ namespace lib_gif
     m_loop_counter(0),
     m_supported(false)
     {
-      std::cout << "----------------------------" << std::endl ;
-      std::cout << "GIF application extension :" << std::endl ;
-      std::cout << "----------------------------" << std::endl ;
-      std::cout << "Current position : 0x" << std::hex << p_file.tellg() << std::dec << std::endl ;
       p_file.read((char*)&m_block_size,12);
       if(11 != m_block_size) 
 	{
@@ -68,14 +65,7 @@ namespace lib_gif
 	  throw quicky_exception::quicky_logic_exception("Bad application extension block size ("+l_size_stream.str()+") should be 11",__LINE__,__FILE__);
 	}
       std::string l_identifier = std::string(m_identifier,8);
-      std::cout << "\tIdentifier : \"" << l_identifier << "\"" << std::endl ;
-      char l_prev = std::cout.fill('0');
-      size_t l_prev_size = std::cout.width(2);
-      std::cout << "\tAuthentication code : 0x" << std::hex << (unsigned int)m_authentication_code[0] <<  (unsigned int)m_authentication_code[1] << (unsigned int)m_authentication_code[2] << std::endl ;
-      std::cout.fill(l_prev);
-      std::cout.width(l_prev_size);
       std::string l_extended_identifier = l_identifier + std::string((char*)m_authentication_code,3);
-      std::cout << "\tExtended identifier : \"" << l_extended_identifier << "\"" << std::endl ;
       gif_data_sub_block * l_last_data_sub_block = nullptr;
       std::vector<gif_data_sub_block *> l_data_sub_blocks;
       do
@@ -83,7 +73,6 @@ namespace lib_gif
 	  l_last_data_sub_block = new gif_data_sub_block(p_file);
 	  l_data_sub_blocks.push_back(l_last_data_sub_block);
 	} while(l_last_data_sub_block->get_size());
-      std::cout << "Number of data sub_blocks : " << l_data_sub_blocks.size() << std::endl ;
       if("NETSCAPE2.0" == l_extended_identifier || "ANIMEXTS1.0" == l_extended_identifier)
 	{
 	  if(2 == l_data_sub_blocks.size())
@@ -91,7 +80,6 @@ namespace lib_gif
 	      if(1 == l_data_sub_blocks[0]->get_data(0))
 		{
 		  m_loop_counter = l_data_sub_blocks[0]->get_data(1) + ((unsigned int)l_data_sub_blocks[0]->get_data(2)) * 256 ;
-		  std::cout << "\tLoop counter : " << m_loop_counter << std::endl ;
 		  m_supported = true;
 		}
 	      else
@@ -115,6 +103,21 @@ namespace lib_gif
 	  delete l_iter;
 	}
     }
+
+  //----------------------------------------------------------------------------
+  void gif_application_extension::print(std::ostream & p_stream)const
+  {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF application extension :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "\tIdentifier : \"" << std::string(m_identifier,8) << "\"" << std::endl ;
+      char l_prev = p_stream.fill('0');
+      size_t l_prev_size = p_stream.width(2);
+      p_stream << "\tAuthentication code : 0x" << std::hex << (unsigned int)m_authentication_code[0] <<  (unsigned int)m_authentication_code[1] << (unsigned int)m_authentication_code[2] << std::endl ;
+      p_stream.fill(l_prev);
+      p_stream.width(l_prev_size);
+      p_stream << "\tLoop counter : " << m_loop_counter << std::endl ;
+  }
 
 }
 

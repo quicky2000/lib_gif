@@ -119,6 +119,9 @@ namespace lib_gif
   template <typename T>
     void gif_lzw_dictionnary<T>::add(const gif_lzw_dictionnary_entry<T> & p_entry,unsigned int & p_current_code_size)
     {
+#ifdef DEBUG_GIF_LZW_DICTIONNARY
+      std::cout << "Add " << m_content.size() << std::endl ;
+#endif // DEBUG_GIF_LZW_DICTIONNARY
       m_content2index.insert(typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::value_type(p_entry,m_content.size()));
       m_content.push_back(new gif_lzw_dictionnary_entry<T>(p_entry));
 

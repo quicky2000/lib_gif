@@ -20,6 +20,7 @@
 #include <fstream>
 #include <cinttypes>
 #include <cassert>
+#include <iostream>
 
 namespace lib_gif
 {
@@ -48,6 +49,20 @@ namespace lib_gif
     uint8_t m_background_index;
     uint8_t m_pixel_aspect_ratio;
   };
+  //----------------------------------------------------------------------------
+  inline std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen_descriptor & p_descriptor)
+    {
+      p_stream << "Width : " << p_descriptor.get_width() << " pixels" << std::endl ;
+      p_stream << "Height : " << p_descriptor.get_height() << " pixels" << std::endl ;
+      p_stream << "Packed fields : " << std::hex << "0x" << (unsigned int)p_descriptor.get_packed_fields() << std::dec << std::endl ;
+      p_stream << "\tGlobal Color Table Flag : " << p_descriptor.get_global_color_table_flag() << std::endl ;
+      p_stream << "\tGlobal Color Resolution " << p_descriptor.get_decoded_global_color_resolution() << " bits per channel" << std::endl;
+      p_stream << "\tSorted Flag " << p_descriptor.get_sort_flag() << std::endl ;
+      p_stream << "\tSize of global table : " << p_descriptor.get_decoded_size_of_global_color_table() << " entries" << std::endl ;
+      p_stream << "Background Index : " << (unsigned int)p_descriptor.get_background_index() << std::endl ;
+      p_stream << "Pixel aspect Ratio : " << (unsigned int)p_descriptor.get_decoded_pixel_aspect_ratio() << std::endl ;
+      return p_stream;
+    }
 
   //----------------------------------------------------------------------------
   size_t gif_logical_screen_descriptor::get_size(void)

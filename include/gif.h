@@ -28,6 +28,7 @@ namespace lib_gif
 
   class gif
   {
+    friend std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif);
   public:
     gif(std::ifstream & p_file);
     ~gif(void);
@@ -43,6 +44,9 @@ namespace lib_gif
     gif_logical_screen m_logical_screen;
     std::vector<gif_data_block*> m_data_blocks;
   };
+
+  //----------------------------------------------------------------------------
+  std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif);
 
   //----------------------------------------------------------------------------
   const uint16_t & gif::get_width(void)const

@@ -26,6 +26,7 @@ namespace lib_gif
     virtual const uint16_t & get_image_width(void)const=0;
     virtual const uint16_t & get_image_height(void)const=0;
     virtual inline ~gif_graphic_rendering_block(void){}
+    virtual void print(std::ostream & p_stream)const=0;
     virtual inline bool is_image(void)const{return false;}
   private:
     

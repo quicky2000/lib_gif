@@ -28,7 +28,7 @@ namespace lib_gif
   public:
     inline gif_color_table(const unsigned int & p_size,std::ifstream & p_file);
     inline ~gif_color_table(void);
-    inline void display(void);
+    inline const unsigned int & get_size(void)const;
     inline const gif_color & operator[](const size_t & p_index)const;
   private:
     unsigned int m_size;
@@ -64,15 +64,23 @@ namespace lib_gif
         throw quicky_exception::quicky_logic_exception("Requested index "+l_index_stream.str()+" is greater than table size "+l_size_stream.str(),__LINE__,__FILE__);
       }
 
+  //----------------------------------------------------------------------------
+    const unsigned int & gif_color_table::get_size(void)const
+      {
+        return m_size;
+      }
+
+
     //----------------------------------------------------------------------------
-    void gif_color_table::display(void)
+    inline std::ostream & operator<<(std::ostream & p_stream,const gif_color_table & p_table)
     {
-      for(unsigned int l_index = 0 ; l_index < m_size; ++l_index)
+      for(unsigned int l_index = 0 ; l_index < p_table.get_size(); ++l_index)
 	{ 
-	  std::cout << "\tColor[" << l_index << " | 0x" << std::hex << l_index << std::dec << "]  = " ;
-	  m_colors[l_index].display();
-	  std::cout << std::endl;
+	  p_stream << "\tColor[" << l_index << " | 0x" << std::hex << l_index << std::dec << "]  = " ;
+          p_stream << p_table[l_index];
+	  p_stream << std::endl;
 	}
+      return p_stream;
     }
 }
 

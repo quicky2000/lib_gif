@@ -27,6 +27,7 @@ namespace lib_gif
 
   class gif_logical_screen
   {
+    friend std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen & p_screen);
   public:
     inline gif_logical_screen(void);
     inline void read(std::ifstream & p_file);
@@ -87,37 +88,26 @@ namespace lib_gif
   void gif_logical_screen::read(std::ifstream & p_file)
   {
     p_file.read((char*) & m_descriptor,m_descriptor.get_size());   
-    std::cout << "----------------------------" << std::endl ;
-    std::cout << "GIF Logical screen :" << std::endl ;
-    std::cout << "----------------------------" << std::endl ;
-    std::cout << "Width : " << m_descriptor.get_width() << " pixels" << std::endl ;
-    std::cout << "Height : " << m_descriptor.get_height() << " pixels" << std::endl ;
-    std::cout << "Packed fields : " << std::hex << "0x" << (unsigned int)m_descriptor.get_packed_fields() << std::dec << std::endl ;
-    std::cout << "\tGlobal Color Table Flag : " << m_descriptor.get_global_color_table_flag() << std::endl ;
-    std::cout << "\tGlobal Color Resolution " << m_descriptor.get_decoded_global_color_resolution() << " bits per channel" << std::endl;
-    std::cout << "\tSorted Flag " << m_descriptor.get_sort_flag() << std::endl ;
-    std::cout << "\tSize of global table : " << m_descriptor.get_decoded_size_of_global_color_table() << " entries" << std::endl ;
-    std::cout << "Background Index : " << (unsigned int)m_descriptor.get_background_index() << std::endl ;
-    std::cout << "Pixel aspect Ratio : " << (unsigned int)m_descriptor.get_decoded_pixel_aspect_ratio() << std::endl ;
 
     if(m_descriptor.get_global_color_table_flag())
       {
 	m_global_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table(),p_file);
-	m_global_color_table->display();
-
-/* 	std::cout << "========> " << sizeof(gif_color) << std::endl ; */
-/* 	size_t l_global_color_table_nb_byte = m_descriptor.get_decoded_size_of_global_color_table() * sizeof(gif_color); */
-/* 	m_global_color_table = new gif_color[l_global_color_table_nb_byte]; */
-/* 	assert(m_global_color_table); */
-/* 	p_file.read((char*) m_global_color_table,l_global_color_table_nb_byte); */
-/* 	for(unsigned int l_index = 0 ; l_index < m_descriptor.get_decoded_size_of_global_color_table();++l_index) */
-/* 	  { */
-/* 	    std::cout << "\tColor[" << l_index << "]  = " ; */
-/* 	    m_global_color_table[l_index].display(); */
-/* 	    std::cout << std::endl; */
-/* 	  } */
       }
   }
+  //----------------------------------------------------------------------------
+  inline std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen & p_screen)
+    {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF Logical screen :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << p_screen.m_descriptor;
+      if(p_screen.m_descriptor.get_global_color_table_flag())
+        {
+          assert(p_screen->m_global_color_table);
+          p_stream << p_screen.get_global_color_table();
+        }
+      return p_stream;
+    }
 
 }
 #endif

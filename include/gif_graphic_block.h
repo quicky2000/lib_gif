@@ -21,6 +21,17 @@
 #include "gif_graphic_rendering_block_factory.h"
 namespace lib_gif
 {
+  /**
+     This class is there because according to GIF syntax described in GIF spec
+     there are two types of Graphic Rendering Block ( GIF Image and Plain Text )
+     that could be prefixed by a Graphical Control Extension.
+     My initial plan was to have it as a member of this class but I encountered
+     quite a lot of GIF files having Comment extension between Graphical Control
+     Extension and Graphic Rendering Block so I decided to move Graphical Control
+     Extension outside of this class and consider it as an independant data block
+     For sure with this new implementation gif_graphic_block class could be 
+     replaced by gif_grpahic_rendering_block
+   */
   class gif_graphic_block: public gif_data_block
   {
   public:
@@ -31,10 +42,18 @@ namespace lib_gif
     inline const uint16_t & get_width(void)const;
     inline const uint16_t & get_height(void)const;
     inline bool is_image(void)const;
+    inline void print(std::ostream & p_stream)const;
     inline const gif_image & get_image(void)const;
       private:
     gif_graphic_rendering_block * m_graphic_rendering_block;
   };
+
+   //----------------------------------------------------------------------------
+   void gif_graphic_block::print(std::ostream & p_stream)const
+   {
+     assert(m_graphic_rendering_block);
+     m_graphic_rendering_block->print(p_stream);
+   }
 
   //----------------------------------------------------------------------------
   gif_graphic_block::gif_graphic_block(const gif_data_block::t_gif_data_block_key & p_key, std::ifstream & p_file):

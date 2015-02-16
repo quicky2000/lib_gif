@@ -30,6 +30,7 @@ namespace lib_gif
     inline const uint8_t & get_transparent_color_index(void)const;
     inline const unsigned int get_disposal_method(void)const;
     inline bool get_user_input_flag(void)const;
+    inline void print(std::ostream & p_stream)const;
     inline bool get_transparent_color_flag(void)const;
     
   private:					
@@ -46,10 +47,6 @@ namespace lib_gif
   gif_graphic_control_extension::gif_graphic_control_extension(std::ifstream & p_file):
     gif_extension_block(t_gif_data_block_type::GRAPHICAL_CONTROL_EXTENSION)
     {
-      std::cout << "----------------------------" << std::endl ;
-      std::cout << "Graphical Control extension :" << std::endl ;
-      std::cout << "----------------------------" << std::endl ;
-      std::cout << "Current position : 0x" << std::hex << p_file.tellg() << std::dec << std::endl ;
       p_file.read((char*)&m_block_size,6);
       if(4 != m_block_size) 
 	{
@@ -57,12 +54,6 @@ namespace lib_gif
 	  l_size_stream << m_block_size;
 	  throw quicky_exception::quicky_logic_exception("Bad graphical extension block size ("+l_size_stream.str()+") should be 4",__LINE__,__FILE__);
 	}
-      std::cout << "Packed fields : " << std::hex << "0x" << (unsigned int)m_packed_fields << std::dec << std::endl ;
-      std::cout << "\tDisposal Method : " << get_disposal_method() << std::endl ;
-      std::cout << "\tUser input flag : " << get_user_input_flag() << std::endl ;
-      std::cout << "\tTransparent color flag : " << get_transparent_color_flag() << std::endl ;
-      std::cout << "Delay time : " << m_delay_time << " ( * 1/100 s)" << std::endl;
-      std::cout << "Transparent Color index : " << (unsigned int) m_transparent_color_index << std::endl;
       if(get_reserved_field())
 	{
 	  std::stringstream l_reserved_stream;
@@ -84,6 +75,20 @@ namespace lib_gif
       return (m_packed_fields >> 5 ) & 0x7;
     }
     
+    //----------------------------------------------------------------
+    void gif_graphic_control_extension::print(std::ostream & p_stream)const
+    {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "Graphical Control extension :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "Packed fields : " << std::hex << "0x" << (unsigned int)m_packed_fields << std::dec << std::endl ;
+      p_stream << "\tDisposal Method : " << get_disposal_method() << std::endl ;
+      p_stream << "\tUser input flag : " << get_user_input_flag() << std::endl ;
+      p_stream << "\tTransparent color flag : " << get_transparent_color_flag() << std::endl ;
+      p_stream << "Delay time : " << m_delay_time << " ( * 1/100 s)" << std::endl;
+      p_stream << "Transparent Color index : " << (unsigned int) m_transparent_color_index << std::endl;
+    }
+
     //----------------------------------------------------------------------------
     const uint16_t & gif_graphic_control_extension::get_delay_time(void)const
       {

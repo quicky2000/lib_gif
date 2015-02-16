@@ -36,7 +36,10 @@ namespace lib_gif
       gif_data_block * l_result = NULL;
       gif_data_block::t_gif_data_block_key l_block_type_identifier;
       p_file.read((char*)&l_block_type_identifier,sizeof(gif_data_block::t_gif_data_block_key));
+
+#ifdef DEBUG_GIF_DATA_BLOCK_FACTORY
       std::cout << "Block key : 0x" << std::hex << (unsigned int) l_block_type_identifier << " @ 0x" << p_file.tellg() << std::dec << std::endl ;
+#endif // DEBUG_GIF_DATA_BLOCK_FACTORY
 
       switch(l_block_type_identifier)
         {

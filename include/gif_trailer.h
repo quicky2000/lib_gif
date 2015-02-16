@@ -24,9 +24,17 @@ namespace lib_gif
   class gif_trailer: public gif_data_block
   {
   public:
+    inline void print(std::ostream & p_stream)const;
     inline gif_trailer(void);
   };
 
+    //----------------------------------------------------------------------------
+    void gif_trailer::print(std::ostream & p_stream)const
+    {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF Trailer :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+    }
   //----------------------------------------------------------------------------
   gif_trailer::gif_trailer(void):
     gif_data_block(gif_data_block::t_gif_data_block_type::TRAILER)

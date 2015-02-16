@@ -44,6 +44,7 @@ namespace lib_gif
     inline const gif_color_table & get_local_color_table(void)const;
     inline bool is_image(void)const;
     inline const unsigned int & get_color_index(const unsigned int & p_x, const unsigned int & p_y)const;
+    inline void print(std::ostream & p_stream)const;
     inline unsigned int deinterlace(const unsigned int & p_y)const;
   private:
     gif_image_descriptor m_descriptor;
@@ -60,28 +61,12 @@ namespace lib_gif
     m_content(nullptr)
       {
 	p_file.read((char*) & m_descriptor,m_descriptor.get_size());
-	std::cout << "----------------------------" << std::endl ;
-	std::cout << "GIF Image :" << std::endl ;
-	std::cout << "----------------------------" << std::endl ;
-	std::cout << "Image left position : " << m_descriptor.get_image_left_position() << std::endl ;
-	std::cout << "Image top position : " << m_descriptor.get_image_top_position() << std::endl ;
-	std::cout << "Image width : " << m_descriptor.get_image_width() << std::endl ;
-	std::cout << "Image height : " << m_descriptor.get_image_height() << std::endl ;
-	std::cout << "Packed fields : " << std::hex << "0x" << (unsigned int)m_descriptor.get_packed_fields() << std::dec << std::endl ;
-	std::cout << "\tLocal Color Table Flag : " << m_descriptor.get_local_color_table_flag() << std::endl ;
-	std::cout << "\tInterlace Flag         : " << m_descriptor.get_interlace_flag() << std::endl;
-	std::cout << "\tSorted Flag            : " << m_descriptor.get_sort_flag() << std::endl ;
-	std::cout << "\tSize of local table    : " << m_descriptor.get_decoded_size_of_local_color_table() << " entries" << std::endl ;
 	m_descriptor.check();
 	if(m_descriptor.get_local_color_table_flag())
 	  {
 	    m_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_local_color_table(),p_file);
 	  }
 	p_file.read((char*) &m_lzw_minimum_code_size,sizeof(uint8_t));
-	std::cout << "----------------------------" << std::endl ;
-	std::cout << "GIF Image Data :" << std::endl ;
-	std::cout << "----------------------------" << std::endl ;
-	std::cout << "LZW minimum code size : " << (unsigned int) m_lzw_minimum_code_size << std::endl ;
         uint8_t * l_compressed_data = NULL;
         size_t l_compressed_data_size = 0;
         bool l_continu = false;
@@ -97,9 +82,10 @@ namespace lib_gif
             ++l_nb_block;
             
 	  } while(l_continu);
-
+#ifdef DEBUG_GIF_IMAGE
 	std::cout << "Number of Image Data sub blocks : " << l_nb_block << std::endl ;
 	std::cout << "Number of Data bytes in sub blocks : " << l_compressed_data_size << std::endl ;
+#endif // DEBUG_GIF_IMAGE
         m_content = new t_content[m_descriptor.get_image_width() * m_descriptor.get_image_height()];
         quicky_utils::quicky_bitfield l_bitfield(l_compressed_data_size*8);
         unsigned int l_first_code = 0;
@@ -110,9 +96,13 @@ namespace lib_gif
         free(l_compressed_data);
 
         l_bitfield.get(l_first_code,(unsigned int)(m_lzw_minimum_code_size + 1),(unsigned int)(l_compressed_data_size * 8 - m_lzw_minimum_code_size - 1));
-        std::cout << "First code = 0x" << std::hex << l_first_code << std::dec << std::endl ;
+	
 
-	gif_lzw_decoder<t_content> l_decoder(m_lzw_minimum_code_size);
+#ifdef DEBUG_GIF_IMAGE
+        std::cout << "First code = 0x" << std::hex << l_first_code << std::dec << std::endl ;
+#endif // DEBUG_GIF_IMAGE
+        gif_lzw_decoder<t_content> l_decoder(m_lzw_minimum_code_size);
+
         if(l_first_code != l_decoder.get_clear_code()) 
           {
             std::stringstream l_clear_code_stream;
@@ -131,9 +121,11 @@ namespace lib_gif
         l_bitfield.get(l_extracted_value,l_current_lzw_minimum_code_size + 1,l_remaining_size - l_current_lzw_minimum_code_size - 1);
         l_remaining_size -= l_current_lzw_minimum_code_size + 1;
 	do
-        {
-          gif_lzw_dictionnary_entry<t_content> l_decoded_value = l_decoder.decode(l_extracted_value,l_current_lzw_minimum_code_size);
-
+	  {
+	    gif_lzw_dictionnary_entry<t_content> l_decoded_value = l_decoder.decode(l_extracted_value,l_current_lzw_minimum_code_size);
+#ifdef DEBUG_GIF_IMAGE
+	    std::cout << std::hex << " Decoded value 0x" << (unsigned int)l_extracted_value << std::dec << "\tWidth : " << l_current_lzw_minimum_code_size + 1 << std::endl ;
+#endif // DEBUG_GIF_IMAGE
 	    // Output entry
 	    for(unsigned int l_index = 0 ; l_index < l_decoded_value.size() ; ++l_index)
 	      {
@@ -152,7 +144,7 @@ namespace lib_gif
                 break;
               }
           }
-          while(l_decoder.get_end_information_code() != l_extracted_value);
+	while(l_decoder.get_end_information_code() != l_extracted_value);
       }
 
     //----------------------------------------------------------------------------
@@ -187,9 +179,9 @@ namespace lib_gif
       }
     //--------------------------------------------------------------------------
     bool gif_image::is_image(void)const
-      {
-        return true;
-      }
+    {
+      return true;
+    }
 
     //--------------------------------------------------------------------------
     bool gif_image::get_local_color_table_flag(void)const
@@ -205,8 +197,8 @@ namespace lib_gif
     //--------------------------------------------------------------------------
     const gif_color_table & gif_image::get_local_color_table(void)const
       {
-      if(m_color_table) return *m_color_table;
-      throw quicky_exception::quicky_logic_exception("Try to access to non existing local color table",__LINE__,__FILE__);
+	if(m_color_table) return *m_color_table;
+	throw quicky_exception::quicky_logic_exception("Try to access to non existing local color table",__LINE__,__FILE__);
       }
 
     //--------------------------------------------------------------------------
@@ -251,6 +243,32 @@ namespace lib_gif
       l_y_stream << p_y;
       throw quicky_exception::quicky_logic_exception("Unknown y "+l_y_stream.str(),__LINE__,__FILE__);
     }
+
+    //----------------------------------------------------------------------------
+    void gif_image::print(std::ostream & p_stream)const
+    {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF Image :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "Image left position : " << m_descriptor.get_image_left_position() << std::endl ;
+      p_stream << "Image top position : " << m_descriptor.get_image_top_position() << std::endl ;
+      p_stream << "Image width : " << m_descriptor.get_image_width() << std::endl ;
+      p_stream << "Image height : " << m_descriptor.get_image_height() << std::endl ;
+      p_stream << "Packed fields : " << std::hex << "0x" << (unsigned int)m_descriptor.get_packed_fields() << std::dec << std::endl ;
+      p_stream << "\tLocal Color Table Flag : " << m_descriptor.get_local_color_table_flag() << std::endl ;
+      p_stream << "\tInterlace Flag         : " << m_descriptor.get_interlace_flag() << std::endl;
+      p_stream << "\tSorted Flag            : " << m_descriptor.get_sort_flag() << std::endl ;
+      p_stream << "\tSize of local table    : " << m_descriptor.get_decoded_size_of_local_color_table() << " entries" << std::endl ;
+      if(m_descriptor.get_local_color_table_flag())
+	{
+	  p_stream << * m_color_table;
+	}
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF Image Data :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "LZW minimum code size : " << (unsigned int) m_lzw_minimum_code_size << std::endl ;
+    }
+
 }
 #endif
 //EOF

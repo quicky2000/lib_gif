@@ -49,11 +49,19 @@ namespace lib_gif
     static inline const std::string key_to_string(const t_gif_data_block_key & p_key);
     inline const t_gif_data_block_type & get_type(void)const;
     inline virtual ~gif_data_block(void){}
+    virtual void print(std::ostream & p_stream)const=0;
   protected:
     inline gif_data_block(const t_gif_data_block_type & p_type);
   private:
     t_gif_data_block_type m_type;
   };
+  //----------------------------------------------------------------------------
+  inline std::ostream & operator<<(std::ostream & p_stream,const gif_data_block & p_data_block)
+    {
+      p_data_block.print(p_stream);
+      return p_stream;
+    }
+
   //----------------------------------------------------------------------------
   const std::string gif_data_block::type_to_string(const t_gif_data_block_type & p_type)
     {

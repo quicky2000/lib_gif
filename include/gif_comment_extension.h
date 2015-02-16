@@ -27,31 +27,42 @@ namespace lib_gif
   class gif_comment_extension: public gif_extension_block
   {
   public:
+    inline void print(std::ostream & p_stream)const;
     inline gif_comment_extension(std::ifstream & p_file);
   private:
+    std::string m_comment;
   };
   //----------------------------------------------------------------------------
   gif_comment_extension::gif_comment_extension(std::ifstream & p_file):
     gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)
     {
-      std::cout << "----------------------------" << std::endl ;
-      std::cout << "GIF comment extension :" << std::endl ;
-      std::cout << "----------------------------" << std::endl ;
-      std::cout << "Current position : 0x" << std::hex << p_file.tellg() << std::dec << std::endl ;
       bool l_continu = true;
-      std::cout << "###" << std::endl;
       do
 	{
 	  gif_data_sub_block l_data_sub_block(p_file);
 	  for(unsigned int l_index = 0 ; l_index < l_data_sub_block.get_size() ; ++l_index)
 	    {
-	      std::cout << l_data_sub_block.get_data(l_index);
+	      m_comment+= l_data_sub_block.get_data(l_index);
 	    }
 	  l_continu = l_data_sub_block.get_size();
 	} while(l_continu);
-      std::cout << "###" << std::endl ;
     }
 
+    //----------------------------------------------------------------------------
+    void gif_comment_extension::print(std::ostream & p_stream)const
+    {
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "GIF comment extension :" << std::endl ;
+      p_stream << "----------------------------" << std::endl ;
+      p_stream << "###" << std::endl;
+      std::string l_comment = m_comment;
+      if(m_comment.size() && '\0' != m_comment[m_comment.size()-1])
+        {
+          l_comment += '\0';
+        }
+      p_stream << l_comment << std::endl;
+      p_stream << "###" << std::endl ;
+    }
 }
 
 #endif 

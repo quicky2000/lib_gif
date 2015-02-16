@@ -29,16 +29,13 @@ namespace lib_gif
   gif::gif(std::ifstream & p_file)
   {
     p_file.read((char*)&m_header,m_header.get_size());
-    std::cout << m_header;
-    m_logical_screen.read(p_file);
-
+     m_logical_screen.read(p_file);
     gif_data_block * l_last_block = nullptr;
     do
       {
         l_last_block = & gif_data_block_factory::extract_block(p_file);
         m_data_blocks.push_back(l_last_block);
       } while(gif_data_block::t_gif_data_block_type::TRAILER != l_last_block->get_type());
-    std::cout << "Number of data blocks : " << m_data_blocks.size() << std::endl ;
   }
 
   //----------------------------------------------------------------------------
@@ -49,5 +46,18 @@ namespace lib_gif
 	  delete l_iter;
 	}
     }
+  //----------------------------------------------------------------------------
+  std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif)
+  {
+    p_stream << p_gif.m_header;
+    p_stream << p_gif.m_logical_screen;
+    for(auto l_iter : p_gif.m_data_blocks)
+      {
+        p_stream << *l_iter;
+      }
+    p_stream << "Number of data blocks : " << p_gif.m_data_blocks.size() << std::endl ;
+    return p_stream;
+  }
+
 
 }

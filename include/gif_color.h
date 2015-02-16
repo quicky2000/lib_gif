@@ -41,7 +41,6 @@ namespace lib_gif
     inline uint8_t get_red(void)const;
     inline uint8_t get_green(void)const;
     inline uint8_t get_blue(void)const;
-    inline void display(void)const;
  private:
     uint8_t m_R;
     uint8_t m_G;
@@ -167,9 +166,10 @@ namespace lib_gif
       }
 
       //----------------------------------------------------------------------------
-      void gif_color::display(void)const
+      inline std::ostream & operator<<(std::ostream & p_stream , const gif_color & p_color)
       {
-	std::cout << "R=" << std::setw(3) << (uint32_t)m_R << ", G=" << std::setw(3) << (uint32_t)m_G << ", B=" << std::setw(3) << (uint32_t)m_B ;
+	p_stream << "R=" << std::setw(3) << (uint32_t)p_color.get_red() << ", G=" << (uint32_t)p_color.get_green() << ", B=" << (uint32_t)p_color.get_blue() ;
+        return p_stream;
       }
 }
 #endif
