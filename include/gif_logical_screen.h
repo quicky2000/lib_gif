@@ -115,7 +115,7 @@ namespace lib_gif
       p_stream << p_screen.m_descriptor;
       if(p_screen.m_descriptor.get_global_color_table_flag())
         {
-          assert(p_screen->m_global_color_table);
+          assert(p_screen.m_global_color_table);
           p_stream << p_screen.get_global_color_table();
         }
       return p_stream;
