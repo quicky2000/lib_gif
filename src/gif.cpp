@@ -39,6 +39,13 @@ namespace lib_gif
   }
 
   //----------------------------------------------------------------------------
+  gif::gif(const unsigned int & p_width,
+	   const unsigned  int & p_height):
+    m_logical_screen(p_width,p_height)
+  {
+  }
+
+  //----------------------------------------------------------------------------
   void gif::write(std::ofstream & p_file)
   {
     if(gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
@@ -73,5 +80,10 @@ namespace lib_gif
     return p_stream;
   }
 
+  //----------------------------------------------------------------------------
+  void gif::add_image(gif_image & p_image)
+  {
+    m_data_blocks.push_back(new lib_gif::gif_graphic_block(p_image));
+  }
 
 }

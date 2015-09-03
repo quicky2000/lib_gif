@@ -25,21 +25,25 @@
 namespace lib_gif
 {
   class gif_data_block;
+  class gif_image;
 
   class gif
   {
     friend std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif);
   public:
     gif(std::ifstream & p_file);
+    gif(const unsigned int & p_width,const unsigned  int & p_height);
     ~gif(void);
     inline const uint16_t & get_width(void)const;
     inline const uint16_t & get_height(void)const;
     inline bool get_global_color_table_flag(void)const;
     inline const gif_color_table & get_global_color_table(void)const;
+    inline void set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color);
     inline unsigned int get_nb_data_block(void)const;
     inline const gif_data_block & get_data_block(const unsigned int & p_index)const;
     inline const uint8_t  & get_background_index(void)const;
     void write(std::ofstream & p_file);
+    void add_image(gif_image & p_image);
   private:
     gif_header m_header;
     gif_logical_screen m_logical_screen;
@@ -70,6 +74,12 @@ namespace lib_gif
     {
       return m_logical_screen.get_global_color_table();
     }
+
+  //----------------------------------------------------------------------------
+  void gif::set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color)
+  {
+    m_logical_screen.set_color_in_global_color_table(p_index,p_color);
+  }
   
   //----------------------------------------------------------------------------
   const uint8_t  & gif::get_background_index(void)const
@@ -96,6 +106,8 @@ namespace lib_gif
       l_index_stream << m_data_blocks.size();
       throw quicky_exception::quicky_logic_exception("Requested index ("+l_index_stream.str()+") is greater than number of data blocks ("+l_size_stream.str(),__LINE__,__FILE__);
     }
+
+
 }
 
 #endif // GIF
