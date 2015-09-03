@@ -30,12 +30,15 @@ namespace lib_gif
     friend std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen & p_screen);
   public:
     inline gif_logical_screen(void);
+    inline gif_logical_screen(const uint16_t & p_width,
+			      const uint16_t & p_height);
     inline void read(std::ifstream & p_file);
     inline void write(std::ofstream & p_file);
     inline const uint16_t & get_width(void)const;
     inline const uint16_t & get_height(void)const;
     inline bool get_global_color_table_flag(void)const;
     inline const gif_color_table & get_global_color_table(void)const;
+    inline void set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color);
     inline const uint8_t  & get_background_index(void)const;
     inline ~gif_logical_screen(void);
   private:
@@ -46,6 +49,14 @@ namespace lib_gif
   //----------------------------------------------------------------------------
   gif_logical_screen::gif_logical_screen(void):
     m_global_color_table(NULL)
+    {
+    }
+
+  //----------------------------------------------------------------------------
+  gif_logical_screen::gif_logical_screen(const uint16_t & p_width,
+					 const uint16_t & p_height):
+    m_descriptor(p_width,p_height),
+    m_global_color_table(m_descriptor.get_global_color_table_flag() ? new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table()) : nullptr)
     {
     }
 
@@ -61,12 +72,19 @@ namespace lib_gif
       return m_descriptor.get_global_color_table_flag();
     }
 
-    //----------------------------------------------------------------------------
-    const gif_color_table & gif_logical_screen::get_global_color_table(void)const
-    {
-      if(m_global_color_table) return *m_global_color_table;
-      throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
-    }
+  //----------------------------------------------------------------------------
+  const gif_color_table & gif_logical_screen::get_global_color_table(void)const
+  {
+    if(m_global_color_table) return *m_global_color_table;
+    throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
+  }
+
+  //----------------------------------------------------------------------------
+  void gif_logical_screen::set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color)
+  {
+    if(m_global_color_table) return m_global_color_table->set_color(p_index,p_color);
+    throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
+  }
 
   //----------------------------------------------------------------------------
   const uint16_t & gif_logical_screen::get_width(void)const
