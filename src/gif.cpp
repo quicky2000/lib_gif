@@ -41,6 +41,10 @@ namespace lib_gif
   //----------------------------------------------------------------------------
   void gif::write(std::ofstream & p_file)
   {
+    if(gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
+      {
+        m_data_blocks.push_back(new gif_trailer());
+      }
     p_file.write((char*)&m_header,m_header.get_size());
     m_logical_screen.write(p_file);
     for(auto l_iter : m_data_blocks)
