@@ -1,4 +1,4 @@
-depend:quicky_utils lib_bmp
+depend:quicky_utils
 CFLAGS:
 LDFLAGS:
 
