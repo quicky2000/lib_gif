@@ -35,6 +35,7 @@ namespace lib_gif
   class gif_graphic_block: public gif_data_block
   {
   public:
+    inline gif_graphic_block(gif_image & p_gif_image);
     inline gif_graphic_block(const gif_data_block::t_gif_data_block_key & p_key, std::ifstream & p_file);
     inline ~gif_graphic_block(void);
     inline const uint16_t & get_left_position(void)const;
@@ -49,12 +50,19 @@ namespace lib_gif
     gif_graphic_rendering_block * m_graphic_rendering_block;
   };
 
-   //----------------------------------------------------------------------------
-   void gif_graphic_block::print(std::ostream & p_stream)const
-   {
-     assert(m_graphic_rendering_block);
-     m_graphic_rendering_block->print(p_stream);
-   }
+  //----------------------------------------------------------------------------
+  gif_graphic_block::gif_graphic_block(gif_image & p_gif_image):
+    gif_data_block(gif_data_block::t_gif_data_block_type::GRAPHIC_BLOCK),
+    m_graphic_rendering_block(&p_gif_image)
+  {
+  }
+
+  //----------------------------------------------------------------------------
+  void gif_graphic_block::print(std::ostream & p_stream)const
+  {
+    assert(m_graphic_rendering_block);
+    m_graphic_rendering_block->print(p_stream);
+  }
 
   //----------------------------------------------------------------------------
   gif_graphic_block::gif_graphic_block(const gif_data_block::t_gif_data_block_key & p_key, std::ifstream & p_file):
