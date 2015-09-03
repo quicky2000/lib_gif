@@ -29,6 +29,9 @@ namespace lib_gif
   public:
     constexpr static inline uint8_t get_image_separator(void);
     constexpr static inline size_t get_size(void);
+    inline gif_image_descriptor(const uint16_t & p_image_width,
+                                const uint16_t & p_image_height);
+    inline gif_image_descriptor(void);
     inline const uint16_t & get_image_left_position(void)const;
     inline const uint16_t & get_image_top_position(void)const;
     inline const uint16_t & get_image_width(void)const;
@@ -47,6 +50,27 @@ namespace lib_gif
     uint16_t m_image_height;
     uint8_t m_packed_fields;
   };
+
+  //----------------------------------------------------------------------------
+  gif_image_descriptor::gif_image_descriptor(const uint16_t & p_image_width,
+                                             const uint16_t & p_image_height):
+    m_image_left_position(0),
+    m_image_top_position(0),
+    m_image_width(p_image_width),
+    m_image_height(p_image_height),
+    m_packed_fields(0)
+    {
+    }
+
+  //----------------------------------------------------------------------------
+  gif_image_descriptor::gif_image_descriptor(void):
+    m_image_left_position(0),
+    m_image_top_position(0),
+    m_image_width(0),
+    m_image_height(0),
+    m_packed_fields(0)
+    {
+    }
 
   //----------------------------------------------------------------------------
   constexpr uint8_t gif_image_descriptor::get_image_separator(void)
