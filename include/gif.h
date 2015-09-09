@@ -44,6 +44,7 @@ namespace lib_gif
     inline const uint8_t  & get_background_index(void)const;
     void write(std::ofstream & p_file);
     void add_image(gif_image & p_image);
+    void activate_loop(const unsigned int & p_loop_counter);
   private:
     gif_header m_header;
     gif_logical_screen m_logical_screen;

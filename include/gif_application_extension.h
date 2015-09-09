@@ -28,6 +28,8 @@ namespace lib_gif
   class gif_application_extension: public gif_extension_block
   {
   public:
+    inline gif_application_extension(void);
+    inline gif_application_extension(const unsigned int & p_loop_counter);
     inline gif_application_extension(std::ifstream & p_file);
     inline bool is_supported(void)const;
     inline void print(std::ostream & p_stream)const;
@@ -120,6 +122,29 @@ namespace lib_gif
 	  delete l_iter;
 	}
     }
+
+  //----------------------------------------------------------------------------
+  gif_application_extension::gif_application_extension(const unsigned int & p_loop_counter):
+    gif_extension_block(t_gif_data_block_type::APPLICATION_EXTENSION),
+    m_block_size(11),
+    m_identifier{'N','E','T','S','C','A','P','E'},
+    m_authentication_code{'2','.','0'},
+    m_loop_counter(p_loop_counter),
+    m_supported(true)
+  {
+    if(p_loop_counter & 0xFFFF)
+      {
+	std::stringstream l_stream;
+	l_stream << p_loop_counter;
+	throw quicky_exception::quicky_logic_exception("Loop counter value should be greater than 65535 : "+l_stream.str(),__LINE__,__FILE__);
+      }
+  }
+
+  //----------------------------------------------------------------------------
+  gif_application_extension::gif_application_extension(void):
+    gif_application_extension(0)
+  {
+  }
 
   //----------------------------------------------------------------------------
   void gif_application_extension::print(std::ostream & p_stream)const

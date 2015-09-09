@@ -86,4 +86,10 @@ namespace lib_gif
     m_data_blocks.push_back(new lib_gif::gif_graphic_block(p_image));
   }
 
+  //----------------------------------------------------------------------------
+  void gif::activate_loop(const unsigned int & p_loop_counter)
+  {
+    m_data_blocks.push_back(new lib_gif::gif_application_extension(p_loop_counter));
+  }
+
 }
