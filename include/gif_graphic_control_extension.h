@@ -25,6 +25,9 @@ namespace lib_gif
   class gif_graphic_control_extension: public gif_extension_block
   {
   public:
+    inline gif_graphic_control_extension(const unsigned int & p_delay_time_ms,
+					 bool p_transparent_color,
+					 const unsigned int & p_transparent_color_index=0);
     inline gif_graphic_control_extension(std::ifstream & p_file);
     inline const uint16_t & get_delay_time(void)const;
     inline const uint8_t & get_transparent_color_index(void)const;
@@ -32,6 +35,7 @@ namespace lib_gif
     inline bool get_user_input_flag(void)const;
     inline void print(std::ostream & p_stream)const;
     inline bool get_transparent_color_flag(void)const;
+    inline void set_transparent_color_flag(bool p_flag);
     inline void write_extension(std::ofstream & p_file)const;
   private:					
     inline const unsigned int get_reserved_field(void)const;
@@ -42,6 +46,17 @@ namespace lib_gif
     uint8_t m_block_terminator;
   };
 
+  //----------------------------------------------------------------------------
+  gif_graphic_control_extension::gif_graphic_control_extension(const unsigned int & p_delay_time_ms,
+							       bool p_transparent_color,
+							       const unsigned int & p_transparent_color_index):
+    gif_extension_block(t_gif_data_block_type::GRAPHICAL_CONTROL_EXTENSION),
+    m_block_size(4),
+    m_packed_fields(p_transparent_color ? 0x1 : 0x0),
+    m_delay_time(p_delay_time_ms / 10),
+    m_transparent_color_index(p_transparent_color_index)
+    {
+    }
 
   //----------------------------------------------------------------------------
   gif_graphic_control_extension::gif_graphic_control_extension(std::ifstream & p_file):
@@ -130,6 +145,11 @@ namespace lib_gif
       return m_packed_fields & 0x1;
     }
 
+    //----------------------------------------------------------------------------
+    void gif_graphic_control_extension::set_transparent_color_flag(bool p_flag)
+    {
+      m_packed_fields |= p_flag;
+    }
 
 }
 

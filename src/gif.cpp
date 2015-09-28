@@ -92,4 +92,12 @@ namespace lib_gif
     m_data_blocks.push_back(new lib_gif::gif_application_extension(p_loop_counter));
   }
 
+  //----------------------------------------------------------------------------
+  void gif::add_graphic_control_extension(const unsigned int & p_delay_time,
+					  bool p_transparent_color,
+					  const unsigned int & p_transparent_color_index)
+  {
+    m_data_blocks.push_back(new lib_gif::gif_graphic_control_extension(p_delay_time,p_transparent_color,p_transparent_color_index));
+  }
+
 }
