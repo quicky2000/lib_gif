@@ -36,6 +36,10 @@ namespace lib_gif
   public:
     inline gif_image(const uint16_t & p_image_width,
                      const uint16_t & p_image_height);
+    inline gif_image(const uint16_t & p_image_width,
+                     const uint16_t & p_image_height,
+		     const uint16_t & p_image_left_position,
+		     const uint16_t & p_image_top_position);
     inline gif_image(std::ifstream & p_file);
     inline ~gif_image(void);
     inline const uint16_t & get_image_left_position(void)const;
@@ -61,13 +65,23 @@ namespace lib_gif
   //----------------------------------------------------------------------------
   gif_image::gif_image(const uint16_t & p_image_width,
                        const uint16_t & p_image_height):
-    m_descriptor(p_image_width,p_image_height),
+    gif_image(p_image_width,p_image_height,0,0)
+  {
+  }
+
+  //----------------------------------------------------------------------------
+  gif_image::gif_image(const uint16_t & p_image_width,
+		       const uint16_t & p_image_height,
+		       const uint16_t & p_image_left_position,
+		       const uint16_t & p_image_top_position):
+    m_descriptor(p_image_width,p_image_height,p_image_left_position,p_image_top_position),
     m_color_table(nullptr),
     m_lzw_minimum_code_size(8),
     m_content(new t_content[m_descriptor.get_image_width() * m_descriptor.get_image_height()])
   {
   }
-  //----------------------------------------------------------------------------
+
+   //----------------------------------------------------------------------------
   void gif_image::write(std::ofstream & p_file)const
   {
     uint8_t l_image_introducer = 0x2C;

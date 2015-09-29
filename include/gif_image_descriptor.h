@@ -31,6 +31,14 @@ namespace lib_gif
     constexpr static inline size_t get_size(void);
     inline gif_image_descriptor(const uint16_t & p_image_width,
                                 const uint16_t & p_image_height);
+    inline gif_image_descriptor(const uint16_t & p_image_width,
+                                const uint16_t & p_image_height,
+				const uint16_t & p_image_left_position,
+				const uint16_t & p_image_top_position,
+				bool p_local_color_table_flag=false,
+				bool p_interface_flag=false,
+				bool p_sorted_flag=false,
+				const unsigned int & p_local_table_size=0);
     inline gif_image_descriptor(void);
     inline const uint16_t & get_image_left_position(void)const;
     inline const uint16_t & get_image_top_position(void)const;
@@ -39,11 +47,17 @@ namespace lib_gif
     inline const uint8_t & get_packed_fields(void)const;
     inline void check(void);
     inline bool get_local_color_table_flag(void)const;
+    inline void set_local_color_table_flag(bool p_flag);
     inline bool get_interlace_flag(void)const;
+    inline void set_interlace_flag(bool p_flag);
     inline bool get_sort_flag(void)const;
-    inline unsigned int get_size_of_local_color_table(void)const;
+    inline void set_sort_flag(bool p_flag);
     inline unsigned int get_decoded_size_of_local_color_table(void)const;
+    inline void set_decoded_size_of_local_color_table(const unsigned int & p_size);
   private:
+    inline unsigned int get_size_of_local_color_table(void)const;
+    inline void set_size_of_local_color_table(const unsigned int p_size);
+
     uint16_t m_image_left_position;
     uint16_t m_image_top_position;
     uint16_t m_image_width;
@@ -71,6 +85,27 @@ namespace lib_gif
     m_packed_fields(0)
     {
     }
+
+  //----------------------------------------------------------------------------
+  gif_image_descriptor::gif_image_descriptor(const uint16_t & p_image_width,
+					     const uint16_t & p_image_height,
+					     const uint16_t & p_image_left_position,
+					     const uint16_t & p_image_top_position,
+					     bool p_local_color_table_flag,
+					     bool p_interface_flag,
+					     bool p_sorted_flag,
+					     const unsigned int & p_local_table_size):
+    m_image_left_position(p_image_left_position),
+    m_image_top_position(p_image_top_position),
+    m_image_width(p_image_width),
+    m_image_height(p_image_height),
+    m_packed_fields(0)
+  {
+    set_local_color_table_flag(p_local_color_table_flag);
+    set_interlace_flag(p_interface_flag);
+    set_sort_flag(p_sorted_flag);
+    set_decoded_size_of_local_color_table(p_local_table_size);
+  }
 
   //----------------------------------------------------------------------------
   constexpr uint8_t gif_image_descriptor::get_image_separator(void)
@@ -132,28 +167,100 @@ namespace lib_gif
     return m_packed_fields & 0x80;
   }
 
-   //----------------------------------------------------------------------------
- bool gif_image_descriptor::get_interlace_flag(void)const
- {
-   return m_packed_fields & 0x40;
- }
+  //----------------------------------------------------------------------------
+  void gif_image_descriptor::set_local_color_table_flag(bool p_flag)
+  {
+    if(p_flag)
+      {
+	m_packed_fields |= 0x80;
+      }
+    else
+      {
+	m_packed_fields &= ~(0x80);
+      }
+  }
 
-   //----------------------------------------------------------------------------
- bool gif_image_descriptor::get_sort_flag(void)const
- {
-   return m_packed_fields & 0x20;
- }
+  //----------------------------------------------------------------------------
+  bool gif_image_descriptor::get_interlace_flag(void)const
+  {
+    return m_packed_fields & 0x40;
+  }
+
+  //----------------------------------------------------------------------------
+  void gif_image_descriptor::set_interlace_flag(bool p_flag)
+  {
+    if(p_flag)
+      {
+	m_packed_fields |= 0x40;
+      }
+    else
+      {
+	m_packed_fields &= ~(0x40);
+      }
+  }
+
+  //----------------------------------------------------------------------------
+  bool gif_image_descriptor::get_sort_flag(void)const
+  {
+    return m_packed_fields & 0x20;
+  }
   
- //----------------------------------------------------------------------------
- unsigned int gif_image_descriptor::get_size_of_local_color_table(void)const
- {
-   return m_packed_fields & 0x7;
- }
- //----------------------------------------------------------------------------
- unsigned int gif_image_descriptor::get_decoded_size_of_local_color_table(void)const
- {
-   return get_local_color_table_flag() ? 2 << get_size_of_local_color_table() : 0;
- }
+  //----------------------------------------------------------------------------
+  void gif_image_descriptor::set_sort_flag(bool p_flag)
+  {
+    if(p_flag)
+      {
+	m_packed_fields |= 0x20;
+      }
+    else
+      {
+	m_packed_fields &= ~(0x20);
+      }
+  }
+
+  //----------------------------------------------------------------------------
+  unsigned int gif_image_descriptor::get_size_of_local_color_table(void)const
+  {
+    return m_packed_fields & 0x7;
+  }
+
+  //----------------------------------------------------------------------------
+  void gif_image_descriptor::set_size_of_local_color_table(const unsigned int p_size)
+  {
+    if(p_size > 7)
+      {
+	std::stringstream l_size_stream;
+	l_size_stream << p_size;
+	throw quicky_exception::quicky_logic_exception("Coded local table size is greater than 7 : " + l_size_stream.str(),__LINE__,__FILE__);
+      }
+    m_packed_fields &= ~(0x7);
+    m_packed_fields |= p_size;
+  }
+
+  //----------------------------------------------------------------------------
+  unsigned int gif_image_descriptor::get_decoded_size_of_local_color_table(void)const
+  {
+    return get_local_color_table_flag() ? 2 << get_size_of_local_color_table() : 0;
+  }
+
+  //----------------------------------------------------------------------------
+  void gif_image_descriptor::set_decoded_size_of_local_color_table(const unsigned int & p_size)
+  {
+    if(p_size > 256)
+      {
+	std::stringstream l_size_stream;
+	l_size_stream << p_size;
+	throw quicky_exception::quicky_logic_exception("Decoded local table size is greater than 256 : " + l_size_stream.str(),__LINE__,__FILE__);
+      }
+    unsigned int l_size = p_size;
+    unsigned int l_coded_size = 0;
+    while(l_size > 2)
+      {
+	l_size = l_size >> 1;
+	++l_coded_size;
+      }
+    set_size_of_local_color_table(l_coded_size);
+  }
 
 }
 #endif
