@@ -27,12 +27,20 @@ namespace lib_gif
   class gif_comment_extension: public gif_extension_block
   {
   public:
+    inline gif_comment_extension(const std::string & p_comment);
     inline void print(std::ostream & p_stream)const;
     inline gif_comment_extension(std::ifstream & p_file);
     inline void write_extension(std::ofstream & p_file)const;
   private:
     std::string m_comment;
   };
+
+  //----------------------------------------------------------------------------
+  gif_comment_extension::gif_comment_extension(const std::string & p_comment):
+  gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION),
+    m_comment(p_comment)
+    {
+    }
 
     //----------------------------------------------------------------------------
     void gif_comment_extension::write_extension(std::ofstream & p_file)const

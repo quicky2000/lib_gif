@@ -87,6 +87,12 @@ namespace lib_gif
   }
 
   //----------------------------------------------------------------------------
+  void gif::add_comment(const std::string & p_comment)
+  {
+    m_data_blocks.push_back(new lib_gif::gif_comment_extension(p_comment));
+  }
+
+  //----------------------------------------------------------------------------
   void gif::activate_loop(const unsigned int & p_loop_counter)
   {
     m_data_blocks.push_back(new lib_gif::gif_application_extension(p_loop_counter));

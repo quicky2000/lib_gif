@@ -44,6 +44,7 @@ namespace lib_gif
     inline const uint8_t  & get_background_index(void)const;
     void write(std::ofstream & p_file);
     void add_image(gif_image & p_image);
+    void add_comment(const std::string & p_comment);
     void activate_loop(const unsigned int & p_loop_counter);
     void add_graphic_control_extension(const unsigned int & p_delay_time,
 				       bool p_transparent_color,
