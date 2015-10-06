@@ -101,7 +101,7 @@ namespace lib_gif
     // 12 bits max per coded value
     // l_content + 2 = l_content + clear code + end of information code
     // * 2 to be sure to have place for clean code
-    quicky_utils::quicky_bitfield l_compressed_data(2 * (l_content_size + 2) * 12);
+    quicky_utils::quicky_bitfield<uint64_t> l_compressed_data(2 * (l_content_size + 2) * 12);
 
     // Add clear code first
     unsigned int l_coded_value = l_encoder.get_clear_code();
@@ -210,7 +210,7 @@ namespace lib_gif
 	std::cout << "Number of Data bytes in sub blocks : " << l_compressed_data_size << std::endl ;
 #endif // DEBUG_GIF_IMAGE
         m_content = new t_content[m_descriptor.get_image_width() * m_descriptor.get_image_height()];
-        quicky_utils::quicky_bitfield l_bitfield(l_compressed_data_size*8);
+        quicky_utils::quicky_bitfield<uint64_t> l_bitfield(l_compressed_data_size*8);
         unsigned int l_first_code = 0;
         for(unsigned int l_index = 0 ; l_index < l_compressed_data_size ; ++l_index)
           {
