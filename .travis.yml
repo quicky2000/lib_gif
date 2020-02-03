@@ -1,0 +1,37 @@
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      dist: bionic
+      compiler: gcc
+    - os: osx
+
+language: cpp
+
+before_install:
+  - MY_LOCATION=`pwd`
+  - echo $MY_LOCATION
+  - mkdir ../repositories
+  - cd ..
+  - mv $MY_LOCATION repositories
+  - QUICKY_REPOSITORY=`pwd`/repositories
+  - export QUICKY_REPOSITORY
+  - MY_LOCATION=`pwd`
+  - echo $MY_LOCATION
+  - cd $MY_LOCATION/repositories
+  - git clone https://github.com/quicky2000/quicky_tools.git
+  - git clone https://github.com/quicky2000/quicky_exception.git
+  - git clone https://github.com/quicky2000/quicky_utils.git
+  - cd $MY_LOCATION/repositories
+  - cd quicky_tools/setup
+  - . setup.sh
+  - cd $MY_LOCATION
+  - chmod a+x repositories/quicky_tools/bin/*
+  - mkdir build
+  - cd build
+
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then generate_makefile lib_gif ; make test; mkdir cmake_build ; cd cmake_build ; fi
+  - cmake $QUICKY_REPOSITORY/lib_gif
+  - make
+#EOF
