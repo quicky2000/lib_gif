@@ -34,4 +34,6 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then generate_makefile lib_gif ; make test; mkdir cmake_build ; cd cmake_build ; fi
   - cmake $QUICKY_REPOSITORY/lib_gif
   - make
+  - ./lib_gif $QUICKY_REPOSITORY/lib_gif/examples/logo.gif > logo.log
+  - diff logo.log $QUICKY_REPOSITORY/lib_gif/test/logo.log
 #EOF

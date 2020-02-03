@@ -1,0 +1,392 @@
+----------------------------
+GIF Header :
+----------------------------
+Signature : GIF
+Version : 89a
+----------------------------
+GIF Logical screen :
+----------------------------
+Width : 60 pixels
+Height : 132 pixels
+Packed fields : 0xf5
+	Global Color Table Flag : 1
+	Global Color Resolution 8 bits per channel
+	Sorted Flag 0
+	Size of global table : 64 entries
+Background Index : 0
+Pixel aspect Ratio : 0
+	Color[0 | 0x0]  = R=156, G=140, B=123
+	Color[1 | 0x1]  = R= 82, G=123, B=57
+	Color[2 | 0x2]  = R=239, G=181, B=214
+	Color[3 | 0x3]  = R=255, G=206, B=140
+	Color[4 | 0x4]  = R=  0, G=0, B=0
+	Color[5 | 0x5]  = R=165, G=123, B=66
+	Color[6 | 0x6]  = R=247, G=123, B=148
+	Color[7 | 0x7]  = R=247, G=66, B=132
+	Color[8 | 0x8]  = R=247, G=156, B=82
+	Color[9 | 0x9]  = R=  0, G=107, B=49
+	Color[10 | 0xa]  = R= 99, G=0, B=66
+	Color[11 | 0xb]  = R=247, G=239, B=222
+	Color[12 | 0xc]  = R=247, G=214, B=239
+	Color[13 | 0xd]  = R=255, G=231, B=247
+	Color[14 | 0xe]  = R=231, G=66, B=74
+	Color[15 | 0xf]  = R=247, G=247, B=247
+	Color[16 | 0x10]  = R=247, G=8, B=90
+	Color[17 | 0x11]  = R=173, G=0, B=66
+	Color[18 | 0x12]  = R=173, G=90, B=173
+	Color[19 | 0x13]  = R=198, G=8, B=132
+	Color[20 | 0x14]  = R=231, G=8, B=132
+	Color[21 | 0x15]  = R= 24, G=8, B=74
+	Color[22 | 0x16]  = R=173, G=66, B=198
+	Color[23 | 0x17]  = R=206, G=140, B=231
+	Color[24 | 0x18]  = R=206, G=66, B=82
+	Color[25 | 0x19]  = R= 74, G=41, B=107
+	Color[26 | 0x1a]  = R=148, G=16, B=173
+	Color[27 | 0x1b]  = R=222, G=8, B=173
+	Color[28 | 0x1c]  = R=156, G=74, B=198
+	Color[29 | 0x1d]  = R= 33, G=16, B=173
+	Color[30 | 0x1e]  = R= 90, G=16, B=214
+	Color[31 | 0x1f]  = R=206, G=8, B=214
+	Color[32 | 0x20]  = R= 99, G=16, B=206
+	Color[33 | 0x21]  = R=165, G=181, B=214
+	Color[34 | 0x22]  = R=132, G=123, B=255
+	Color[35 | 0x23]  = R= 82, G=82, B=198
+	Color[36 | 0x24]  = R= 82, G=66, B=255
+	Color[37 | 0x25]  = R=214, G=90, B=255
+	Color[38 | 0x26]  = R= 41, G=24, B=247
+	Color[39 | 0x27]  = R=181, G=16, B=255
+	Color[40 | 0x28]  = R=198, G=16, B=255
+	Color[41 | 0x29]  = R=140, G=57, B=255
+	Color[42 | 0x2a]  = R=115, G=132, B=148
+	Color[43 | 0x2b]  = R=140, G=123, B=148
+	Color[44 | 0x2c]  = R= 41, G=90, B=107
+	Color[45 | 0x2d]  = R= 57, G=74, B=198
+	Color[46 | 0x2e]  = R=206, G=173, B=148
+	Color[47 | 0x2f]  = R= 99, G=82, B=0
+	Color[48 | 0x30]  = R= 66, G=132, B=148
+	Color[49 | 0x31]  = R=123, G=181, B=57
+	Color[50 | 0x32]  = R=181, G=198, B=66
+	Color[51 | 0x33]  = R=255, G=214, B=66
+	Color[52 | 0x34]  = R= 99, G=181, B=99
+	Color[53 | 0x35]  = R=115, G=181, B=99
+	Color[54 | 0x36]  = R= 74, G=181, B=99
+	Color[55 | 0x37]  = R=231, G=189, B=24
+	Color[56 | 0x38]  = R=255, G=255, B=0
+	Color[57 | 0x39]  = R= 82, G=231, B=41
+	Color[58 | 0x3a]  = R= 90, G=239, B=49
+	Color[59 | 0x3b]  = R=165, G=247, B=148
+	Color[60 | 0x3c]  = R=173, G=247, B=24
+	Color[61 | 0x3d]  = R=214, G=255, B=74
+	Color[62 | 0x3e]  = R=  0, G=0, B=0
+	Color[63 | 0x3f]  = R=  0, G=0, B=0
+----------------------------
+GIF application extension :
+----------------------------
+	Identifier : "NETSCAPE"
+	Authentication code : 0x322e30
+	Loop counter : 0
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 50 ( * 1/100 s)
+Transparent Color index : 0
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 0
+Image top position : 0
+Image width : 60
+Image height : 132
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 5
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 0
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 5
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 1
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 5
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 1
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 50 ( * 1/100 s)
+Transparent Color index : 1
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 1
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 2
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 6
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 50 ( * 1/100 s)
+Transparent Color index : 0
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 0
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 2
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+Graphical Control extension :
+----------------------------
+Packed fields : 0x5
+	Disposal Method : 1
+	User input flag : 0
+	Transparent color flag : 1
+Delay time : 10 ( * 1/100 s)
+Transparent Color index : 3
+----------------------------
+GIF Image :
+----------------------------
+Image left position : 1
+Image top position : 1
+Image width : 58
+Image height : 100
+Packed fields : 0x0
+	Local Color Table Flag : 0
+	Interlace Flag         : 0
+	Sorted Flag            : 0
+	Size of local table    : 0 entries
+----------------------------
+GIF Image Data :
+----------------------------
+LZW minimum code size : 6
+----------------------------
+GIF Trailer :
+----------------------------
+Number of data blocks : 26
+
