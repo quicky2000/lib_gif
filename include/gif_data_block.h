@@ -51,7 +51,7 @@ namespace lib_gif
     static inline const std::string type_to_string(const t_gif_data_block_type & p_type);
     static inline const std::string key_to_string(const t_gif_data_block_key & p_key);
     inline const t_gif_data_block_type & get_type(void)const;
-    virtual void write(std::ofstream & p_file)const=0;
+    virtual void write(std::ostream & p_stream)const=0;
     inline virtual ~gif_data_block(void){}
     virtual void print(std::ostream & p_stream)const=0;
   protected:

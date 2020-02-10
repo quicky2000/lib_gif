@@ -42,7 +42,7 @@ namespace lib_gif
     inline unsigned int get_nb_data_block(void)const;
     inline const gif_data_block & get_data_block(const unsigned int & p_index)const;
     inline const uint8_t  & get_background_index(void)const;
-    void write(std::ofstream & p_file);
+    void write(std::ostream & p_stream);
     void add_image(gif_image & p_image);
     void add_comment(const std::string & p_comment);
     void activate_loop(const unsigned int & p_loop_counter);

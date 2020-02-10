@@ -27,7 +27,7 @@ namespace lib_gif
   public:
     inline void print(std::ostream & p_stream)const;
     inline gif_trailer(void);
-    inline void write(std::ofstream & p_file)const;
+    inline void write(std::ostream & p_stream)const;
   };
 
     //----------------------------------------------------------------------------
@@ -43,10 +43,10 @@ namespace lib_gif
     {
     }
     //----------------------------------------------------------------------------
-    void gif_trailer::write(std::ofstream & p_file)const
+    void gif_trailer::write(std::ostream & p_stream)const
     {
       uint8_t l_trailer = 0x3B;
-      p_file.write((char*)&l_trailer,sizeof(l_trailer));
+      p_stream.write((char*)&l_trailer, sizeof(l_trailer));
     }
 
 }

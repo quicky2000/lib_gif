@@ -32,7 +32,7 @@ namespace lib_gif
     inline const unsigned int & get_size(void)const;
     inline const gif_color & operator[](const size_t & p_index)const;
     inline void set_color(const size_t & p_index,const gif_color & p_color);
-    inline void write(std::ofstream & p_file);
+    inline void write(std::ostream & p_stream);
   private:
     unsigned int m_size;
     gif_color *m_colors;
@@ -62,9 +62,9 @@ namespace lib_gif
   }
 
   //----------------------------------------------------------------------------
-  void gif_color_table::write(std::ofstream & p_file)
+  void gif_color_table::write(std::ostream & p_stream)
   {
-    p_file.write((char*) m_colors,m_size * sizeof(gif_color));
+    p_stream.write((char*) m_colors, m_size * sizeof(gif_color));
   }
 
   //----------------------------------------------------------------------------

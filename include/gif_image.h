@@ -54,7 +54,7 @@ namespace lib_gif
     inline void set_color_index(const unsigned int & p_x, const unsigned int & p_y,const unsigned int & p_index);
     inline void print(std::ostream & p_stream)const;
     inline unsigned int deinterlace(const unsigned int & p_y)const;
-    inline void write(std::ofstream & p_file)const;
+    inline void write(std::ostream & p_stream)const;
   private:
     gif_image_descriptor m_descriptor;
     gif_color_table * m_color_table;
@@ -82,16 +82,16 @@ namespace lib_gif
   }
 
    //----------------------------------------------------------------------------
-  void gif_image::write(std::ofstream & p_file)const
+  void gif_image::write(std::ostream & p_stream)const
   {
     uint8_t l_image_introducer = 0x2C;
-    p_file.write((char*)&l_image_introducer,sizeof(l_image_introducer));
-    p_file.write((char*) & m_descriptor,m_descriptor.get_size());
+    p_stream.write((char*)&l_image_introducer, sizeof(l_image_introducer));
+    p_stream.write((char*) & m_descriptor, m_descriptor.get_size());
     if(m_descriptor.get_local_color_table_flag())
       {
-        m_color_table->write(p_file);
+        m_color_table->write(p_stream);
       }
-    p_file.write((char*)&m_lzw_minimum_code_size,sizeof(m_lzw_minimum_code_size));
+    p_stream.write((char*)&m_lzw_minimum_code_size, sizeof(m_lzw_minimum_code_size));
  
     gif_lzw_encoder<uint8_t> l_encoder(m_lzw_minimum_code_size);
     unsigned int l_current_code_size = m_lzw_minimum_code_size;
@@ -159,7 +159,7 @@ namespace lib_gif
 #ifdef DEBUG_GIF_IMAGE
         std::cout << "Block Number : " << l_index << std::endl ;
 #endif // DEBUG_GIF_IMAGE
-        l_block.write(p_file);
+        l_block.write(p_stream);
       }
     unsigned int l_remaining_size = l_compressed_data_size % 255;
     if(l_remaining_size)
@@ -171,10 +171,10 @@ namespace lib_gif
             l_compressed_data.get(l_byte,8,8 * (l_nb_data_sub_block * 255 + l_index));
 	    l_block.set_data(l_index,(uint8_t)l_byte);
           }
-        l_block.write(p_file);
+        l_block.write(p_stream);
       }
     uint8_t l_block_terminator = 0x0;
-    p_file.write((char*)&l_block_terminator,sizeof(l_block_terminator));
+    p_stream.write((char*)&l_block_terminator, sizeof(l_block_terminator));
   }
 
   //----------------------------------------------------------------------------

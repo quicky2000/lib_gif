@@ -28,7 +28,7 @@ namespace lib_gif
     virtual inline ~gif_graphic_rendering_block(void){}
     virtual void print(std::ostream & p_stream)const=0;
     virtual inline bool is_image(void)const{return false;}
-    virtual void write(std::ofstream & p_file)const=0;
+    virtual void write(std::ostream & p_stream)const=0;
   private:
     
   };

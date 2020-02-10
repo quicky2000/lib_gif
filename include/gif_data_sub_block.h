@@ -34,7 +34,7 @@ namespace lib_gif
     inline void set_data(const unsigned int & p_index,const uint8_t & p_data)const;
     inline void copy(uint8_t * p_dest)const;
     inline ~gif_data_sub_block(void);
-    inline void write(std::ofstream & p_file)const;
+    inline void write(std::ostream & p_stream)const;
   private:
     uint8_t m_size;
     uint8_t * m_data;
@@ -64,20 +64,20 @@ namespace lib_gif
 
       }
     //----------------------------------------------------------------------------
-    void gif_data_sub_block::write(std::ofstream & p_file)const
+    void gif_data_sub_block::write(std::ostream & p_stream)const
     {
 #ifdef DEBUG_GIF_DATA_SUB_BLOCK
         std::cout << "----------------------------" << std::endl ;
         std::cout << "GIF Image Data Sub block :" << std::endl ;
         std::cout << "----------------------------" << std::endl ;
-        std::cout << "Current position : 0x" << std::hex << p_file.tellp() << std::dec << std::endl ;
+        std::cout << "Current position : 0x" << std::hex << p_stream.tellp() << std::dec << std::endl ;
 	for(unsigned int l_index = 0 ; l_index < m_size ; ++l_index)
 	  {
 	    std::cout << std::hex  << "[0x" << l_index << "] = 0x" << (unsigned int)m_data[l_index] << std::dec << std::endl ;
 	  }
 #endif // DEBUG_GIF_DATA_SUB_BLOCK
-        p_file.write((char*)&m_size,sizeof(m_size));
-        p_file.write((char*)m_data,m_size);      
+        p_stream.write((char*)&m_size,sizeof(m_size));
+        p_stream.write((char*)m_data,m_size);
     }
 
     //----------------------------------------------------------------------------

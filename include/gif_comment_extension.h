@@ -30,7 +30,7 @@ namespace lib_gif
     inline gif_comment_extension(const std::string & p_comment);
     inline void print(std::ostream & p_stream)const;
     inline gif_comment_extension(std::ifstream & p_file);
-    inline void write_extension(std::ofstream & p_file)const;
+    inline void write_extension(std::ostream & p_stream)const;
   private:
     std::string m_comment;
   };
@@ -43,10 +43,10 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    void gif_comment_extension::write_extension(std::ofstream & p_file)const
+    void gif_comment_extension::write_extension(std::ostream & p_stream)const
     {
       uint8_t l_extension_label = 0xFE;
-      p_file.write((char*)&l_extension_label,sizeof(l_extension_label));
+      p_stream.write((char*)&l_extension_label, sizeof(l_extension_label));
       unsigned int l_nb_data_sub_block = m_comment.size() / 255;
       for(unsigned int l_index = 0 ; l_index < l_nb_data_sub_block ; ++l_index)
         {
@@ -55,7 +55,7 @@ namespace lib_gif
             {
               l_block.set_data(l_index2,m_comment[255 * l_index + l_index2]);
             }
-          l_block.write(p_file);
+          l_block.write(p_stream);
         }
       unsigned int l_remaining_size = m_comment.size() % 255;
       if(l_remaining_size)
@@ -65,7 +65,7 @@ namespace lib_gif
             {
               l_block.set_data(l_index,m_comment[255 * l_nb_data_sub_block + l_index]);
             }
-          l_block.write(p_file);
+          l_block.write(p_stream);
         }
     }
 

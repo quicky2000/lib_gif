@@ -34,20 +34,20 @@ namespace lib_gif
 
     inline gif_extension_block(const t_gif_data_block_type & p_type);
     static inline const std::string key_to_string(const t_gif_extension_block_key & p_key);
-    inline void write(std::ofstream & p_file)const;
+    inline void write(std::ostream & p_stream)const;
   private:
-    virtual void write_extension(std::ofstream & p_file)const=0;
+    virtual void write_extension(std::ostream & p_stream)const=0;
     
   };
 
   //----------------------------------------------------------------------------
-  void gif_extension_block::write(std::ofstream & p_file)const
+  void gif_extension_block::write(std::ostream & p_stream)const
   {
     uint8_t l_extension_introducer = 0x21;
-    p_file.write((char*)&l_extension_introducer,sizeof(l_extension_introducer));
-    this->write_extension(p_file);
+    p_stream.write((char*)&l_extension_introducer, sizeof(l_extension_introducer));
+    this->write_extension(p_stream);
     uint8_t l_block_terminator = 0x0;
-    p_file.write((char*)&l_block_terminator,sizeof(l_block_terminator));
+    p_stream.write((char*)&l_block_terminator, sizeof(l_block_terminator));
   }
   
   //----------------------------------------------------------------------------

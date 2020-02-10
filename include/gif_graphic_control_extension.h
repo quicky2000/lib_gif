@@ -36,7 +36,7 @@ namespace lib_gif
     inline void print(std::ostream & p_stream)const;
     inline bool get_transparent_color_flag(void)const;
     inline void set_transparent_color_flag(bool p_flag);
-    inline void write_extension(std::ofstream & p_file)const;
+    inline void write_extension(std::ostream & p_stream)const;
   private:					
     inline const unsigned int get_reserved_field(void)const;
     uint8_t m_block_size;
@@ -85,14 +85,14 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    void gif_graphic_control_extension::write_extension(std::ofstream & p_file)const
+    void gif_graphic_control_extension::write_extension(std::ostream & p_stream)const
     {
       uint8_t l_extension_label = 0xF9;
-      p_file.write((char*)&l_extension_label,sizeof(l_extension_label));
-      p_file.write((char*)&m_block_size,sizeof(m_block_size));
-      p_file.write((char*)&m_packed_fields,sizeof(m_packed_fields));
-      p_file.write((char*)&m_delay_time,sizeof(m_delay_time));
-      p_file.write((char*)&m_transparent_color_index,sizeof(m_transparent_color_index));
+      p_stream.write((char*)&l_extension_label, sizeof(l_extension_label));
+      p_stream.write((char*)&m_block_size, sizeof(m_block_size));
+      p_stream.write((char*)&m_packed_fields, sizeof(m_packed_fields));
+      p_stream.write((char*)&m_delay_time, sizeof(m_delay_time));
+      p_stream.write((char*)&m_transparent_color_index, sizeof(m_transparent_color_index));
    }
 
     //----------------------------------------------------------------

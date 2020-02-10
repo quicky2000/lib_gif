@@ -36,7 +36,7 @@ namespace lib_gif
     inline const uint8_t & get_background_color_index(void)const;
     inline void print(std::ostream & p_stream)const;
     inline const std::string & get_content(void)const;
-    inline void write_extension(std::ofstream & p_file)const;
+    inline void write_extension(std::ostream & p_stream)const;
   private:					
     uint8_t m_block_size;
     uint16_t m_grid_left_position;
@@ -121,19 +121,19 @@ namespace lib_gif
     }
     
   //----------------------------------------------------------------------------
-  void gif_plain_text_extension::write_extension(std::ofstream & p_file)const
+  void gif_plain_text_extension::write_extension(std::ostream & p_stream)const
   {
     uint8_t l_extension_label = 0x1;
-    p_file.write((char*)&l_extension_label,sizeof(l_extension_label));
-    p_file.write((char*)&m_block_size,sizeof(m_block_size));
-    p_file.write((char*)&m_grid_left_position,sizeof(m_grid_left_position));
-    p_file.write((char*)&m_grid_top_position,sizeof(m_grid_top_position));
-    p_file.write((char*)&m_grid_width,sizeof(m_grid_width));
-    p_file.write((char*)&m_grid_height,sizeof(m_grid_height));
-    p_file.write((char*)&m_character_cell_width,sizeof(m_character_cell_width));
-    p_file.write((char*)&m_character_cell_height,sizeof(m_character_cell_height));
-    p_file.write((char*)&m_foreground_color_index,sizeof(m_foreground_color_index));
-    p_file.write((char*)&m_background_color_index,sizeof(m_background_color_index));
+    p_stream.write((char*)&l_extension_label, sizeof(l_extension_label));
+    p_stream.write((char*)&m_block_size, sizeof(m_block_size));
+    p_stream.write((char*)&m_grid_left_position, sizeof(m_grid_left_position));
+    p_stream.write((char*)&m_grid_top_position, sizeof(m_grid_top_position));
+    p_stream.write((char*)&m_grid_width, sizeof(m_grid_width));
+    p_stream.write((char*)&m_grid_height, sizeof(m_grid_height));
+    p_stream.write((char*)&m_character_cell_width, sizeof(m_character_cell_width));
+    p_stream.write((char*)&m_character_cell_height, sizeof(m_character_cell_height));
+    p_stream.write((char*)&m_foreground_color_index, sizeof(m_foreground_color_index));
+    p_stream.write((char*)&m_background_color_index, sizeof(m_background_color_index));
     unsigned int l_nb_data_sub_block = m_content.size() / 255;
     for(unsigned int l_index = 0 ; l_index < l_nb_data_sub_block ; ++l_index)
       {
@@ -142,7 +142,7 @@ namespace lib_gif
           {
             l_block.set_data(l_index2,m_content[255 * l_index + l_index2]);
           }
-        l_block.write(p_file);
+        l_block.write(p_stream);
       }
     unsigned int l_remaining_size = m_content.size() % 255;
     if(l_remaining_size)
@@ -152,7 +152,7 @@ namespace lib_gif
           {
             l_block.set_data(l_index,m_content[255 * l_nb_data_sub_block + l_index]);
           }
-        l_block.write(p_file);
+        l_block.write(p_stream);
       }
   }
 

@@ -46,17 +46,17 @@ namespace lib_gif
   }
 
   //----------------------------------------------------------------------------
-  void gif::write(std::ofstream & p_file)
+  void gif::write(std::ostream & p_stream)
   {
     if(!m_data_blocks.size() || gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
       {
         m_data_blocks.push_back(new gif_trailer());
       }
-    m_header.write(p_file);
-    m_logical_screen.write(p_file);
+    m_header.write(p_stream);
+    m_logical_screen.write(p_stream);
     for(auto l_iter : m_data_blocks)
       {
-        l_iter->write(p_file);
+        l_iter->write(p_stream);
       }
   }
   //----------------------------------------------------------------------------
