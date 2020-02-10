@@ -52,7 +52,7 @@ namespace lib_gif
       {
         m_data_blocks.push_back(new gif_trailer());
       }
-    p_file.write((char*)&m_header,m_header.get_size());
+    m_header.write(p_file);
     m_logical_screen.write(p_file);
     for(auto l_iter : m_data_blocks)
       {

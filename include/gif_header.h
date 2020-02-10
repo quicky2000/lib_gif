@@ -20,6 +20,7 @@
 #include <string>
 #include <cstring>
 #include <sstream>
+#include <fstream>
 #include "quicky_exception.h"
 
 namespace lib_gif
@@ -33,6 +34,7 @@ namespace lib_gif
     inline void set_version(const std::string & p_version);
     inline const std::string get_version(void)const;
     static inline unsigned int get_size(void);
+    inline void write(std::ofstream & p_file);
   private:
     uint8_t m_signature[3];
     uint8_t m_version[3];
@@ -94,7 +96,14 @@ namespace lib_gif
     {
       return 6;
     }
-  
+
+    //----------------------------------------------------------------------------
+    void
+    gif_header::write(std::ofstream & p_file)
+    {
+      p_file.write((char*)this, 6);
+    }
+
 }
 
 #endif // GIF_HEADER_H
