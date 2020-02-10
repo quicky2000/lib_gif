@@ -17,6 +17,9 @@
 #ifndef GIF_DATA_BLOCK
 #define GIF_DATA_BLOCK
 
+#include <sstream>
+#include <iomanip>
+
 namespace lib_gif
 {
 

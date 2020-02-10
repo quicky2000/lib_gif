@@ -18,6 +18,7 @@
 #define GIF_TRAILER
 
 #include "gif_data_block.h"
+#include <fstream>
 
 namespace lib_gif
 {
