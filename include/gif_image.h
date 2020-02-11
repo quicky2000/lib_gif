@@ -51,31 +51,31 @@ namespace lib_gif
         gif_image(std::ifstream & p_file);
 
         inline
-        ~gif_image(void);
+        ~gif_image();
 
         inline
-        const uint16_t & get_image_left_position(void) const;
+        const uint16_t & get_image_left_position() const;
 
         inline
-        const uint16_t & get_image_top_position(void) const;
+        const uint16_t & get_image_top_position() const;
 
         inline
-        const uint16_t & get_image_width(void) const;
+        const uint16_t & get_image_width() const;
 
         inline
-        const uint16_t & get_image_height(void) const;
+        const uint16_t & get_image_height() const;
 
         inline
-        bool get_local_color_table_flag(void) const;
+        bool get_local_color_table_flag() const;
 
         inline
-        bool get_interlace_flag(void) const;
+        bool get_interlace_flag() const;
 
         inline
-        const gif_color_table & get_local_color_table(void) const;
+        const gif_color_table & get_local_color_table() const;
 
         inline
-        bool is_image(void) const;
+        bool is_image() const;
 
         inline
         const unsigned int & get_color_index( const unsigned int & p_x
@@ -319,56 +319,56 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_image::~gif_image(void)
+    gif_image::~gif_image()
     {
         delete[] m_content;
         delete m_color_table;
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_image::get_image_left_position(void) const
+    const uint16_t & gif_image::get_image_left_position() const
     {
         return m_descriptor.get_image_left_position();
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_image::get_image_top_position(void) const
+    const uint16_t & gif_image::get_image_top_position() const
     {
         return m_descriptor.get_image_top_position();
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_image::get_image_width(void) const
+    const uint16_t & gif_image::get_image_width() const
     {
         return m_descriptor.get_image_width();
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_image::get_image_height(void) const
+    const uint16_t & gif_image::get_image_height() const
     {
         return m_descriptor.get_image_height();
     }
 
     //--------------------------------------------------------------------------
-    bool gif_image::is_image(void) const
+    bool gif_image::is_image() const
     {
         return true;
     }
 
     //--------------------------------------------------------------------------
-    bool gif_image::get_local_color_table_flag(void) const
+    bool gif_image::get_local_color_table_flag() const
     {
         return m_descriptor.get_local_color_table_flag();
     }
 
     //--------------------------------------------------------------------------
-    bool gif_image::get_interlace_flag(void) const
+    bool gif_image::get_interlace_flag() const
     {
       return m_descriptor.get_interlace_flag();
     }
 
     //--------------------------------------------------------------------------
-    const gif_color_table & gif_image::get_local_color_table(void) const
+    const gif_color_table & gif_image::get_local_color_table() const
     {
         if(m_color_table) return *m_color_table;
         throw quicky_exception::quicky_logic_exception("Try to access to non existing local color table",__LINE__,__FILE__);

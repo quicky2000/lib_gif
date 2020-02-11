@@ -63,7 +63,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif::~gif(void)
+    gif::~gif()
     {
         for(auto l_iter: m_data_blocks)
         {

@@ -57,13 +57,13 @@ namespace lib_gif
         const std::string key_to_string(const t_gif_data_block_key & p_key);
 
         inline
-        const t_gif_data_block_type & get_type(void) const;
+        const t_gif_data_block_type & get_type() const;
 
         virtual
         void write(std::ostream & p_stream) const = 0;
 
         inline virtual
-        ~gif_data_block(void){}
+        ~gif_data_block(){}
 
         virtual
         void print(std::ostream & p_stream) const = 0;
@@ -146,7 +146,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const gif_data_block::t_gif_data_block_type & gif_data_block::get_type(void) const
+    const gif_data_block::t_gif_data_block_type & gif_data_block::get_type() const
     {
         return m_type;
     }

@@ -31,34 +31,34 @@ namespace lib_gif
         gif_plain_text_extension(std::ifstream & p_file);
 
         inline
-        const uint16_t & get_grid_left_position(void) const;
+        const uint16_t & get_grid_left_position() const;
 
         inline
-        const uint16_t & get_grid_top_position(void) const;
+        const uint16_t & get_grid_top_position() const;
 
         inline
-        const uint16_t & get_grid_width(void) const;
+        const uint16_t & get_grid_width() const;
 
         inline
-        const uint16_t & get_grid_height(void) const;
+        const uint16_t & get_grid_height() const;
 
         inline
-        const uint8_t & get_character_cell_width(void) const;
+        const uint8_t & get_character_cell_width() const;
 
         inline
-        const uint8_t & get_character_cell_height(void) const;
+        const uint8_t & get_character_cell_height() const;
 
         inline
-        const uint8_t & get_foreground_color_index(void) const;
+        const uint8_t & get_foreground_color_index() const;
 
         inline
-        const uint8_t & get_background_color_index(void) const;
+        const uint8_t & get_background_color_index() const;
 
         inline
         void print(std::ostream & p_stream) const;
 
         inline
-        const std::string & get_content(void) const;
+        const std::string & get_content() const;
 
         inline
         void write_extension(std::ostream & p_stream) const;
@@ -195,55 +195,55 @@ namespace lib_gif
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_plain_text_extension::get_grid_left_position(void) const
+    const uint16_t & gif_plain_text_extension::get_grid_left_position() const
     {
         return m_grid_left_position;
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_plain_text_extension::get_grid_top_position(void) const
+    const uint16_t & gif_plain_text_extension::get_grid_top_position() const
     {
         return m_grid_top_position;
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_plain_text_extension::get_grid_width(void) const
+    const uint16_t & gif_plain_text_extension::get_grid_width() const
     {
         return m_grid_width;
     }
 
     //--------------------------------------------------------------------------
-    const uint16_t & gif_plain_text_extension::get_grid_height(void) const
+    const uint16_t & gif_plain_text_extension::get_grid_height() const
     {
         return m_grid_height;
     }
 
     //--------------------------------------------------------------------------
-    const uint8_t & gif_plain_text_extension::get_character_cell_width(void) const
+    const uint8_t & gif_plain_text_extension::get_character_cell_width() const
     {
         return m_character_cell_width;
     }
 
     //--------------------------------------------------------------------------
-    const uint8_t & gif_plain_text_extension::get_character_cell_height(void) const
+    const uint8_t & gif_plain_text_extension::get_character_cell_height() const
     {
         return m_character_cell_height;
     }
 
     //--------------------------------------------------------------------------
-    const uint8_t & gif_plain_text_extension::get_foreground_color_index(void) const
+    const uint8_t & gif_plain_text_extension::get_foreground_color_index() const
     {
         return m_foreground_color_index;
     }
 
     //--------------------------------------------------------------------------
-    const uint8_t & gif_plain_text_extension::get_background_color_index(void) const
+    const uint8_t & gif_plain_text_extension::get_background_color_index() const
     {
         return m_background_color_index;
     }
 
     //--------------------------------------------------------------------------
-    const std::string & gif_plain_text_extension::get_content(void) const
+    const std::string & gif_plain_text_extension::get_content() const
     {
         return m_content;
     }

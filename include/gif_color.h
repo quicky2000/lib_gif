@@ -29,7 +29,7 @@ namespace lib_gif
       public:
 
         inline
-        gif_color(void);
+        gif_color();
 
         inline
         gif_color( uint8_t p_R
@@ -59,13 +59,13 @@ namespace lib_gif
         void set_blue(uint8_t p_b);
 
         inline
-        uint8_t get_red(void)const;
+        uint8_t get_red()const;
 
         inline
-        uint8_t get_green(void)const;
+        uint8_t get_green()const;
 
         inline
-        uint8_t get_blue(void)const;
+        uint8_t get_blue()const;
 
       private:
 
@@ -77,7 +77,7 @@ namespace lib_gif
     };
 
     //----------------------------------------------------------------------------
-    gif_color::gif_color(void)
+    gif_color::gif_color()
     : m_R(0)
     , m_G(0)
     , m_B(0)
@@ -180,19 +180,19 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    uint8_t gif_color::get_red(void) const
+    uint8_t gif_color::get_red() const
     {
         return m_R;
     }
 
     //----------------------------------------------------------------------------
-    uint8_t gif_color::get_green(void) const
+    uint8_t gif_color::get_green() const
     {
         return m_G;
     }
 
     //----------------------------------------------------------------------------
-    uint8_t gif_color::get_blue(void) const
+    uint8_t gif_color::get_blue() const
     {
         return m_B;
     }

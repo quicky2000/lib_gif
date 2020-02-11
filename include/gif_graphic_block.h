@@ -46,28 +46,28 @@ namespace lib_gif
                          );
 
         inline
-        ~gif_graphic_block(void);
+        ~gif_graphic_block();
 
         inline
-        const uint16_t & get_left_position(void) const;
+        const uint16_t & get_left_position() const;
 
         inline
-        const uint16_t & get_top_position(void) const;
+        const uint16_t & get_top_position() const;
 
         inline
-        const uint16_t & get_width(void) const;
+        const uint16_t & get_width() const;
 
         inline
-        const uint16_t & get_height(void) const;
+        const uint16_t & get_height() const;
 
         inline
-        bool is_image(void) const;
+        bool is_image() const;
 
         inline
         void print(std::ostream & p_stream) const;
 
         inline
-        const gif_image & get_image(void) const;
+        const gif_image & get_image() const;
 
         inline
         void write(std::ostream & p_stream) const;
@@ -107,48 +107,48 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_graphic_block::~gif_graphic_block(void)
+    gif_graphic_block::~gif_graphic_block()
     {
         delete m_graphic_rendering_block;
     }
 
     //----------------------------------------------------------------------------
-    bool gif_graphic_block::is_image(void) const
+    bool gif_graphic_block::is_image() const
     {
         assert(m_graphic_rendering_block);
         return m_graphic_rendering_block->is_image();
     }
     
     //----------------------------------------------------------------------------
-    const uint16_t & gif_graphic_block::get_left_position(void) const
+    const uint16_t & gif_graphic_block::get_left_position() const
     {
         assert(m_graphic_rendering_block);
         return m_graphic_rendering_block->get_image_left_position();
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_graphic_block::get_top_position(void) const
+    const uint16_t & gif_graphic_block::get_top_position() const
     {
         assert(m_graphic_rendering_block);
         return m_graphic_rendering_block->get_image_top_position();
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_graphic_block::get_width(void) const
+    const uint16_t & gif_graphic_block::get_width() const
     {
         assert(m_graphic_rendering_block);
         return m_graphic_rendering_block->get_image_width();
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_graphic_block::get_height(void) const
+    const uint16_t & gif_graphic_block::get_height() const
     {
         assert(m_graphic_rendering_block);
         return m_graphic_rendering_block->get_image_height();
     }
 
     //----------------------------------------------------------------------------
-    const gif_image & gif_graphic_block::get_image(void) const
+    const gif_image & gif_graphic_block::get_image() const
     {
         if(this->is_image())
         {

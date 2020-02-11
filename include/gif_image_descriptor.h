@@ -30,10 +30,10 @@ namespace lib_gif
       public:
 
         constexpr static inline
-        uint8_t get_image_separator(void);
+        uint8_t get_image_separator();
 
         constexpr static inline
-        size_t get_size(void);
+        size_t get_size();
 
         inline
         gif_image_descriptor( const uint16_t & p_image_width
@@ -52,46 +52,46 @@ namespace lib_gif
                             );
 
         inline
-        gif_image_descriptor(void);
+        gif_image_descriptor();
 
         inline
-        const uint16_t & get_image_left_position(void) const;
+        const uint16_t & get_image_left_position() const;
 
         inline
-        const uint16_t & get_image_top_position(void) const;
+        const uint16_t & get_image_top_position() const;
 
         inline
-        const uint16_t & get_image_width(void) const;
+        const uint16_t & get_image_width() const;
 
         inline
-        const uint16_t & get_image_height(void) const;
+        const uint16_t & get_image_height() const;
 
         inline
-        const uint8_t & get_packed_fields(void) const;
+        const uint8_t & get_packed_fields() const;
 
         inline
-        void check(void);
+        void check();
 
         inline
-        bool get_local_color_table_flag(void) const;
+        bool get_local_color_table_flag() const;
 
         inline
         void set_local_color_table_flag(bool p_flag);
 
         inline
-        bool get_interlace_flag(void) const;
+        bool get_interlace_flag() const;
 
         inline
         void set_interlace_flag(bool p_flag);
 
         inline
-        bool get_sort_flag(void) const;
+        bool get_sort_flag() const;
 
         inline
         void set_sort_flag(bool p_flag);
 
         inline
-        unsigned int get_decoded_size_of_local_color_table(void) const;
+        unsigned int get_decoded_size_of_local_color_table() const;
 
         inline
         void set_decoded_size_of_local_color_table(const unsigned int & p_size);
@@ -99,7 +99,7 @@ namespace lib_gif
       private:
 
         inline
-        unsigned int get_size_of_local_color_table(void) const;
+        unsigned int get_size_of_local_color_table() const;
 
         inline
         void set_size_of_local_color_table(const unsigned int p_size);
@@ -128,7 +128,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_image_descriptor::gif_image_descriptor(void)
+    gif_image_descriptor::gif_image_descriptor()
     : m_image_left_position(0)
     , m_image_top_position(0)
     , m_image_width(0)
@@ -160,49 +160,49 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    constexpr uint8_t gif_image_descriptor::get_image_separator(void)
+    constexpr uint8_t gif_image_descriptor::get_image_separator()
     {
         return 0x2C;
     }
 
     //----------------------------------------------------------------------------
-    constexpr size_t gif_image_descriptor::get_size(void)
+    constexpr size_t gif_image_descriptor::get_size()
     {
         return sizeof(m_image_left_position) + sizeof(m_image_top_position) + sizeof(m_image_width) + sizeof(m_image_height) + sizeof(m_packed_fields);
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_image_descriptor::get_image_left_position(void) const
+    const uint16_t & gif_image_descriptor::get_image_left_position() const
     {
         return m_image_left_position;
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_image_descriptor::get_image_top_position(void) const
+    const uint16_t & gif_image_descriptor::get_image_top_position() const
     {
         return m_image_top_position;
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_image_descriptor::get_image_width(void) const
+    const uint16_t & gif_image_descriptor::get_image_width() const
     {
         return m_image_width;
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_image_descriptor::get_image_height(void) const
+    const uint16_t & gif_image_descriptor::get_image_height() const
     {
         return m_image_height;
     }
 
     //----------------------------------------------------------------------------
-    const uint8_t & gif_image_descriptor::get_packed_fields(void) const
+    const uint8_t & gif_image_descriptor::get_packed_fields() const
     {
         return m_packed_fields;
     }
 
     //----------------------------------------------------------------------------
-    void gif_image_descriptor::check(void)
+    void gif_image_descriptor::check()
     {
         uint8_t l_reserved_bits = (m_packed_fields >> 3 ) & 0x3;
         if(l_reserved_bits)
@@ -214,7 +214,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    bool gif_image_descriptor::get_local_color_table_flag(void) const
+    bool gif_image_descriptor::get_local_color_table_flag() const
     {
         return m_packed_fields & 0x80;
     }
@@ -233,7 +233,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    bool gif_image_descriptor::get_interlace_flag(void) const
+    bool gif_image_descriptor::get_interlace_flag() const
     {
         return m_packed_fields & 0x40;
     }
@@ -252,7 +252,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    bool gif_image_descriptor::get_sort_flag(void) const
+    bool gif_image_descriptor::get_sort_flag() const
     {
         return m_packed_fields & 0x20;
     }
@@ -271,7 +271,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    unsigned int gif_image_descriptor::get_size_of_local_color_table(void) const
+    unsigned int gif_image_descriptor::get_size_of_local_color_table() const
     {
         return m_packed_fields & 0x7;
     }
@@ -290,7 +290,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    unsigned int gif_image_descriptor::get_decoded_size_of_local_color_table(void) const
+    unsigned int gif_image_descriptor::get_decoded_size_of_local_color_table() const
     {
         return get_local_color_table_flag() ? 2 << get_size_of_local_color_table() : 0;
     }

@@ -34,7 +34,7 @@ namespace lib_gif
         gif_lzw_dictionnary(const unsigned int & p_size);
 
         inline
-        ~gif_lzw_dictionnary(void);
+        ~gif_lzw_dictionnary();
 
         inline
         bool contains(const unsigned int & p_index);
@@ -48,7 +48,7 @@ namespace lib_gif
                 ;
 
         inline
-        void clear(void);
+        void clear();
 
         inline
         bool contains(const gif_lzw_dictionnary_entry<T> & p_entry) const;
@@ -57,7 +57,7 @@ namespace lib_gif
         const unsigned int & get_code(const gif_lzw_dictionnary_entry<T> & p_entry) const;
 
         inline
-        const unsigned int get_nb_entry(void)const;
+        const unsigned int get_nb_entry()const;
 
       private:
 
@@ -70,7 +70,7 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
     template <typename T>
-    const unsigned int gif_lzw_dictionnary<T>::get_nb_entry(void)const
+    const unsigned int gif_lzw_dictionnary<T>::get_nb_entry()const
     {
         return m_content.size();
     }
@@ -92,7 +92,7 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
     template <typename T>
-    gif_lzw_dictionnary<T>::~gif_lzw_dictionnary(void)
+    gif_lzw_dictionnary<T>::~gif_lzw_dictionnary()
     {
         for(auto l_iter:m_content)
         {
@@ -168,7 +168,7 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
     template <typename T>
-    void gif_lzw_dictionnary<T>::clear(void)
+    void gif_lzw_dictionnary<T>::clear()
     {
 #ifdef DEBUG_GIF_LZW_DICTIONNARY
         std::cout << "Clear " << m_content.size() << std::endl ;

@@ -34,21 +34,21 @@ namespace lib_gif
         typedef gif_lzw_dictionnary_entry<T> t_dictionnary_entry;
 
         inline
-        const unsigned int & get_clear_code(void) const;
+        const unsigned int & get_clear_code() const;
 
         inline
-        const unsigned int & get_end_information_code(void) const;
+        const unsigned int & get_end_information_code() const;
 
         inline
-        const gif_lzw_dictionnary_entry<T> & get_word(void) const;
+        const gif_lzw_dictionnary_entry<T> & get_word() const;
 
       protected:
 
         inline
-        const unsigned int & get_minimum_code_size(void) const;
+        const unsigned int & get_minimum_code_size() const;
 
         inline
-        gif_lzw_dictionnary<T> & get_dictionnary(void);
+        gif_lzw_dictionnary<T> & get_dictionnary();
 
         inline
         void set_word(const gif_lzw_dictionnary_entry<T> & p_word);
@@ -79,35 +79,35 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
     template<typename T>
-    const unsigned int & gif_lzw_base<T>::get_minimum_code_size(void) const
+    const unsigned int & gif_lzw_base<T>::get_minimum_code_size() const
     {
         return m_minimum_code_size;
     }
 
     //----------------------------------------------------------------------------
     template<typename T>
-    const unsigned int & gif_lzw_base<T>::get_clear_code(void) const
+    const unsigned int & gif_lzw_base<T>::get_clear_code() const
     {
         return m_clear_code;
     }
 
     //----------------------------------------------------------------------------
     template<typename T>
-    const unsigned int & gif_lzw_base<T>::get_end_information_code(void) const
+    const unsigned int & gif_lzw_base<T>::get_end_information_code() const
     {
         return m_end_information_code;
     }
 
     //----------------------------------------------------------------------------
     template<typename T>
-    const gif_lzw_dictionnary_entry<T> & gif_lzw_base<T>::get_word(void) const
+    const gif_lzw_dictionnary_entry<T> & gif_lzw_base<T>::get_word() const
     {
         return m_word;
     }
 
     //----------------------------------------------------------------------------
     template<typename T>
-    gif_lzw_dictionnary<T> & gif_lzw_base<T>::get_dictionnary(void)
+    gif_lzw_dictionnary<T> & gif_lzw_base<T>::get_dictionnary()
     {
         return m_dictionnary;
     }

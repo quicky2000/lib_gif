@@ -37,22 +37,22 @@ namespace lib_gif
         gif_graphic_control_extension(std::ifstream & p_file);
 
         inline
-        const uint16_t & get_delay_time(void) const;
+        const uint16_t & get_delay_time() const;
 
         inline
-        const uint8_t & get_transparent_color_index(void) const;
+        const uint8_t & get_transparent_color_index() const;
 
         inline
-        const unsigned int get_disposal_method(void) const;
+        const unsigned int get_disposal_method() const;
 
         inline
-        bool get_user_input_flag(void) const;
+        bool get_user_input_flag() const;
 
         inline
         void print(std::ostream & p_stream) const;
 
         inline
-        bool get_transparent_color_flag(void) const;
+        bool get_transparent_color_flag() const;
 
         inline
         void set_transparent_color_flag(bool p_flag);
@@ -63,7 +63,7 @@ namespace lib_gif
       private:
 
         inline
-        const unsigned int get_reserved_field(void) const;
+        const unsigned int get_reserved_field() const;
 
         uint8_t m_block_size;
 
@@ -126,7 +126,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------
-    const unsigned int gif_graphic_control_extension::get_reserved_field(void) const
+    const unsigned int gif_graphic_control_extension::get_reserved_field() const
     {
         return (m_packed_fields >> 5 ) & 0x7;
     }
@@ -146,31 +146,31 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_graphic_control_extension::get_delay_time(void) const
+    const uint16_t & gif_graphic_control_extension::get_delay_time() const
     {
         return m_delay_time;
     }
 
     //----------------------------------------------------------------------------
-    const uint8_t & gif_graphic_control_extension::get_transparent_color_index(void) const
+    const uint8_t & gif_graphic_control_extension::get_transparent_color_index() const
     {
         return m_transparent_color_index;
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int gif_graphic_control_extension::get_disposal_method(void) const
+    const unsigned int gif_graphic_control_extension::get_disposal_method() const
     {
         return (m_packed_fields >> 2) & 0x7;
     }
     
     //----------------------------------------------------------------------------
-    bool gif_graphic_control_extension::get_user_input_flag(void) const
+    bool gif_graphic_control_extension::get_user_input_flag() const
     {
         return (m_packed_fields >> 1 ) & 0x1;
     }
 
     //----------------------------------------------------------------------------
-    bool gif_graphic_control_extension::get_transparent_color_flag(void) const
+    bool gif_graphic_control_extension::get_transparent_color_flag() const
     {
         return m_packed_fields & 0x1;
     }

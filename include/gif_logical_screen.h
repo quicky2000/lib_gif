@@ -32,7 +32,7 @@ namespace lib_gif
       public:
 
         inline
-        gif_logical_screen(void);
+        gif_logical_screen();
 
         inline
         gif_logical_screen( const uint16_t & p_width
@@ -46,16 +46,16 @@ namespace lib_gif
         void write(std::ostream & p_stream);
 
         inline
-        const uint16_t & get_width(void) const;
+        const uint16_t & get_width() const;
 
         inline
-        const uint16_t & get_height(void) const;
+        const uint16_t & get_height() const;
 
         inline
-        bool get_global_color_table_flag(void) const;
+        bool get_global_color_table_flag() const;
 
         inline
-        const gif_color_table & get_global_color_table(void) const;
+        const gif_color_table & get_global_color_table() const;
 
         inline
         void set_color_in_global_color_table( const size_t & p_index
@@ -63,10 +63,10 @@ namespace lib_gif
                                             );
 
         inline
-        const uint8_t  & get_background_index(void) const;
+        const uint8_t  & get_background_index() const;
 
         inline
-        ~gif_logical_screen(void);
+        ~gif_logical_screen();
 
       private:
 
@@ -76,7 +76,7 @@ namespace lib_gif
     };
 
     //----------------------------------------------------------------------------
-    gif_logical_screen::gif_logical_screen(void)
+    gif_logical_screen::gif_logical_screen()
     : m_global_color_table(NULL)
     {
     }
@@ -91,19 +91,19 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_logical_screen::~gif_logical_screen(void)
+    gif_logical_screen::~gif_logical_screen()
     {
         delete m_global_color_table;
     }
 
     //----------------------------------------------------------------------------
-    bool gif_logical_screen::get_global_color_table_flag(void) const
+    bool gif_logical_screen::get_global_color_table_flag() const
     {
         return m_descriptor.get_global_color_table_flag();
     }
 
     //----------------------------------------------------------------------------
-    const gif_color_table & gif_logical_screen::get_global_color_table(void) const
+    const gif_color_table & gif_logical_screen::get_global_color_table() const
     {
         if(m_global_color_table) return *m_global_color_table;
         throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
@@ -119,19 +119,19 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_logical_screen::get_width(void) const
+    const uint16_t & gif_logical_screen::get_width() const
     {
         return m_descriptor.get_width();
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif_logical_screen::get_height(void) const
+    const uint16_t & gif_logical_screen::get_height() const
     {
         return m_descriptor.get_height();
     }
 
     //----------------------------------------------------------------------------
-    const uint8_t  & gif_logical_screen::get_background_index(void) const
+    const uint8_t  & gif_logical_screen::get_background_index() const
     {
         return m_descriptor.get_background_index();
     }

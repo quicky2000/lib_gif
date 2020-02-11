@@ -24,25 +24,25 @@ namespace lib_gif
       public:
 
         virtual
-        const uint16_t & get_image_left_position(void) const = 0;
+        const uint16_t & get_image_left_position() const = 0;
 
         virtual
-        const uint16_t & get_image_top_position(void) const = 0;
+        const uint16_t & get_image_top_position() const = 0;
 
         virtual
-        const uint16_t & get_image_width(void) const = 0;
+        const uint16_t & get_image_width() const = 0;
 
         virtual
-        const uint16_t & get_image_height(void) const = 0;
+        const uint16_t & get_image_height() const = 0;
 
         virtual inline
-        ~gif_graphic_rendering_block(void){}
+        ~gif_graphic_rendering_block(){}
 
         virtual
         void print(std::ostream & p_stream) const = 0;
 
         virtual inline
-        bool is_image(void) const
+        bool is_image() const
         {
             return false;
         }

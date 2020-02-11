@@ -35,10 +35,10 @@ namespace lib_gif
         gif_color_table(const unsigned int & p_size,std::ifstream & p_file);
 
         inline
-        ~gif_color_table(void);
+        ~gif_color_table();
 
         inline
-        const unsigned int & get_size(void) const;
+        const unsigned int & get_size() const;
 
         inline
         const gif_color & operator[](const size_t & p_index) const;
@@ -59,7 +59,7 @@ namespace lib_gif
     };
 
     //----------------------------------------------------------------------------
-    gif_color_table::~gif_color_table(void)
+    gif_color_table::~gif_color_table()
     {
         delete[] m_colors;
     }
@@ -120,7 +120,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int & gif_color_table::get_size(void)const
+    const unsigned int & gif_color_table::get_size()const
     {
         return m_size;
     }

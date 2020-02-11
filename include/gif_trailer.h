@@ -31,7 +31,7 @@ namespace lib_gif
         void print(std::ostream & p_stream)const;
 
         inline
-        gif_trailer(void);
+        gif_trailer();
 
         inline
         void write(std::ostream & p_stream)const;
@@ -46,7 +46,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_trailer::gif_trailer(void)
+    gif_trailer::gif_trailer()
     : gif_data_block(gif_data_block::t_gif_data_block_type::TRAILER)
     {
     }

@@ -36,7 +36,7 @@ namespace lib_gif
         gif_data_sub_block(const unsigned int & p_size);
 
         inline
-        const unsigned int get_size(void)const;
+        const unsigned int get_size()const;
 
         inline
         const uint8_t & get_data(const unsigned int & p_index)const;
@@ -48,7 +48,7 @@ namespace lib_gif
         void copy(uint8_t * p_dest)const;
 
         inline
-        ~gif_data_sub_block(void);
+        ~gif_data_sub_block();
 
         inline
         void write(std::ostream & p_stream)const;
@@ -115,7 +115,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int gif_data_sub_block::gif_data_sub_block::get_size(void) const
+    const unsigned int gif_data_sub_block::gif_data_sub_block::get_size() const
     {
         return m_size;
     }
@@ -151,7 +151,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_data_sub_block::~gif_data_sub_block(void)
+    gif_data_sub_block::~gif_data_sub_block()
     {
         delete[] m_data;
     }

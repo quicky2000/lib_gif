@@ -41,19 +41,19 @@ namespace lib_gif
            , const unsigned  int & p_height
            );
 
-        ~gif(void);
+        ~gif();
 
         inline
-        const uint16_t & get_width(void) const;
+        const uint16_t & get_width() const;
 
         inline
-        const uint16_t & get_height(void) const;
+        const uint16_t & get_height() const;
 
         inline
-        bool get_global_color_table_flag(void) const;
+        bool get_global_color_table_flag() const;
 
         inline
-        const gif_color_table & get_global_color_table(void) const;
+        const gif_color_table & get_global_color_table() const;
 
         inline
         void set_color_in_global_color_table( const size_t & p_index
@@ -61,13 +61,13 @@ namespace lib_gif
                                             );
 
         inline
-        unsigned int get_nb_data_block(void) const;
+        unsigned int get_nb_data_block() const;
 
         inline
         const gif_data_block & get_data_block(const unsigned int & p_index) const;
 
         inline
-        const uint8_t  & get_background_index(void) const;
+        const uint8_t  & get_background_index() const;
 
         void write(std::ostream & p_stream);
 
@@ -97,25 +97,25 @@ namespace lib_gif
                              );
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif::get_width(void) const
+    const uint16_t & gif::get_width() const
     {
         return m_logical_screen.get_width();
     }
 
     //----------------------------------------------------------------------------
-    const uint16_t & gif::get_height(void) const
+    const uint16_t & gif::get_height() const
     {
         return m_logical_screen.get_height();
     }
 
     //----------------------------------------------------------------------------
-    bool gif::get_global_color_table_flag(void) const
+    bool gif::get_global_color_table_flag() const
     {
         return m_logical_screen.get_global_color_table_flag();
     }
 
     //----------------------------------------------------------------------------
-    const gif_color_table & gif::get_global_color_table(void) const
+    const gif_color_table & gif::get_global_color_table() const
     {
         return m_logical_screen.get_global_color_table();
     }
@@ -129,13 +129,13 @@ namespace lib_gif
     }
   
     //----------------------------------------------------------------------------
-    const uint8_t  & gif::get_background_index(void) const
+    const uint8_t  & gif::get_background_index() const
     {
         return m_logical_screen.get_background_index();
     }
   
     //----------------------------------------------------------------------------
-    unsigned int gif::get_nb_data_block(void) const
+    unsigned int gif::get_nb_data_block() const
     {
         return m_data_blocks.size();
     }

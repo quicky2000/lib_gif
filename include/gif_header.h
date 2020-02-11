@@ -31,22 +31,22 @@ namespace lib_gif
       public:
 
         inline
-        gif_header(void);
+        gif_header();
 
         inline
         void set_signature(const std::string & p_signature);
 
         inline
-        const std::string get_signature(void) const;
+        const std::string get_signature() const;
 
         inline
         void set_version(const std::string & p_version);
 
         inline
-        const std::string get_version(void) const;
+        const std::string get_version() const;
 
         static inline
-        unsigned int get_size(void);
+        unsigned int get_size();
 
         inline void
         write(std::ostream & p_stream);
@@ -73,7 +73,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_header::gif_header(void)
+    gif_header::gif_header()
     : m_signature{'G','I','F'}
     , m_version{'8','9','a'}
     {
@@ -92,7 +92,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_header::get_version(void) const
+    const std::string gif_header::get_version() const
      {
         return std::string((char*)m_version,3);
      }
@@ -108,13 +108,13 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_header::get_signature(void) const
+    const std::string gif_header::get_signature() const
      {
         return std::string((char*)m_signature,3);
      }
  
     //----------------------------------------------------------------------------
-    unsigned int gif_header::get_size(void)
+    unsigned int gif_header::get_size()
     {
         return 6;
     }

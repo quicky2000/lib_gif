@@ -31,7 +31,7 @@ namespace lib_gif
       public:
 
         inline
-        gif_application_extension(void);
+        gif_application_extension();
 
         inline
         gif_application_extension(const unsigned int & p_loop_counter);
@@ -40,13 +40,13 @@ namespace lib_gif
         gif_application_extension(std::ifstream & p_file);
 
         inline
-        bool is_supported(void) const;
+        bool is_supported() const;
 
         inline
         void print(std::ostream & p_stream) const;
 
         inline
-        const unsigned int & get_loop_counter(void) const;
+        const unsigned int & get_loop_counter() const;
 
         inline void write_extension(std::ostream & p_stream) const;
 
@@ -64,13 +64,13 @@ namespace lib_gif
     };
 
     //----------------------------------------------------------------------------
-    bool gif_application_extension::is_supported(void) const
+    bool gif_application_extension::is_supported() const
     {
         return m_supported;
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int & gif_application_extension::get_loop_counter(void) const
+    const unsigned int & gif_application_extension::get_loop_counter() const
     {
         return m_loop_counter;
     }
@@ -164,7 +164,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_application_extension::gif_application_extension(void)
+    gif_application_extension::gif_application_extension()
     : gif_application_extension(0)
     {
     }
