@@ -186,7 +186,7 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     bool gif_logical_screen_descriptor::get_global_color_table_flag() const
     {
-        return m_packed_fields & 0x80;
+        return m_packed_fields & 0x80u;
     }
 
     //----------------------------------------------------------------------------
@@ -194,48 +194,48 @@ namespace lib_gif
     {
         if(p_flag)
         {
-            m_packed_fields |= 0x80;
+            m_packed_fields |= 0x80u;
         }
         else
         {
-            m_packed_fields &= ~(0x80);
+            m_packed_fields &= ~(0x80u);
         }
     }
 
     //----------------------------------------------------------------------------
     unsigned int gif_logical_screen_descriptor::get_decoded_global_color_resolution() const
     {
-        return 1 + ((m_packed_fields & 0x70) >> 4);
+        return 1 + ((((unsigned int)m_packed_fields) & 0x70u) >> 4u);
     }
 
     //----------------------------------------------------------------------------
     bool gif_logical_screen_descriptor::get_sort_flag() const
     {
-        return m_packed_fields & 0x8;
+        return m_packed_fields & 0x8u;
     }
 
     //----------------------------------------------------------------------------
     unsigned int gif_logical_screen_descriptor::get_decoded_size_of_global_color_table() const
     {
-        return get_global_color_table_flag() ? 2 << get_size_of_global_color_table() : 0;
+        return get_global_color_table_flag() ? 2u << get_size_of_global_color_table() : 0;
     }
 
     //----------------------------------------------------------------------------
     unsigned int gif_logical_screen_descriptor::get_global_color_resolution() const
     {
-        return (m_packed_fields & 0x70) >> 4;
+        return (((unsigned int)m_packed_fields) & 0x70u) >> 4u;
     }
 
     //----------------------------------------------------------------------------
     unsigned int gif_logical_screen_descriptor::get_size_of_global_color_table() const
     {
-        return m_packed_fields & 0x7;
+        return m_packed_fields & 0x7u;
     }
 
     //----------------------------------------------------------------------------
     void gif_logical_screen_descriptor::set_size_of_global_color_table(const unsigned int & p_size)
     {
-        uint8_t l_size = p_size & 0x7;
+        uint8_t l_size = p_size & 0x7u;
         assert(((unsigned int)l_size) == p_size);
         m_packed_fields |= l_size;
     }

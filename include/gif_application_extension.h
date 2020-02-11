@@ -86,8 +86,8 @@ namespace lib_gif
         p_stream.write((char*)m_authentication_code, 3 * sizeof(uint8_t));
         gif_data_sub_block l_block(3);
         l_block.set_data(0,0x1);
-        l_block.set_data(1,m_loop_counter & 0xFF);
-        l_block.set_data(2,m_loop_counter >> 8);
+        l_block.set_data(1,m_loop_counter & 0xFFu);
+        l_block.set_data(2,m_loop_counter >> 8u);
         l_block.write(p_stream);
     }
 
@@ -155,7 +155,7 @@ namespace lib_gif
     , m_loop_counter(p_loop_counter)
     , m_supported(true)
     {
-        if(p_loop_counter & 0xFFFF)
+        if(p_loop_counter & 0xFFFFu)
         {
             std::stringstream l_stream;
             l_stream << p_loop_counter;

@@ -128,7 +128,7 @@ namespace lib_gif
     //----------------------------------------------------------------
     const unsigned int gif_graphic_control_extension::get_reserved_field() const
     {
-        return (m_packed_fields >> 5 ) & 0x7;
+        return (((unsigned int)m_packed_fields) >> 5u ) & 0x7u;
     }
     
     //----------------------------------------------------------------
@@ -160,19 +160,19 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     const unsigned int gif_graphic_control_extension::get_disposal_method() const
     {
-        return (m_packed_fields >> 2) & 0x7;
+        return (((unsigned int)m_packed_fields) >> 2u) & 0x7u;
     }
     
     //----------------------------------------------------------------------------
     bool gif_graphic_control_extension::get_user_input_flag() const
     {
-        return (m_packed_fields >> 1 ) & 0x1;
+        return (((unsigned int)m_packed_fields) >> 1u ) & 0x1u;
     }
 
     //----------------------------------------------------------------------------
     bool gif_graphic_control_extension::get_transparent_color_flag() const
     {
-        return m_packed_fields & 0x1;
+        return m_packed_fields & 0x1u;
     }
 
     //----------------------------------------------------------------------------

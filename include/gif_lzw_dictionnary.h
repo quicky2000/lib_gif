@@ -160,7 +160,7 @@ namespace lib_gif
         m_content2index.insert(typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::value_type(p_entry,m_content.size()));
         m_content.push_back(new gif_lzw_dictionnary_entry<T>(p_entry));
 
-        if(p_current_code_size < 11 && (unsigned int)((2 << p_current_code_size )) == m_content.size())
+        if(p_current_code_size < 11 && (unsigned int)((2u << p_current_code_size )) == m_content.size())
         {
             ++p_current_code_size;
         }

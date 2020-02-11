@@ -204,7 +204,7 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     void gif_image_descriptor::check()
     {
-        uint8_t l_reserved_bits = (m_packed_fields >> 3 ) & 0x3;
+        uint8_t l_reserved_bits = (((unsigned int)m_packed_fields) >> 3u ) & 0x3u;
         if(l_reserved_bits)
         {
             std::stringstream l_stream;
@@ -216,7 +216,7 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     bool gif_image_descriptor::get_local_color_table_flag() const
     {
-        return m_packed_fields & 0x80;
+        return m_packed_fields & 0x80u;
     }
 
     //----------------------------------------------------------------------------
@@ -224,18 +224,18 @@ namespace lib_gif
     {
         if(p_flag)
         {
-            m_packed_fields |= 0x80;
+            m_packed_fields |= 0x80u;
         }
         else
         {
-            m_packed_fields &= ~(0x80);
+            m_packed_fields &= ~(0x80u);
         }
     }
 
     //----------------------------------------------------------------------------
     bool gif_image_descriptor::get_interlace_flag() const
     {
-        return m_packed_fields & 0x40;
+        return m_packed_fields & 0x40u;
     }
 
     //----------------------------------------------------------------------------
@@ -243,18 +243,18 @@ namespace lib_gif
     {
         if(p_flag)
         {
-            m_packed_fields |= 0x40;
+            m_packed_fields |= 0x40u;
         }
         else
         {
-            m_packed_fields &= ~(0x40);
+            m_packed_fields &= ~(0x40u);
         }
     }
 
     //----------------------------------------------------------------------------
     bool gif_image_descriptor::get_sort_flag() const
     {
-        return m_packed_fields & 0x20;
+        return m_packed_fields & 0x20u;
     }
   
     //----------------------------------------------------------------------------
@@ -262,18 +262,18 @@ namespace lib_gif
     {
         if(p_flag)
         {
-            m_packed_fields |= 0x20;
+            m_packed_fields |= 0x20u;
         }
         else
         {
-            m_packed_fields &= ~(0x20);
+            m_packed_fields &= ~(0x20u);
         }
     }
 
     //----------------------------------------------------------------------------
     unsigned int gif_image_descriptor::get_size_of_local_color_table() const
     {
-        return m_packed_fields & 0x7;
+        return m_packed_fields & 0x7u;
     }
 
     //----------------------------------------------------------------------------
@@ -285,14 +285,14 @@ namespace lib_gif
             l_size_stream << p_size;
             throw quicky_exception::quicky_logic_exception("Coded local table size is greater than 7 : " + l_size_stream.str(),__LINE__,__FILE__);
         }
-        m_packed_fields &= ~(0x7);
+        m_packed_fields &= ~(0x7u);
         m_packed_fields |= p_size;
     }
 
     //----------------------------------------------------------------------------
     unsigned int gif_image_descriptor::get_decoded_size_of_local_color_table() const
     {
-        return get_local_color_table_flag() ? 2 << get_size_of_local_color_table() : 0;
+        return get_local_color_table_flag() ? 2u << get_size_of_local_color_table() : 0;
     }
 
     //----------------------------------------------------------------------------
@@ -309,7 +309,7 @@ namespace lib_gif
 
         while(l_size > 2)
         {
-            l_size = l_size >> 1;
+            l_size = l_size >> 1u;
             ++l_coded_size;
         }
         set_size_of_local_color_table(l_coded_size);
