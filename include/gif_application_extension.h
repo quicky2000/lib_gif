@@ -94,6 +94,9 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     gif_application_extension::gif_application_extension(std::ifstream & p_file)
     : gif_extension_block(t_gif_data_block_type::APPLICATION_EXTENSION)
+    , m_block_size(0)
+    , m_identifier("")
+    , m_authentication_code("")
     , m_loop_counter(0)
     , m_supported(false)
     {

@@ -116,6 +116,15 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     gif_plain_text_extension::gif_plain_text_extension(std::ifstream & p_file)
     : gif_extension_block(t_gif_data_block_type::PLAIN_TEXT_EXTENSION)
+    , m_block_size(0)
+    , m_grid_left_position(0)
+    , m_grid_top_position(0)
+    , m_grid_width(0)
+    , m_grid_height(0)
+    , m_character_cell_width(0)
+    , m_character_cell_height(0)
+    , m_foreground_color_index(0)
+    , m_background_color_index(0)
     {
 #ifdef DEBUG_GIF_PLAIN_TEXT_EXTENSION
         std::cout << "----------------------------" << std::endl ;

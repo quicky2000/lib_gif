@@ -86,12 +86,13 @@ namespace lib_gif
     , m_packed_fields(p_transparent_color ? 0x1 : 0x0)
     , m_delay_time(p_delay_time_ms / 10)
     , m_transparent_color_index(p_transparent_color_index)
+    , m_block_terminator(0)
     {
     }
 
     //----------------------------------------------------------------------------
     gif_graphic_control_extension::gif_graphic_control_extension(std::ifstream & p_file)
-    : gif_extension_block(t_gif_data_block_type::GRAPHICAL_CONTROL_EXTENSION)
+    : gif_graphic_control_extension(0, false, 0)
     {
         p_file.read((char*)&m_block_size,6);
         if(4 != m_block_size)
