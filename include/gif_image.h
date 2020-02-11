@@ -242,7 +242,7 @@ namespace lib_gif
         p_file.read((char*) &m_lzw_minimum_code_size,sizeof(uint8_t));
         uint8_t * l_compressed_data = NULL;
         size_t l_compressed_data_size = 0;
-        bool l_continu = false;
+        bool l_continu;
         unsigned int l_nb_block = 0;
         do
         {

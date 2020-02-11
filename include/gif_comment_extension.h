@@ -84,7 +84,7 @@ namespace lib_gif
     gif_comment_extension::gif_comment_extension(std::ifstream & p_file)
     : gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)
     {
-        bool l_continu = true;
+        bool l_continu;
         do
         {
             gif_data_sub_block l_data_sub_block(p_file);
