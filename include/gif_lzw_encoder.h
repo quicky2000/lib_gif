@@ -29,7 +29,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_lzw_encoder(const unsigned int & p_minimum_code_size);
 
         inline
@@ -79,7 +79,7 @@ namespace lib_gif
 #ifdef DEBUG_GIF_LZW_ENCODER
             std::cout << "Proposed coded value " << p_coded_value << "\t" << p_current_code_size << "\t" << l_word_Code_size<< std::endl ;
 #endif //DEBUG_GIF_LZW_ENCODER
-            gif_lzw_base<T>::set_word(p_value_to_code);
+            gif_lzw_base<T>::set_word(gif_lzw_dictionnary_entry<T>(p_value_to_code));
             l_result = true;
         }
         if(4097 == gif_lzw_base<T>::get_dictionnary().get_nb_entry())

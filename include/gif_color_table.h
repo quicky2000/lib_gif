@@ -28,7 +28,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_color_table(const unsigned int & p_size);
 
         inline

@@ -29,13 +29,13 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_comment_extension(const std::string & p_comment);
 
         inline
         void print(std::ostream & p_stream)const override;
 
-        inline
+        explicit inline
         gif_comment_extension(std::ifstream & p_file);
 
         inline

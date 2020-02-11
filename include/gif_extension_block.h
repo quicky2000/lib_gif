@@ -34,7 +34,7 @@ namespace lib_gif
         }
         t_gif_extension_block_key;
 
-        inline
+        explicit inline
         gif_extension_block(const t_gif_data_block_type & p_type);
 
         static inline

@@ -35,6 +35,7 @@ namespace lib_gif
 
       public:
 
+        explicit
         gif(std::ifstream & p_file);
 
         gif( const unsigned int & p_width

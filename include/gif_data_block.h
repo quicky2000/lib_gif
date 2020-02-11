@@ -70,7 +70,7 @@ namespace lib_gif
 
       protected:
 
-        inline
+        explicit inline
         gif_data_block(const t_gif_data_block_type & p_type);
 
       private:

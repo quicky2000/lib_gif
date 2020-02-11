@@ -33,7 +33,7 @@ namespace lib_gif
                                      , const unsigned int & p_transparent_color_index = 0
                                      );
 
-        inline
+        explicit inline
         gif_graphic_control_extension(std::ifstream & p_file);
 
         inline

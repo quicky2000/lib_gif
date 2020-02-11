@@ -29,10 +29,10 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_data_sub_block(std::ifstream & p_file);
 
-        inline
+        explicit inline
         gif_data_sub_block(const unsigned int & p_size);
 
         inline

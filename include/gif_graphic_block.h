@@ -37,7 +37,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_graphic_block(gif_image & p_gif_image);
 
         inline

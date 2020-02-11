@@ -30,7 +30,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_lzw_dictionnary(const unsigned int & p_size);
 
         inline

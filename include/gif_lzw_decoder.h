@@ -29,7 +29,7 @@ namespace lib_gif
 
       public:
 
-      inline
+      explicit inline
       gif_lzw_decoder(const unsigned int & p_minimum_code_size);
 
       inline

@@ -28,7 +28,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_lzw_dictionnary_entry(const T & p_char);
 
         inline

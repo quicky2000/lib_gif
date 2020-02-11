@@ -33,10 +33,10 @@ namespace lib_gif
         inline
         gif_application_extension();
 
-        inline
+        explicit inline
         gif_application_extension(const unsigned int & p_loop_counter);
 
-        inline
+        explicit inline
         gif_application_extension(std::ifstream & p_file);
 
         inline

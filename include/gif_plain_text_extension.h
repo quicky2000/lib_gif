@@ -27,7 +27,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_plain_text_extension(std::ifstream & p_file);
 
         inline

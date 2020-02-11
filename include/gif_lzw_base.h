@@ -28,7 +28,7 @@ namespace lib_gif
 
       public:
 
-        inline
+        explicit inline
         gif_lzw_base(const unsigned int & p_minimum_code_size);
 
         typedef gif_lzw_dictionnary_entry<T> t_dictionnary_entry;

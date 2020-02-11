@@ -47,7 +47,7 @@ namespace lib_gif
                  , const uint16_t & p_image_top_position
                  );
 
-        inline
+        explicit inline
         gif_image(std::ifstream & p_file);
 
         inline
