@@ -152,7 +152,7 @@ namespace lib_gif
     {
         if(this->is_image())
         {
-            return * static_cast<gif_image*>(m_graphic_rendering_block);
+            return *dynamic_cast<gif_image*>(m_graphic_rendering_block);
         }
         throw quicky_exception::quicky_logic_exception("Try to access to graphic_rendernign block as an image wheras it is not",__LINE__,__FILE__);
     }
