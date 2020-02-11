@@ -25,118 +25,155 @@
 namespace lib_gif
 {
 
-  class gif_logical_screen
-  {
-    friend std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen & p_screen);
-  public:
-    inline gif_logical_screen(void);
-    inline gif_logical_screen(const uint16_t & p_width,
-			      const uint16_t & p_height);
-    inline void read(std::ifstream & p_file);
-    inline void write(std::ostream & p_stream);
-    inline const uint16_t & get_width(void)const;
-    inline const uint16_t & get_height(void)const;
-    inline bool get_global_color_table_flag(void)const;
-    inline const gif_color_table & get_global_color_table(void)const;
-    inline void set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color);
-    inline const uint8_t  & get_background_index(void)const;
-    inline ~gif_logical_screen(void);
-  private:
-    gif_logical_screen_descriptor m_descriptor;
-    gif_color_table  *m_global_color_table;
-  };
+    class gif_logical_screen
+    {
+        friend std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen & p_screen);
 
-  //----------------------------------------------------------------------------
-  gif_logical_screen::gif_logical_screen(void):
-    m_global_color_table(NULL)
+      public:
+
+        inline
+        gif_logical_screen(void);
+
+        inline
+        gif_logical_screen( const uint16_t & p_width
+                          , const uint16_t & p_height
+                          );
+
+        inline
+        void read(std::ifstream & p_file);
+
+        inline
+        void write(std::ostream & p_stream);
+
+        inline
+        const uint16_t & get_width(void) const;
+
+        inline
+        const uint16_t & get_height(void) const;
+
+        inline
+        bool get_global_color_table_flag(void) const;
+
+        inline
+        const gif_color_table & get_global_color_table(void) const;
+
+        inline
+        void set_color_in_global_color_table( const size_t & p_index
+                                            , const gif_color & p_color
+                                            );
+
+        inline
+        const uint8_t  & get_background_index(void) const;
+
+        inline
+        ~gif_logical_screen(void);
+
+      private:
+
+        gif_logical_screen_descriptor m_descriptor;
+
+        gif_color_table  *m_global_color_table;
+    };
+
+    //----------------------------------------------------------------------------
+    gif_logical_screen::gif_logical_screen(void)
+    : m_global_color_table(NULL)
     {
     }
 
-  //----------------------------------------------------------------------------
-  gif_logical_screen::gif_logical_screen(const uint16_t & p_width,
-					 const uint16_t & p_height):
-    m_descriptor(p_width,p_height),
-    m_global_color_table(m_descriptor.get_global_color_table_flag() ? new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table()) : nullptr)
+    //----------------------------------------------------------------------------
+    gif_logical_screen::gif_logical_screen( const uint16_t & p_width
+                                          , const uint16_t & p_height
+                                          )
+    : m_descriptor(p_width, p_height)
+    , m_global_color_table(m_descriptor.get_global_color_table_flag() ? new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table()) : nullptr)
     {
     }
 
-  //----------------------------------------------------------------------------
-  gif_logical_screen::~gif_logical_screen(void)
+    //----------------------------------------------------------------------------
+    gif_logical_screen::~gif_logical_screen(void)
     {
-      delete m_global_color_table;
+        delete m_global_color_table;
     }
 
-  //----------------------------------------------------------------------------
-    bool gif_logical_screen::get_global_color_table_flag(void)const
+    //----------------------------------------------------------------------------
+    bool gif_logical_screen::get_global_color_table_flag(void) const
     {
-      return m_descriptor.get_global_color_table_flag();
+        return m_descriptor.get_global_color_table_flag();
     }
 
-  //----------------------------------------------------------------------------
-  const gif_color_table & gif_logical_screen::get_global_color_table(void)const
-  {
-    if(m_global_color_table) return *m_global_color_table;
-    throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
-  }
-
-  //----------------------------------------------------------------------------
-  void gif_logical_screen::set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color)
-  {
-    if(m_global_color_table) return m_global_color_table->set_color(p_index,p_color);
-    throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
-  }
-
-  //----------------------------------------------------------------------------
-  const uint16_t & gif_logical_screen::get_width(void)const
+    //----------------------------------------------------------------------------
+    const gif_color_table & gif_logical_screen::get_global_color_table(void) const
     {
-      return m_descriptor.get_width();
+        if(m_global_color_table) return *m_global_color_table;
+        throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
     }
 
-  //----------------------------------------------------------------------------
-  const uint16_t & gif_logical_screen::get_height(void)const
+    //----------------------------------------------------------------------------
+    void gif_logical_screen::set_color_in_global_color_table( const size_t & p_index
+                                                            , const gif_color & p_color
+                                                            )
     {
-      return m_descriptor.get_height();
+        if(m_global_color_table) return m_global_color_table->set_color(p_index,p_color);
+        throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
     }
-  //----------------------------------------------------------------------------
-  const uint8_t  & gif_logical_screen::get_background_index(void)const
+
+    //----------------------------------------------------------------------------
+    const uint16_t & gif_logical_screen::get_width(void) const
     {
-      return m_descriptor.get_background_index();
+        return m_descriptor.get_width();
+    }
+
+    //----------------------------------------------------------------------------
+    const uint16_t & gif_logical_screen::get_height(void) const
+    {
+        return m_descriptor.get_height();
+    }
+
+    //----------------------------------------------------------------------------
+    const uint8_t  & gif_logical_screen::get_background_index(void) const
+    {
+        return m_descriptor.get_background_index();
     }
   
-  //----------------------------------------------------------------------------
-  void gif_logical_screen::write(std::ostream & p_stream)
-  {
-    p_stream.write((char*) & m_descriptor, m_descriptor.get_size());
-
-    if(m_descriptor.get_global_color_table_flag())
-      {
-	m_global_color_table->write(p_stream);
-      }
-  }
-
-  //----------------------------------------------------------------------------
-  void gif_logical_screen::read(std::ifstream & p_file)
-  {
-    p_file.read((char*) & m_descriptor,m_descriptor.get_size());   
-
-    if(m_descriptor.get_global_color_table_flag())
-      {
-	m_global_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table(),p_file);
-      }
-  }
-  //----------------------------------------------------------------------------
-  inline std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen & p_screen)
+    //----------------------------------------------------------------------------
+    void gif_logical_screen::write(std::ostream & p_stream)
     {
-      p_stream << "----------------------------" << std::endl ;
-      p_stream << "GIF Logical screen :" << std::endl ;
-      p_stream << "----------------------------" << std::endl ;
-      p_stream << p_screen.m_descriptor;
-      if(p_screen.m_descriptor.get_global_color_table_flag())
+        p_stream.write((char*) & m_descriptor, m_descriptor.get_size());
+
+        if(m_descriptor.get_global_color_table_flag())
         {
-          assert(p_screen.m_global_color_table);
-          p_stream << p_screen.get_global_color_table();
+            m_global_color_table->write(p_stream);
         }
-      return p_stream;
+    }
+
+    //----------------------------------------------------------------------------
+    void gif_logical_screen::read(std::ifstream & p_file)
+    {
+        p_file.read((char*) & m_descriptor,m_descriptor.get_size());
+
+        if(m_descriptor.get_global_color_table_flag())
+        {
+            m_global_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table(),p_file);
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    inline
+    std::ostream & operator<<( std::ostream & p_stream
+                             , const gif_logical_screen & p_screen
+                             )
+    {
+        p_stream << "----------------------------" << std::endl ;
+        p_stream << "GIF Logical screen :" << std::endl ;
+        p_stream << "----------------------------" << std::endl ;
+        p_stream << p_screen.m_descriptor;
+        if(p_screen.m_descriptor.get_global_color_table_flag())
+        {
+            assert(p_screen.m_global_color_table);
+            p_stream << p_screen.get_global_color_table();
+        }
+        return p_stream;
     }
 
 }

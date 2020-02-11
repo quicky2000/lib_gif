@@ -24,42 +24,45 @@
 
 namespace lib_gif
 {
-  class gif_extension_block_factory
-  {
-  public:
-    static inline gif_extension_block & extract_block(std::ifstream & p_file);
-  private:
-  };
-
-  //----------------------------------------------------------------------------
-  gif_extension_block & gif_extension_block_factory::extract_block(std::ifstream & p_file)
+    class gif_extension_block_factory
     {
-      gif_extension_block * l_result = NULL;
-      gif_extension_block::t_gif_extension_block_key l_block_type_identifier;
-      p_file.read((char*)&l_block_type_identifier,sizeof(gif_extension_block::t_gif_extension_block_key));
+
+      public:
+
+        static inline
+        gif_extension_block & extract_block(std::ifstream & p_file);
+
+      private:
+    };
+
+    //----------------------------------------------------------------------------
+    gif_extension_block & gif_extension_block_factory::extract_block(std::ifstream & p_file)
+    {
+        gif_extension_block * l_result = NULL;
+        gif_extension_block::t_gif_extension_block_key l_block_type_identifier;
+        p_file.read((char*)&l_block_type_identifier,sizeof(gif_extension_block::t_gif_extension_block_key));
 #ifdef DEBUG_GIF_EXTENSION_BLOCK_FACTORY
-      std::cout << "Extension Block key : 0x" << std::hex << (unsigned int) l_block_type_identifier << std::dec << std::endl ;
+        std::cout << "Extension Block key : 0x" << std::hex << (unsigned int) l_block_type_identifier << std::dec << std::endl ;
 #endif // DEBUG_GIF_EXTENSION_BLOCK_FACTORY
-      switch(l_block_type_identifier)
+        switch(l_block_type_identifier)
         {
-        case gif_extension_block::t_gif_extension_block_key::PLAIN_TEXT_EXTENSION:
-          l_result = new gif_plain_text_extension(p_file);
-          break;
-	case gif_extension_block::t_gif_extension_block_key::GRAPHIC_CONTROL_EXTENSION :
-	  l_result = new gif_graphic_control_extension(p_file);
-	  break;
-	case gif_extension_block::t_gif_extension_block_key::COMMENT_EXTENSION :
-	  l_result = new gif_comment_extension(p_file);
-	  break;
-	case gif_extension_block::t_gif_extension_block_key::APPLICATION_EXTENSION :
-	  l_result = new gif_application_extension(p_file);
-	  break;
-	default:
-          throw quicky_exception::quicky_logic_exception("Unsupportedextension  block key identifier "+gif_extension_block::key_to_string(l_block_type_identifier),__LINE__,__FILE__);
+            case gif_extension_block::t_gif_extension_block_key::PLAIN_TEXT_EXTENSION:
+                l_result = new gif_plain_text_extension(p_file);
+                break;
+            case gif_extension_block::t_gif_extension_block_key::GRAPHIC_CONTROL_EXTENSION :
+                l_result = new gif_graphic_control_extension(p_file);
+                break;
+            case gif_extension_block::t_gif_extension_block_key::COMMENT_EXTENSION :
+                l_result = new gif_comment_extension(p_file);
+                break;
+            case gif_extension_block::t_gif_extension_block_key::APPLICATION_EXTENSION :
+                l_result = new gif_application_extension(p_file);
+                break;
+            default:
+                throw quicky_exception::quicky_logic_exception("Unsupportedextension  block key identifier "+gif_extension_block::key_to_string(l_block_type_identifier),__LINE__,__FILE__);
         }
 
-
-      return *l_result;
+        return *l_result;
     }
 }
 

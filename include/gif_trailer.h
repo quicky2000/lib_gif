@@ -22,31 +22,40 @@
 
 namespace lib_gif
 {
-  class gif_trailer: public gif_data_block
-  {
-  public:
-    inline void print(std::ostream & p_stream)const;
-    inline gif_trailer(void);
-    inline void write(std::ostream & p_stream)const;
-  };
+    class gif_trailer: public gif_data_block
+    {
+
+      public:
+
+        inline
+        void print(std::ostream & p_stream)const;
+
+        inline
+        gif_trailer(void);
+
+        inline
+        void write(std::ostream & p_stream)const;
+    };
 
     //----------------------------------------------------------------------------
     void gif_trailer::print(std::ostream & p_stream)const
     {
-      p_stream << "----------------------------" << std::endl ;
-      p_stream << "GIF Trailer :" << std::endl ;
-      p_stream << "----------------------------" << std::endl ;
+        p_stream << "----------------------------" << std::endl ;
+        p_stream << "GIF Trailer :" << std::endl ;
+        p_stream << "----------------------------" << std::endl ;
     }
-  //----------------------------------------------------------------------------
-  gif_trailer::gif_trailer(void):
-    gif_data_block(gif_data_block::t_gif_data_block_type::TRAILER)
-    {
-    }
+
     //----------------------------------------------------------------------------
-    void gif_trailer::write(std::ostream & p_stream)const
+    gif_trailer::gif_trailer(void)
+    : gif_data_block(gif_data_block::t_gif_data_block_type::TRAILER)
     {
-      uint8_t l_trailer = 0x3B;
-      p_stream.write((char*)&l_trailer, sizeof(l_trailer));
+    }
+
+    //----------------------------------------------------------------------------
+    void gif_trailer::write(std::ostream & p_stream) const
+    {
+        uint8_t l_trailer = 0x3B;
+        p_stream.write((char*)&l_trailer, sizeof(l_trailer));
     }
 
 }

@@ -25,85 +25,91 @@
 
 namespace lib_gif
 {
-  //----------------------------------------------------------------------------
-  gif::gif(std::ifstream & p_file)
-  {
-    p_file.read((char*)&m_header,m_header.get_size());
-     m_logical_screen.read(p_file);
-    gif_data_block * l_last_block = nullptr;
-    do
-      {
-        l_last_block = & gif_data_block_factory::extract_block(p_file);
-        m_data_blocks.push_back(l_last_block);
-      } while(gif_data_block::t_gif_data_block_type::TRAILER != l_last_block->get_type());
-  }
-
-  //----------------------------------------------------------------------------
-  gif::gif(const unsigned int & p_width,
-	   const unsigned  int & p_height):
-    m_logical_screen(p_width,p_height)
-  {
-  }
-
-  //----------------------------------------------------------------------------
-  void gif::write(std::ostream & p_stream)
-  {
-    if(!m_data_blocks.size() || gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
-      {
-        m_data_blocks.push_back(new gif_trailer());
-      }
-    m_header.write(p_stream);
-    m_logical_screen.write(p_stream);
-    for(auto l_iter : m_data_blocks)
-      {
-        l_iter->write(p_stream);
-      }
-  }
-  //----------------------------------------------------------------------------
-  gif::~gif(void)
+    //----------------------------------------------------------------------------
+    gif::gif(std::ifstream & p_file)
     {
-      for(auto l_iter: m_data_blocks)
-	{
-	  delete l_iter;
-	}
+        p_file.read((char*)&m_header,m_header.get_size());
+        m_logical_screen.read(p_file);
+        gif_data_block * l_last_block = nullptr;
+        do
+        {
+            l_last_block = & gif_data_block_factory::extract_block(p_file);
+            m_data_blocks.push_back(l_last_block);
+        }
+        while(gif_data_block::t_gif_data_block_type::TRAILER != l_last_block->get_type());
     }
-  //----------------------------------------------------------------------------
-  std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif)
-  {
-    p_stream << p_gif.m_header;
-    p_stream << p_gif.m_logical_screen;
-    for(auto l_iter : p_gif.m_data_blocks)
-      {
-        p_stream << *l_iter;
-      }
-    p_stream << "Number of data blocks : " << p_gif.m_data_blocks.size() << std::endl ;
-    return p_stream;
-  }
 
-  //----------------------------------------------------------------------------
-  void gif::add_image(gif_image & p_image)
-  {
-    m_data_blocks.push_back(new lib_gif::gif_graphic_block(p_image));
-  }
+    //----------------------------------------------------------------------------
+    gif::gif( const unsigned int & p_width
+            , const unsigned  int & p_height
+            )
+    : m_logical_screen(p_width, p_height)
+    {
+    }
 
-  //----------------------------------------------------------------------------
-  void gif::add_comment(const std::string & p_comment)
-  {
-    m_data_blocks.push_back(new lib_gif::gif_comment_extension(p_comment));
-  }
+    //----------------------------------------------------------------------------
+    void gif::write(std::ostream & p_stream)
+    {
+        if(!m_data_blocks.size() || gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
+        {
+            m_data_blocks.push_back(new gif_trailer());
+        }
+        m_header.write(p_stream);
+        m_logical_screen.write(p_stream);
+        for(auto l_iter : m_data_blocks)
+        {
+            l_iter->write(p_stream);
+        }
+    }
 
-  //----------------------------------------------------------------------------
-  void gif::activate_loop(const unsigned int & p_loop_counter)
-  {
-    m_data_blocks.push_back(new lib_gif::gif_application_extension(p_loop_counter));
-  }
+    //----------------------------------------------------------------------------
+    gif::~gif(void)
+    {
+        for(auto l_iter: m_data_blocks)
+        {
+            delete l_iter;
+        }
+    }
 
-  //----------------------------------------------------------------------------
-  void gif::add_graphic_control_extension(const unsigned int & p_delay_time,
-					  bool p_transparent_color,
-					  const unsigned int & p_transparent_color_index)
-  {
-    m_data_blocks.push_back(new lib_gif::gif_graphic_control_extension(p_delay_time,p_transparent_color,p_transparent_color_index));
-  }
+    //----------------------------------------------------------------------------
+    std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif)
+    {
+        p_stream << p_gif.m_header;
+        p_stream << p_gif.m_logical_screen;
+        for(auto l_iter : p_gif.m_data_blocks)
+        {
+            p_stream << *l_iter;
+        }
+        p_stream << "Number of data blocks : " << p_gif.m_data_blocks.size() << std::endl ;
+        return p_stream;
+    }
+
+    //----------------------------------------------------------------------------
+    void gif::add_image(gif_image & p_image)
+    {
+        m_data_blocks.push_back(new lib_gif::gif_graphic_block(p_image));
+    }
+
+    //----------------------------------------------------------------------------
+    void gif::add_comment(const std::string & p_comment)
+    {
+        m_data_blocks.push_back(new lib_gif::gif_comment_extension(p_comment));
+    }
+
+    //----------------------------------------------------------------------------
+    void gif::activate_loop(const unsigned int & p_loop_counter)
+    {
+        m_data_blocks.push_back(new lib_gif::gif_application_extension(p_loop_counter));
+    }
+
+    //----------------------------------------------------------------------------
+    void gif::add_graphic_control_extension( const unsigned int & p_delay_time
+                                           , bool p_transparent_color
+                                           , const unsigned int & p_transparent_color_index
+                                           )
+    {
+        m_data_blocks.push_back(new lib_gif::gif_graphic_control_extension(p_delay_time,p_transparent_color,p_transparent_color_index));
+    }
 
 }
+// EOF

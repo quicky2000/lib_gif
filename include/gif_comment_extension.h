@@ -24,81 +24,93 @@
 
 namespace lib_gif
 {
-  class gif_comment_extension: public gif_extension_block
-  {
-  public:
-    inline gif_comment_extension(const std::string & p_comment);
-    inline void print(std::ostream & p_stream)const;
-    inline gif_comment_extension(std::ifstream & p_file);
-    inline void write_extension(std::ostream & p_stream)const;
-  private:
-    std::string m_comment;
-  };
+    class gif_comment_extension: public gif_extension_block
+    {
 
-  //----------------------------------------------------------------------------
-  gif_comment_extension::gif_comment_extension(const std::string & p_comment):
-  gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION),
-    m_comment(p_comment)
+      public:
+
+        inline
+        gif_comment_extension(const std::string & p_comment);
+
+        inline
+        void print(std::ostream & p_stream)const;
+
+        inline
+        gif_comment_extension(std::ifstream & p_file);
+
+        inline
+        void write_extension(std::ostream & p_stream) const;
+
+      private:
+
+        std::string m_comment;
+    };
+
+    //----------------------------------------------------------------------------
+    gif_comment_extension::gif_comment_extension(const std::string & p_comment)
+    : gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)
+    , m_comment(p_comment)
     {
     }
 
     //----------------------------------------------------------------------------
-    void gif_comment_extension::write_extension(std::ostream & p_stream)const
+    void gif_comment_extension::write_extension(std::ostream & p_stream) const
     {
-      uint8_t l_extension_label = 0xFE;
-      p_stream.write((char*)&l_extension_label, sizeof(l_extension_label));
-      unsigned int l_nb_data_sub_block = m_comment.size() / 255;
-      for(unsigned int l_index = 0 ; l_index < l_nb_data_sub_block ; ++l_index)
+        uint8_t l_extension_label = 0xFE;
+        p_stream.write((char*)&l_extension_label, sizeof(l_extension_label));
+        unsigned int l_nb_data_sub_block = m_comment.size() / 255;
+        for(unsigned int l_index = 0 ; l_index < l_nb_data_sub_block ; ++l_index)
         {
-          gif_data_sub_block l_block(255);
-          for(unsigned int l_index2 = 0 ;l_index2 < 255 ; ++l_index2)
+            gif_data_sub_block l_block(255);
+            for(unsigned int l_index2 = 0 ;l_index2 < 255 ; ++l_index2)
             {
-              l_block.set_data(l_index2,m_comment[255 * l_index + l_index2]);
+                l_block.set_data(l_index2,m_comment[255 * l_index + l_index2]);
             }
-          l_block.write(p_stream);
+            l_block.write(p_stream);
         }
-      unsigned int l_remaining_size = m_comment.size() % 255;
-      if(l_remaining_size)
+        unsigned int l_remaining_size = m_comment.size() % 255;
+        if(l_remaining_size)
         {
-          gif_data_sub_block l_block(l_remaining_size);
-          for(unsigned int l_index = 0 ; l_index < l_remaining_size ; ++l_index)
+            gif_data_sub_block l_block(l_remaining_size);
+            for(unsigned int l_index = 0 ; l_index < l_remaining_size ; ++l_index)
             {
-              l_block.set_data(l_index,m_comment[255 * l_nb_data_sub_block + l_index]);
+                l_block.set_data(l_index,m_comment[255 * l_nb_data_sub_block + l_index]);
             }
-          l_block.write(p_stream);
+            l_block.write(p_stream);
         }
-    }
-
-  //----------------------------------------------------------------------------
-  gif_comment_extension::gif_comment_extension(std::ifstream & p_file):
-    gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)
-    {
-      bool l_continu = true;
-      do
-	{
-	  gif_data_sub_block l_data_sub_block(p_file);
-	  for(unsigned int l_index = 0 ; l_index < l_data_sub_block.get_size() ; ++l_index)
-	    {
-	      m_comment+= l_data_sub_block.get_data(l_index);
-	    }
-	  l_continu = l_data_sub_block.get_size();
-	} while(l_continu);
     }
 
     //----------------------------------------------------------------------------
-    void gif_comment_extension::print(std::ostream & p_stream)const
+    gif_comment_extension::gif_comment_extension(std::ifstream & p_file)
+    : gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)
     {
-      p_stream << "----------------------------" << std::endl ;
-      p_stream << "GIF comment extension :" << std::endl ;
-      p_stream << "----------------------------" << std::endl ;
-      p_stream << "###" << std::endl;
-      std::string l_comment = m_comment;
-      if(m_comment.size() && '\0' != m_comment[m_comment.size()-1])
+        bool l_continu = true;
+        do
         {
-          l_comment += '\0';
+            gif_data_sub_block l_data_sub_block(p_file);
+            for(unsigned int l_index = 0 ; l_index < l_data_sub_block.get_size() ; ++l_index)
+            {
+                m_comment+= l_data_sub_block.get_data(l_index);
+            }
+            l_continu = l_data_sub_block.get_size();
         }
-      p_stream << l_comment << std::endl;
-      p_stream << "###" << std::endl ;
+        while(l_continu);
+    }
+
+    //----------------------------------------------------------------------------
+    void gif_comment_extension::print(std::ostream & p_stream) const
+    {
+        p_stream << "----------------------------" << std::endl ;
+        p_stream << "GIF comment extension :" << std::endl ;
+        p_stream << "----------------------------" << std::endl ;
+        p_stream << "###" << std::endl;
+        std::string l_comment = m_comment;
+        if(m_comment.size() && '\0' != m_comment[m_comment.size()-1])
+        {
+            l_comment += '\0';
+        }
+        p_stream << l_comment << std::endl;
+        p_stream << "###" << std::endl ;
     }
 }
 

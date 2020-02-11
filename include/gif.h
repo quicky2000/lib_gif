@@ -24,94 +24,135 @@
 
 namespace lib_gif
 {
-  class gif_data_block;
-  class gif_image;
+    class gif_data_block;
+    class gif_image;
 
-  class gif
-  {
-    friend std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif);
-  public:
-    gif(std::ifstream & p_file);
-    gif(const unsigned int & p_width,const unsigned  int & p_height);
-    ~gif(void);
-    inline const uint16_t & get_width(void)const;
-    inline const uint16_t & get_height(void)const;
-    inline bool get_global_color_table_flag(void)const;
-    inline const gif_color_table & get_global_color_table(void)const;
-    inline void set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color);
-    inline unsigned int get_nb_data_block(void)const;
-    inline const gif_data_block & get_data_block(const unsigned int & p_index)const;
-    inline const uint8_t  & get_background_index(void)const;
-    void write(std::ostream & p_stream);
-    void add_image(gif_image & p_image);
-    void add_comment(const std::string & p_comment);
-    void activate_loop(const unsigned int & p_loop_counter);
-    void add_graphic_control_extension(const unsigned int & p_delay_time,
-				       bool p_transparent_color,
-				       const unsigned int & p_transparent_color_index=0);
-  private:
-    gif_header m_header;
-    gif_logical_screen m_logical_screen;
-    std::vector<gif_data_block*> m_data_blocks;
-  };
-
-  //----------------------------------------------------------------------------
-  std::ostream & operator<<(std::ostream & p_stream,const gif & p_gif);
-
-  //----------------------------------------------------------------------------
-  const uint16_t & gif::get_width(void)const
+    class gif
     {
-      return m_logical_screen.get_width();
+        friend std::ostream & operator<<( std::ostream & p_stream
+                                        , const gif & p_gif
+                                        );
+
+      public:
+
+        gif(std::ifstream & p_file);
+
+        gif( const unsigned int & p_width
+           , const unsigned  int & p_height
+           );
+
+        ~gif(void);
+
+        inline
+        const uint16_t & get_width(void) const;
+
+        inline
+        const uint16_t & get_height(void) const;
+
+        inline
+        bool get_global_color_table_flag(void) const;
+
+        inline
+        const gif_color_table & get_global_color_table(void) const;
+
+        inline
+        void set_color_in_global_color_table( const size_t & p_index
+                                            , const gif_color & p_color
+                                            );
+
+        inline
+        unsigned int get_nb_data_block(void) const;
+
+        inline
+        const gif_data_block & get_data_block(const unsigned int & p_index) const;
+
+        inline
+        const uint8_t  & get_background_index(void) const;
+
+        void write(std::ostream & p_stream);
+
+        void add_image(gif_image & p_image);
+
+        void add_comment(const std::string & p_comment);
+
+        void activate_loop(const unsigned int & p_loop_counter);
+
+        void add_graphic_control_extension( const unsigned int & p_delay_time
+                                          , bool p_transparent_color
+                                          , const unsigned int & p_transparent_color_index = 0
+                                          );
+
+      private:
+
+        gif_header m_header;
+
+        gif_logical_screen m_logical_screen;
+
+        std::vector<gif_data_block*> m_data_blocks;
+    };
+
+    //----------------------------------------------------------------------------
+    std::ostream & operator<<( std::ostream & p_stream
+                             , const gif & p_gif
+                             );
+
+    //----------------------------------------------------------------------------
+    const uint16_t & gif::get_width(void) const
+    {
+        return m_logical_screen.get_width();
     }
 
-  //----------------------------------------------------------------------------
-  const uint16_t & gif::get_height(void)const
+    //----------------------------------------------------------------------------
+    const uint16_t & gif::get_height(void) const
     {
-      return m_logical_screen.get_height();
-    }
-  //----------------------------------------------------------------------------
-  bool gif::get_global_color_table_flag(void)const
-  {
-    return m_logical_screen.get_global_color_table_flag();
-  }
-  //----------------------------------------------------------------------------
-  const gif_color_table & gif::get_global_color_table(void)const
-    {
-      return m_logical_screen.get_global_color_table();
+        return m_logical_screen.get_height();
     }
 
-  //----------------------------------------------------------------------------
-  void gif::set_color_in_global_color_table(const size_t & p_index, const gif_color & p_color)
-  {
-    m_logical_screen.set_color_in_global_color_table(p_index,p_color);
-  }
+    //----------------------------------------------------------------------------
+    bool gif::get_global_color_table_flag(void) const
+    {
+        return m_logical_screen.get_global_color_table_flag();
+    }
+
+    //----------------------------------------------------------------------------
+    const gif_color_table & gif::get_global_color_table(void) const
+    {
+        return m_logical_screen.get_global_color_table();
+    }
+
+    //----------------------------------------------------------------------------
+    void gif::set_color_in_global_color_table( const size_t & p_index
+                                             , const gif_color & p_color
+                                             )
+    {
+        m_logical_screen.set_color_in_global_color_table(p_index,p_color);
+    }
   
-  //----------------------------------------------------------------------------
-  const uint8_t  & gif::get_background_index(void)const
+    //----------------------------------------------------------------------------
+    const uint8_t  & gif::get_background_index(void) const
     {
-      return m_logical_screen.get_background_index();
+        return m_logical_screen.get_background_index();
     }
   
-  //----------------------------------------------------------------------------
-  unsigned int gif::get_nb_data_block(void)const
-  {
-    return m_data_blocks.size();
-  }
-
-  //----------------------------------------------------------------------------
-  const gif_data_block & gif::get_data_block(const unsigned int & p_index)const
+    //----------------------------------------------------------------------------
+    unsigned int gif::get_nb_data_block(void) const
     {
-      if(p_index < m_data_blocks.size())
-	{
-	  return *(m_data_blocks[p_index]);
-	}
-      std::stringstream l_index_stream;
-      l_index_stream << p_index;
-      std::stringstream l_size_stream;
-      l_index_stream << m_data_blocks.size();
-      throw quicky_exception::quicky_logic_exception("Requested index ("+l_index_stream.str()+") is greater than number of data blocks ("+l_size_stream.str(),__LINE__,__FILE__);
+        return m_data_blocks.size();
     }
 
+    //----------------------------------------------------------------------------
+    const gif_data_block & gif::get_data_block(const unsigned int & p_index) const
+    {
+        if(p_index < m_data_blocks.size())
+        {
+            return *(m_data_blocks[p_index]);
+        }
+        std::stringstream l_index_stream;
+        l_index_stream << p_index;
+        std::stringstream l_size_stream;
+        l_index_stream << m_data_blocks.size();
+        throw quicky_exception::quicky_logic_exception("Requested index ("+l_index_stream.str()+") is greater than number of data blocks ("+l_size_stream.str(),__LINE__,__FILE__);
+    }
 
 }
 

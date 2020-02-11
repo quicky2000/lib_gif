@@ -24,27 +24,47 @@
 
 namespace lib_gif
 {
-  class gif_data_sub_block
-  {
-  public:
-    inline gif_data_sub_block(std::ifstream & p_file);
-    inline gif_data_sub_block(const unsigned int & p_size);
-    inline const unsigned int get_size(void)const;
-    inline const uint8_t & get_data(const unsigned int & p_index)const;
-    inline void set_data(const unsigned int & p_index,const uint8_t & p_data)const;
-    inline void copy(uint8_t * p_dest)const;
-    inline ~gif_data_sub_block(void);
-    inline void write(std::ostream & p_stream)const;
-  private:
-    uint8_t m_size;
-    uint8_t * m_data;
-  };
+    class gif_data_sub_block
+    {
 
-  //----------------------------------------------------------------------------
-  gif_data_sub_block::gif_data_sub_block(std::ifstream & p_file):
-    m_size(0),
-    m_data(nullptr)
-      {
+      public:
+
+        inline
+        gif_data_sub_block(std::ifstream & p_file);
+
+        inline
+        gif_data_sub_block(const unsigned int & p_size);
+
+        inline
+        const unsigned int get_size(void)const;
+
+        inline
+        const uint8_t & get_data(const unsigned int & p_index)const;
+
+        inline
+        void set_data(const unsigned int & p_index,const uint8_t & p_data)const;
+
+        inline
+        void copy(uint8_t * p_dest)const;
+
+        inline
+        ~gif_data_sub_block(void);
+
+        inline
+        void write(std::ostream & p_stream)const;
+
+      private:
+
+        uint8_t m_size;
+
+        uint8_t * m_data;
+    };
+
+    //----------------------------------------------------------------------------
+    gif_data_sub_block::gif_data_sub_block(std::ifstream & p_file)
+    : m_size(0)
+    , m_data(nullptr)
+    {
 #ifdef DEBUG_GIF_SUB_DATA_BLOCK
         std::cout << "----------------------------" << std::endl ;
         std::cout << "GIF Image Data Sub block :" << std::endl ;
@@ -57,14 +77,15 @@ namespace lib_gif
 #endif
         m_data = new uint8_t[m_size];
         if(nullptr == m_data)
-          {
+        {
             throw quicky_exception::quicky_logic_exception("Failed to allocate memory for Image Data Sub Block",__LINE__,__FILE__);
-          }
+        }
         p_file.read((char*)m_data,m_size);
 
-      }
+    }
+
     //----------------------------------------------------------------------------
-    void gif_data_sub_block::write(std::ostream & p_stream)const
+    void gif_data_sub_block::write(std::ostream & p_stream) const
     {
 #ifdef DEBUG_GIF_DATA_SUB_BLOCK
         std::cout << "----------------------------" << std::endl ;
@@ -81,58 +102,59 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_data_sub_block::gif_data_sub_block(const unsigned int & p_size):
-      m_size(p_size),
-      m_data(new uint8_t[m_size])
-      {
-      }
-
-    //----------------------------------------------------------------------------
-    void gif_data_sub_block::copy(uint8_t * p_dest)const
+    gif_data_sub_block::gif_data_sub_block(const unsigned int & p_size)
+    : m_size(p_size)
+    , m_data(new uint8_t[m_size])
     {
-      memcpy(p_dest,m_data,m_size);
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int gif_data_sub_block::gif_data_sub_block::get_size(void)const
+    void gif_data_sub_block::copy(uint8_t * p_dest) const
     {
-      return m_size;
+        memcpy(p_dest,m_data,m_size);
     }
 
     //----------------------------------------------------------------------------
-    const uint8_t & gif_data_sub_block::get_data(const unsigned int & p_index)const
-      {
+    const unsigned int gif_data_sub_block::gif_data_sub_block::get_size(void) const
+    {
+        return m_size;
+    }
+
+    //----------------------------------------------------------------------------
+    const uint8_t & gif_data_sub_block::get_data(const unsigned int & p_index) const
+    {
         if(p_index < m_size)
-          {
+        {
             return m_data[p_index];
-          }
+        }
         else
-          {
+        {
             std::stringstream l_stream;
             l_stream << p_index;
             throw quicky_exception::quicky_logic_exception("Out of bounds read : "+l_stream.str(),__LINE__,__FILE__);
-          }
-      }
+        }
+    }
+
     //----------------------------------------------------------------------------
-    void gif_data_sub_block::set_data(const unsigned int & p_index,const uint8_t & p_data)const
+    void gif_data_sub_block::set_data(const unsigned int & p_index,const uint8_t & p_data) const
     {
-         if(p_index < m_size)
-          {
+        if(p_index < m_size)
+        {
             m_data[p_index] = p_data;
-          }
+        }
         else
-          {
+        {
             std::stringstream l_stream;
             l_stream << p_index;
             throw quicky_exception::quicky_logic_exception("Out of bounds write : "+l_stream.str(),__LINE__,__FILE__);
-          }
-   }
+        }
+    }
 
     //----------------------------------------------------------------------------
     gif_data_sub_block::~gif_data_sub_block(void)
-      {
-	delete[] m_data;
-      }
+    {
+        delete[] m_data;
+    }
 
 }
 #endif

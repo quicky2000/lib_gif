@@ -23,95 +23,113 @@
 
 namespace lib_gif
 {
-  template<typename T>
+    template<typename T>
     class gif_lzw_encoder: public gif_lzw_base<T>
     {
-    public:
-      inline gif_lzw_encoder(const unsigned int & p_minimum_code_size);
-      inline bool encode(const T & p_value_to_code,unsigned int & p_coded_value,unsigned int & p_coded_value_size,unsigned int & p_current_code_size,bool & p_clean);
-      inline void encode(unsigned int & p_coded_value);
-    private:
+
+      public:
+
+        inline
+        gif_lzw_encoder(const unsigned int & p_minimum_code_size);
+
+        inline
+        bool encode( const T & p_value_to_code
+                   , unsigned int & p_coded_value
+                   , unsigned int & p_coded_value_size
+                   , unsigned int & p_current_code_size
+                   , bool & p_clean
+                   );
+
+        inline
+        void encode(unsigned int & p_coded_value);
+
+      private:
     };
 
-  //----------------------------------------------------------------------------
-  template<typename T>
-  gif_lzw_encoder<T>::gif_lzw_encoder(const unsigned int & p_minimum_code_size):
-    gif_lzw_base<T>(p_minimum_code_size)
+    //----------------------------------------------------------------------------
+    template<typename T>
+    gif_lzw_encoder<T>::gif_lzw_encoder(const unsigned int & p_minimum_code_size)
+    : gif_lzw_base<T>(p_minimum_code_size)
     {
     }
 
     //----------------------------------------------------------------------------
-  template<typename T>
-    bool gif_lzw_encoder<T>::encode(const T & p_value_to_code,unsigned int & p_coded_value,unsigned int & p_coded_value_size,unsigned int & p_current_code_size, bool & p_clean)
+    template<typename T>
+    bool gif_lzw_encoder<T>::encode( const T & p_value_to_code
+                                   , unsigned int & p_coded_value
+                                   , unsigned int & p_coded_value_size
+                                   , unsigned int & p_current_code_size
+                                   , bool & p_clean
+                                   )
     {
-      bool l_result = false;
-      gif_lzw_dictionnary_entry<T> l_new_entry(gif_lzw_base<T>::get_word());
-      l_new_entry = l_new_entry + p_value_to_code;
-      if(gif_lzw_base<T>::get_dictionnary().contains(l_new_entry))
+        bool l_result = false;
+        gif_lzw_dictionnary_entry<T> l_new_entry(gif_lzw_base<T>::get_word());
+        l_new_entry = l_new_entry + p_value_to_code;
+        if(gif_lzw_base<T>::get_dictionnary().contains(l_new_entry))
         {
-          gif_lzw_base<T>::set_word(l_new_entry);
-          l_result = false;
+            gif_lzw_base<T>::set_word(l_new_entry);
+            l_result = false;
         }
-      else
+        else
         {
-          unsigned int l_word_Code_size = p_current_code_size;
-          p_coded_value_size = l_word_Code_size;
-          gif_lzw_base<T>::get_dictionnary().add(l_new_entry,p_current_code_size);
-          p_coded_value = gif_lzw_base<T>::get_dictionnary().get_code(gif_lzw_base<T>::get_word());
+            unsigned int l_word_Code_size = p_current_code_size;
+            p_coded_value_size = l_word_Code_size;
+            gif_lzw_base<T>::get_dictionnary().add(l_new_entry,p_current_code_size);
+            p_coded_value = gif_lzw_base<T>::get_dictionnary().get_code(gif_lzw_base<T>::get_word());
 #ifdef DEBUG_GIF_LZW_ENCODER
-	  std::cout << "Proposed coded value " << p_coded_value << "\t" << p_current_code_size << "\t" << l_word_Code_size<< std::endl ;
+            std::cout << "Proposed coded value " << p_coded_value << "\t" << p_current_code_size << "\t" << l_word_Code_size<< std::endl ;
 #endif //DEBUG_GIF_LZW_ENCODER
-          gif_lzw_base<T>::set_word(p_value_to_code);
-          l_result = true;
+            gif_lzw_base<T>::set_word(p_value_to_code);
+            l_result = true;
         }
-      if(4097 == gif_lzw_base<T>::get_dictionnary().get_nb_entry())
-	{
-	  gif_lzw_base<T>::get_dictionnary().clear();
-	  p_clean = true;
-	}
-      return l_result;
+        if(4097 == gif_lzw_base<T>::get_dictionnary().get_nb_entry())
+        {
+            gif_lzw_base<T>::get_dictionnary().clear();
+            p_clean = true;
+        }
+        return l_result;
     }
 
     //----------------------------------------------------------------------------
-  template<typename T>
+    template<typename T>
     void gif_lzw_encoder<T>::encode(unsigned int & p_coded_value)
     {
-      p_coded_value = gif_lzw_base<T>::get_dictionnary().get_code(gif_lzw_base<T>::get_word());
+        p_coded_value = gif_lzw_base<T>::get_dictionnary().get_code(gif_lzw_base<T>::get_word());
     }
 
 #if 0
-      lib_gif::gif_lzw_encoder<uint8_t> l_encoder(8);
-      std::string l_text_to_encode = "TOBEORNOTTOBEORTOBEORNOT";
-      unsigned int l_current_code_size = 9;
-      unsigned int l_coded_value;
-      for(auto l_iter : l_text_to_encode)
+    lib_gif::gif_lzw_encoder<uint8_t> l_encoder(8);
+    std::string l_text_to_encode = "TOBEORNOTTOBEORTOBEORNOT";
+    unsigned int l_current_code_size = 9;
+    unsigned int l_coded_value;
+    for(auto l_iter : l_text_to_encode)
+    {
+        if(l_encoder.encode(l_iter,l_coded_value,l_current_code_size))
         {
-          if(l_encoder.encode(l_iter,l_coded_value,l_current_code_size))
+            std::cout << "Coded value : " ;
+            if(l_coded_value < 256)
             {
-              std::cout << "Coded value : " ;
-              if(l_coded_value < 256)
-                {
-                  std::cout << "'" << (uint8_t) l_coded_value << "'" ;
-                }
-              else
-                {
-                  std::cout << l_coded_value ;
-                }
-              std::cout << " " << std::endl ;
+                std::cout << "'" << (uint8_t) l_coded_value << "'" ;
             }
+            else
+            {
+                std::cout << l_coded_value ;
+            }
+            std::cout << " " << std::endl ;
         }
-      l_encoder.encode(l_coded_value);
-      std::cout << "Coded value : " ;
-      if(l_coded_value < 256)
+    }
+    l_encoder.encode(l_coded_value);
+    std::cout << "Coded value : " ;
+    if(l_coded_value < 256)
 	{
-	  std::cout << "'" << (uint8_t) l_coded_value << "'" ;
+        std::cout << "'" << (uint8_t) l_coded_value << "'" ;
 	}
-      else
+    else
 	{
-	  std::cout << l_coded_value ;
+        std::cout << l_coded_value ;
 	}
-      std::cout << std::endl ;
-#endif
+    std::cout << std::endl ;
+#endif // 0
 
 }
 #endif

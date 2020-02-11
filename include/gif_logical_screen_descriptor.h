@@ -25,182 +25,234 @@
 
 namespace lib_gif
 {
-  class gif_logical_screen_descriptor
-  {
-  public:
-    inline gif_logical_screen_descriptor(void);
-    inline gif_logical_screen_descriptor(const uint16_t & p_width,
-					 const uint16_t & p_height);
-    inline const uint16_t & get_width(void)const;
-    inline const uint16_t & get_height(void)const;
-    inline const uint8_t  & get_packed_fields(void)const;
-    inline const uint8_t  & get_background_index(void)const;
-    inline const uint8_t  & get_pixel_aspect_ratio(void)const;
-    inline const float get_decoded_pixel_aspect_ratio(void)const;
-    // Access to members of packed fields
-    inline bool get_global_color_table_flag(void)const;
-    inline void set_global_color_table_flag(bool);
-    inline unsigned int get_global_color_resolution(void)const; 
-    inline unsigned int get_decoded_global_color_resolution(void)const; 
-    inline bool get_sort_flag(void)const;
-    inline unsigned int get_size_of_global_color_table(void)const;
-    inline unsigned int get_decoded_size_of_global_color_table(void)const;
-    inline void set_size_of_global_color_table(const unsigned int & p_size);
-    inline void set_decoded_size_of_global_color_table(const unsigned int & p_size);
-    static inline size_t get_size(void);
-  private:
-    uint16_t m_width;
-    uint16_t m_height;
-    uint8_t m_packed_fields;
-    uint8_t m_background_index;
-    uint8_t m_pixel_aspect_ratio;
-  };
-  //----------------------------------------------------------------------------
-  inline std::ostream & operator<<(std::ostream & p_stream,const gif_logical_screen_descriptor & p_descriptor)
+    class gif_logical_screen_descriptor
     {
-      p_stream << "Width : " << p_descriptor.get_width() << " pixels" << std::endl ;
-      p_stream << "Height : " << p_descriptor.get_height() << " pixels" << std::endl ;
-      p_stream << "Packed fields : " << std::hex << "0x" << (unsigned int)p_descriptor.get_packed_fields() << std::dec << std::endl ;
-      p_stream << "\tGlobal Color Table Flag : " << p_descriptor.get_global_color_table_flag() << std::endl ;
-      p_stream << "\tGlobal Color Resolution " << p_descriptor.get_decoded_global_color_resolution() << " bits per channel" << std::endl;
-      p_stream << "\tSorted Flag " << p_descriptor.get_sort_flag() << std::endl ;
-      p_stream << "\tSize of global table : " << p_descriptor.get_decoded_size_of_global_color_table() << " entries" << std::endl ;
-      p_stream << "Background Index : " << (unsigned int)p_descriptor.get_background_index() << std::endl ;
-      p_stream << "Pixel aspect Ratio : " << (unsigned int)p_descriptor.get_decoded_pixel_aspect_ratio() << std::endl ;
-      return p_stream;
+
+      public:
+
+        inline
+        gif_logical_screen_descriptor(void);
+
+        inline
+        gif_logical_screen_descriptor( const uint16_t & p_width
+                                     , const uint16_t & p_height
+                                     );
+
+        inline
+        const uint16_t & get_width(void) const;
+
+        inline
+        const uint16_t & get_height(void) const;
+
+        inline
+        const uint8_t  & get_packed_fields(void) const;
+
+        inline
+        const uint8_t  & get_background_index(void) const;
+
+        inline
+        const uint8_t  & get_pixel_aspect_ratio(void) const;
+
+        inline
+        const float get_decoded_pixel_aspect_ratio(void) const;
+
+        // Access to members of packed fields
+        inline
+        bool get_global_color_table_flag(void) const;
+
+        inline
+        void set_global_color_table_flag(bool);
+
+        inline
+        unsigned int get_global_color_resolution(void) const;
+
+        inline
+        unsigned int get_decoded_global_color_resolution(void) const;
+
+        inline
+        bool get_sort_flag(void) const;
+
+        inline
+        unsigned int get_size_of_global_color_table(void) const;
+
+        inline
+        unsigned int get_decoded_size_of_global_color_table(void) const;
+
+        inline
+        void set_size_of_global_color_table(const unsigned int & p_size);
+
+        inline
+        void set_decoded_size_of_global_color_table(const unsigned int & p_size);
+
+        static inline
+        size_t get_size(void);
+
+      private:
+
+        uint16_t m_width;
+
+        uint16_t m_height;
+
+        uint8_t m_packed_fields;
+
+        uint8_t m_background_index;
+
+        uint8_t m_pixel_aspect_ratio;
+    };
+
+    //----------------------------------------------------------------------------
+    inline
+    std::ostream & operator<<( std::ostream & p_stream
+                             , const gif_logical_screen_descriptor & p_descriptor
+                             )
+    {
+        p_stream << "Width : " << p_descriptor.get_width() << " pixels" << std::endl ;
+        p_stream << "Height : " << p_descriptor.get_height() << " pixels" << std::endl ;
+        p_stream << "Packed fields : " << std::hex << "0x" << (unsigned int)p_descriptor.get_packed_fields() << std::dec << std::endl ;
+        p_stream << "\tGlobal Color Table Flag : " << p_descriptor.get_global_color_table_flag() << std::endl ;
+        p_stream << "\tGlobal Color Resolution " << p_descriptor.get_decoded_global_color_resolution() << " bits per channel" << std::endl;
+        p_stream << "\tSorted Flag " << p_descriptor.get_sort_flag() << std::endl ;
+        p_stream << "\tSize of global table : " << p_descriptor.get_decoded_size_of_global_color_table() << " entries" << std::endl ;
+        p_stream << "Background Index : " << (unsigned int)p_descriptor.get_background_index() << std::endl ;
+        p_stream << "Pixel aspect Ratio : " << (unsigned int)p_descriptor.get_decoded_pixel_aspect_ratio() << std::endl ;
+        return p_stream;
     }
 
-  //----------------------------------------------------------------------------
-  size_t gif_logical_screen_descriptor::get_size(void)
-  {
-    return sizeof(m_width) + sizeof(m_height) + sizeof(m_packed_fields) + sizeof(m_background_index) + sizeof(m_pixel_aspect_ratio);
-  }
-
-  //----------------------------------------------------------------------------
-  gif_logical_screen_descriptor::gif_logical_screen_descriptor(void):
-    m_width(0),
-    m_height(0),
-    m_packed_fields(0),
-    m_background_index(0),
-    m_pixel_aspect_ratio(0)
+    //----------------------------------------------------------------------------
+    size_t gif_logical_screen_descriptor::get_size(void)
     {
+        return sizeof(m_width) + sizeof(m_height) + sizeof(m_packed_fields) + sizeof(m_background_index) + sizeof(m_pixel_aspect_ratio);
     }
 
-  //----------------------------------------------------------------------------
-  gif_logical_screen_descriptor::gif_logical_screen_descriptor(const uint16_t & p_width,
-							       const uint16_t & p_height):
-    m_width(p_width),
-    m_height(p_height),
-    m_packed_fields(0),
-    m_background_index(0),
-    m_pixel_aspect_ratio(0)
+    //----------------------------------------------------------------------------
+    gif_logical_screen_descriptor::gif_logical_screen_descriptor(void)
+    : m_width(0)
+    , m_height(0)
+    , m_packed_fields(0)
+    , m_background_index(0)
+    , m_pixel_aspect_ratio(0)
     {
-      set_decoded_size_of_global_color_table(256);
     }
 
-  //----------------------------------------------------------------------------
-  const uint16_t & gif_logical_screen_descriptor::get_width(void)const
+    //----------------------------------------------------------------------------
+    gif_logical_screen_descriptor::gif_logical_screen_descriptor( const uint16_t & p_width
+                                                                , const uint16_t & p_height
+                                                                )
+    : m_width(p_width)
+    , m_height(p_height)
+    , m_packed_fields(0)
+    , m_background_index(0)
+    , m_pixel_aspect_ratio(0)
     {
-      return m_width;
-    }
-  //----------------------------------------------------------------------------
-  const uint16_t & gif_logical_screen_descriptor::get_height(void)const
-    {
-      return m_height;
-    }
-  //----------------------------------------------------------------------------
-  const uint8_t & gif_logical_screen_descriptor::get_packed_fields(void)const
-    {
-      return m_packed_fields;
+        set_decoded_size_of_global_color_table(256);
     }
 
-  //----------------------------------------------------------------------------
-  const uint8_t  & gif_logical_screen_descriptor::get_background_index(void)const
+    //----------------------------------------------------------------------------
+    const uint16_t & gif_logical_screen_descriptor::get_width(void) const
     {
-      return m_background_index;
+        return m_width;
     }
 
-  //----------------------------------------------------------------------------
-  const uint8_t  & gif_logical_screen_descriptor::get_pixel_aspect_ratio(void)const
+    //----------------------------------------------------------------------------
+    const uint16_t & gif_logical_screen_descriptor::get_height(void) const
     {
-      return m_pixel_aspect_ratio;
+        return m_height;
+    }
+
+    //----------------------------------------------------------------------------
+    const uint8_t & gif_logical_screen_descriptor::get_packed_fields(void) const
+    {
+        return m_packed_fields;
+    }
+
+    //----------------------------------------------------------------------------
+    const uint8_t  & gif_logical_screen_descriptor::get_background_index(void) const
+    {
+        return m_background_index;
+    }
+
+    //----------------------------------------------------------------------------
+    const uint8_t  & gif_logical_screen_descriptor::get_pixel_aspect_ratio(void) const
+    {
+        return m_pixel_aspect_ratio;
     }
   
-  //----------------------------------------------------------------------------
-  const float gif_logical_screen_descriptor::get_decoded_pixel_aspect_ratio(void)const
+    //----------------------------------------------------------------------------
+    const float gif_logical_screen_descriptor::get_decoded_pixel_aspect_ratio(void) const
     {
-      return m_pixel_aspect_ratio ? (((float)m_pixel_aspect_ratio) + 15.0) / 64.0 : 0;
+        return m_pixel_aspect_ratio ? (((float)m_pixel_aspect_ratio) + 15.0) / 64.0 : 0;
     }
   
-  //----------------------------------------------------------------------------
-  bool gif_logical_screen_descriptor::get_global_color_table_flag(void)const
-  {
-    return m_packed_fields & 0x80;
-  }
+    //----------------------------------------------------------------------------
+    bool gif_logical_screen_descriptor::get_global_color_table_flag(void) const
+    {
+        return m_packed_fields & 0x80;
+    }
 
-  //----------------------------------------------------------------------------
-  void gif_logical_screen_descriptor::set_global_color_table_flag(bool p_flag)
-  {
-    if(p_flag)
-      {
-        m_packed_fields |= 0x80;
-      }
-    else
-     {
-       m_packed_fields &= ~(0x80);
-     }
-  }
+    //----------------------------------------------------------------------------
+    void gif_logical_screen_descriptor::set_global_color_table_flag(bool p_flag)
+    {
+        if(p_flag)
+        {
+            m_packed_fields |= 0x80;
+        }
+        else
+        {
+            m_packed_fields &= ~(0x80);
+        }
+    }
 
-  //----------------------------------------------------------------------------
-  unsigned int gif_logical_screen_descriptor::get_decoded_global_color_resolution(void)const
-  {
-    return 1 + ((m_packed_fields & 0x70) >> 4);
-  }
-  //----------------------------------------------------------------------------
-  bool gif_logical_screen_descriptor::get_sort_flag(void)const
-  {
-    return m_packed_fields & 0x8;
-  }
+    //----------------------------------------------------------------------------
+    unsigned int gif_logical_screen_descriptor::get_decoded_global_color_resolution(void) const
+    {
+        return 1 + ((m_packed_fields & 0x70) >> 4);
+    }
 
-  //----------------------------------------------------------------------------
-  unsigned int gif_logical_screen_descriptor::get_decoded_size_of_global_color_table(void)const
-  {
-    return get_global_color_table_flag() ? 2 << get_size_of_global_color_table() : 0;
-  }
+    //----------------------------------------------------------------------------
+    bool gif_logical_screen_descriptor::get_sort_flag(void) const
+    {
+        return m_packed_fields & 0x8;
+    }
 
-  //----------------------------------------------------------------------------
-  unsigned int gif_logical_screen_descriptor::get_global_color_resolution(void)const
-  {
-    return (m_packed_fields & 0x70) >> 4;
-  }
+    //----------------------------------------------------------------------------
+    unsigned int gif_logical_screen_descriptor::get_decoded_size_of_global_color_table(void) const
+    {
+        return get_global_color_table_flag() ? 2 << get_size_of_global_color_table() : 0;
+    }
 
-  //----------------------------------------------------------------------------
-  unsigned int gif_logical_screen_descriptor::get_size_of_global_color_table(void)const
-  {
-    return m_packed_fields & 0x7;
-  }
+    //----------------------------------------------------------------------------
+    unsigned int gif_logical_screen_descriptor::get_global_color_resolution(void) const
+    {
+        return (m_packed_fields & 0x70) >> 4;
+    }
 
-  //----------------------------------------------------------------------------
-  void gif_logical_screen_descriptor::set_size_of_global_color_table(const unsigned int & p_size)
-  {
-    uint8_t l_size = p_size & 0x7;
-    assert(((unsigned int)l_size) == p_size);
-    m_packed_fields |= l_size;
-  }
+    //----------------------------------------------------------------------------
+    unsigned int gif_logical_screen_descriptor::get_size_of_global_color_table(void) const
+    {
+        return m_packed_fields & 0x7;
+    }
 
-  //----------------------------------------------------------------------------
-  void gif_logical_screen_descriptor::set_decoded_size_of_global_color_table(const unsigned int & p_size)
-  {
-    set_global_color_table_flag(p_size);
-    if(p_size)
-      {
-        set_size_of_global_color_table(log(p_size) /log(2) - 1);
-      }
-    else
-      {
-        set_size_of_global_color_table(0);
-      }
-  }
+    //----------------------------------------------------------------------------
+    void gif_logical_screen_descriptor::set_size_of_global_color_table(const unsigned int & p_size)
+    {
+        uint8_t l_size = p_size & 0x7;
+        assert(((unsigned int)l_size) == p_size);
+        m_packed_fields |= l_size;
+    }
+
+    //----------------------------------------------------------------------------
+    void gif_logical_screen_descriptor::set_decoded_size_of_global_color_table(const unsigned int & p_size)
+    {
+        set_global_color_table_flag(p_size);
+        if(p_size)
+        {
+            set_size_of_global_color_table(log(p_size) /log(2) - 1);
+        }
+        else
+        {
+            set_size_of_global_color_table(0);
+        }
+    }
 }
 #endif
 //EOF
