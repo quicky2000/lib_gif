@@ -240,7 +240,7 @@ namespace lib_gif
             m_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_local_color_table(),p_file);
         }
         p_file.read((char*) &m_lzw_minimum_code_size,sizeof(uint8_t));
-        uint8_t * l_compressed_data = NULL;
+        uint8_t * l_compressed_data = nullptr;
         size_t l_compressed_data_size = 0;
         bool l_continu;
         unsigned int l_nb_block = 0;

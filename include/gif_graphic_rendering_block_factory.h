@@ -40,7 +40,7 @@ namespace lib_gif
                                                                                     , std::ifstream & p_file
                                                                                     )
     {
-        gif_graphic_rendering_block * l_result = NULL;
+        gif_graphic_rendering_block * l_result = nullptr;
         switch(p_key)
         {
             case gif_data_block::t_gif_data_block_key::IMAGE :

@@ -77,7 +77,7 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
     gif_logical_screen::gif_logical_screen()
-    : m_global_color_table(NULL)
+    : m_global_color_table(nullptr)
     {
     }
 

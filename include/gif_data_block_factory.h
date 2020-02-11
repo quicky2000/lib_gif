@@ -37,7 +37,7 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     gif_data_block & gif_data_block_factory::extract_block(std::ifstream & p_file)
     {
-        gif_data_block * l_result = NULL;
+        gif_data_block * l_result = nullptr;
         gif_data_block::t_gif_data_block_key l_block_type_identifier;
         p_file.read((char*)&l_block_type_identifier,sizeof(gif_data_block::t_gif_data_block_key));
 
