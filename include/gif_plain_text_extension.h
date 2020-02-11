@@ -161,7 +161,7 @@ namespace lib_gif
         }
         while(l_continu);
 
-        if(m_content.size() && '\0' != m_content[m_content.size()-1])
+        if(!m_content.empty() && '\0' != m_content[m_content.size()-1])
         {
             m_content += '\0';
         }

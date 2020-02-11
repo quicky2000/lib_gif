@@ -50,7 +50,7 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     void gif::write(std::ostream & p_stream)
     {
-        if(!m_data_blocks.size() || gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
+        if(m_data_blocks.empty() || gif_data_block::t_gif_data_block_type::TRAILER != m_data_blocks.back()->get_type())
         {
             m_data_blocks.push_back(new gif_trailer());
         }

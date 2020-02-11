@@ -105,7 +105,7 @@ namespace lib_gif
         p_stream << "----------------------------" << std::endl ;
         p_stream << "###" << std::endl;
         std::string l_comment = m_comment;
-        if(m_comment.size() && '\0' != m_comment[m_comment.size()-1])
+        if(!m_comment.empty() && '\0' != m_comment[m_comment.size()-1])
         {
             l_comment += '\0';
         }
