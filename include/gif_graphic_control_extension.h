@@ -49,7 +49,7 @@ namespace lib_gif
         bool get_user_input_flag() const;
 
         inline
-        void print(std::ostream & p_stream) const;
+        void print(std::ostream & p_stream) const override;
 
         inline
         bool get_transparent_color_flag() const;
@@ -58,7 +58,7 @@ namespace lib_gif
         void set_transparent_color_flag(bool p_flag);
 
         inline
-        void write_extension(std::ostream & p_stream) const;
+        void write_extension(std::ostream & p_stream) const override;
 
       private:
 

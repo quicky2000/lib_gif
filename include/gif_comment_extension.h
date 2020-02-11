@@ -33,13 +33,13 @@ namespace lib_gif
         gif_comment_extension(const std::string & p_comment);
 
         inline
-        void print(std::ostream & p_stream)const;
+        void print(std::ostream & p_stream)const override;
 
         inline
         gif_comment_extension(std::ifstream & p_file);
 
         inline
-        void write_extension(std::ostream & p_stream) const;
+        void write_extension(std::ostream & p_stream) const override;
 
       private:
 

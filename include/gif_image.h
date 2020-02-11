@@ -51,19 +51,19 @@ namespace lib_gif
         gif_image(std::ifstream & p_file);
 
         inline
-        ~gif_image();
+        ~gif_image() override;
 
         inline
-        const uint16_t & get_image_left_position() const;
+        const uint16_t & get_image_left_position() const override ;
 
         inline
-        const uint16_t & get_image_top_position() const;
+        const uint16_t & get_image_top_position() const override;
 
         inline
-        const uint16_t & get_image_width() const;
+        const uint16_t & get_image_width() const override;
 
         inline
-        const uint16_t & get_image_height() const;
+        const uint16_t & get_image_height() const override;
 
         inline
         bool get_local_color_table_flag() const;
@@ -75,7 +75,7 @@ namespace lib_gif
         const gif_color_table & get_local_color_table() const;
 
         inline
-        bool is_image() const;
+        bool is_image() const override;
 
         inline
         const unsigned int & get_color_index( const unsigned int & p_x
@@ -89,13 +89,13 @@ namespace lib_gif
                             );
 
         inline
-        void print(std::ostream & p_stream) const;
+        void print(std::ostream & p_stream) const override;
 
         inline
         unsigned int deinterlace(const unsigned int & p_y) const;
 
         inline
-        void write(std::ostream & p_stream) const;
+        void write(std::ostream & p_stream) const override;
 
       private:
 

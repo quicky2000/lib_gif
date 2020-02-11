@@ -55,13 +55,13 @@ namespace lib_gif
         const uint8_t & get_background_color_index() const;
 
         inline
-        void print(std::ostream & p_stream) const;
+        void print(std::ostream & p_stream) const override;
 
         inline
         const std::string & get_content() const;
 
         inline
-        void write_extension(std::ostream & p_stream) const;
+        void write_extension(std::ostream & p_stream) const override;
 
       private:
 

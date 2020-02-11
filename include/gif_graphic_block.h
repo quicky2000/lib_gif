@@ -46,7 +46,7 @@ namespace lib_gif
                          );
 
         inline
-        ~gif_graphic_block();
+        ~gif_graphic_block() override;
 
         inline
         const uint16_t & get_left_position() const;
@@ -64,13 +64,13 @@ namespace lib_gif
         bool is_image() const;
 
         inline
-        void print(std::ostream & p_stream) const;
+        void print(std::ostream & p_stream) const override;
 
         inline
         const gif_image & get_image() const;
 
         inline
-        void write(std::ostream & p_stream) const;
+        void write(std::ostream & p_stream) const override;
 
       private:
 

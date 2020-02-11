@@ -41,7 +41,7 @@ namespace lib_gif
         const std::string key_to_string(const t_gif_extension_block_key & p_key);
 
         inline
-        void write(std::ostream & p_stream) const;
+        void write(std::ostream & p_stream) const override;
 
       private:
 

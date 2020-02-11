@@ -28,13 +28,13 @@ namespace lib_gif
       public:
 
         inline
-        void print(std::ostream & p_stream)const;
+        void print(std::ostream & p_stream) const override;
 
         inline
         gif_trailer();
 
         inline
-        void write(std::ostream & p_stream)const;
+        void write(std::ostream & p_stream) const override;
     };
 
     //----------------------------------------------------------------------------

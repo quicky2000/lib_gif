@@ -43,12 +43,12 @@ namespace lib_gif
         bool is_supported() const;
 
         inline
-        void print(std::ostream & p_stream) const;
+        void print(std::ostream & p_stream) const override;
 
         inline
         const unsigned int & get_loop_counter() const;
 
-        inline void write_extension(std::ostream & p_stream) const;
+        inline void write_extension(std::ostream & p_stream) const override;
 
       private:
 
