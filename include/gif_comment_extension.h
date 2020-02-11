@@ -21,6 +21,7 @@
 #include "quicky_exception.h"
 #include <fstream>
 #include <vector>
+#include <utility>
 
 namespace lib_gif
 {
@@ -30,7 +31,7 @@ namespace lib_gif
       public:
 
         explicit inline
-        gif_comment_extension(const std::string & p_comment);
+        gif_comment_extension(std::string p_comment);
 
         inline
         void print(std::ostream & p_stream)const override;
@@ -47,9 +48,9 @@ namespace lib_gif
     };
 
     //----------------------------------------------------------------------------
-    gif_comment_extension::gif_comment_extension(const std::string & p_comment)
+    gif_comment_extension::gif_comment_extension(std::string p_comment)
     : gif_extension_block(t_gif_data_block_type::COMMENT_EXTENSION)
-    , m_comment(p_comment)
+    , m_comment(std::move(p_comment))
     {
     }
 
