@@ -37,13 +37,13 @@ namespace lib_gif
         void set_signature(const std::string & p_signature);
 
         inline
-        const std::string get_signature() const;
+        std::string get_signature() const;
 
         inline
         void set_version(const std::string & p_version);
 
         inline
-        const std::string get_version() const;
+        std::string get_version() const;
 
         static inline
         unsigned int get_size();
@@ -92,7 +92,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_header::get_version() const
+    std::string gif_header::get_version() const
      {
         return std::string((char*)m_version,3);
      }
@@ -108,7 +108,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_header::get_signature() const
+    std::string gif_header::get_signature() const
      {
         return std::string((char*)m_signature,3);
      }

@@ -36,7 +36,7 @@ namespace lib_gif
         gif_data_sub_block(const unsigned int & p_size);
 
         inline
-        const unsigned int get_size()const;
+        unsigned int get_size()const;
 
         inline
         const uint8_t & get_data(const unsigned int & p_index)const;
@@ -115,7 +115,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int gif_data_sub_block::gif_data_sub_block::get_size() const
+    unsigned int gif_data_sub_block::gif_data_sub_block::get_size() const
     {
         return m_size;
     }

@@ -54,7 +54,7 @@ namespace lib_gif
         const uint8_t  & get_pixel_aspect_ratio() const;
 
         inline
-        const float get_decoded_pixel_aspect_ratio() const;
+        float get_decoded_pixel_aspect_ratio() const;
 
         // Access to members of packed fields
         inline
@@ -178,7 +178,7 @@ namespace lib_gif
     }
   
     //----------------------------------------------------------------------------
-    const float gif_logical_screen_descriptor::get_decoded_pixel_aspect_ratio() const
+    float gif_logical_screen_descriptor::get_decoded_pixel_aspect_ratio() const
     {
         return m_pixel_aspect_ratio ? (((float)m_pixel_aspect_ratio) + 15.0) / 64.0 : 0;
     }

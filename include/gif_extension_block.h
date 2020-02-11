@@ -38,7 +38,7 @@ namespace lib_gif
         gif_extension_block(const t_gif_data_block_type & p_type);
 
         static inline
-        const std::string key_to_string(const t_gif_extension_block_key & p_key);
+        std::string key_to_string(const t_gif_extension_block_key & p_key);
 
         inline
         void write(std::ostream & p_stream) const override;
@@ -67,7 +67,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_extension_block::key_to_string(const t_gif_extension_block_key & p_key)
+    std::string gif_extension_block::key_to_string(const t_gif_extension_block_key & p_key)
     {
         switch(p_key)
         {

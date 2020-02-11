@@ -57,7 +57,7 @@ namespace lib_gif
         const unsigned int & get_code(const gif_lzw_dictionnary_entry<T> & p_entry) const;
 
         inline
-        const unsigned int get_nb_entry()const;
+        unsigned int get_nb_entry() const;
 
       private:
 
@@ -70,7 +70,7 @@ namespace lib_gif
 
     //----------------------------------------------------------------------------
     template <typename T>
-    const unsigned int gif_lzw_dictionnary<T>::get_nb_entry()const
+    unsigned int gif_lzw_dictionnary<T>::get_nb_entry() const
     {
         return m_content.size();
     }

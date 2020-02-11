@@ -43,7 +43,7 @@ namespace lib_gif
         const uint8_t & get_transparent_color_index() const;
 
         inline
-        const unsigned int get_disposal_method() const;
+        unsigned int get_disposal_method() const;
 
         inline
         bool get_user_input_flag() const;
@@ -63,7 +63,7 @@ namespace lib_gif
       private:
 
         inline
-        const unsigned int get_reserved_field() const;
+        unsigned int get_reserved_field() const;
 
         uint8_t m_block_size;
 
@@ -127,7 +127,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------
-    const unsigned int gif_graphic_control_extension::get_reserved_field() const
+    unsigned int gif_graphic_control_extension::get_reserved_field() const
     {
         return (((unsigned int)m_packed_fields) >> 5u ) & 0x7u;
     }
@@ -159,7 +159,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const unsigned int gif_graphic_control_extension::get_disposal_method() const
+    unsigned int gif_graphic_control_extension::get_disposal_method() const
     {
         return (((unsigned int)m_packed_fields) >> 2u) & 0x7u;
     }

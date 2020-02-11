@@ -51,10 +51,10 @@ namespace lib_gif
         t_gif_data_block_type;
 
         static inline
-        const std::string type_to_string(const t_gif_data_block_type & p_type);
+        std::string type_to_string(const t_gif_data_block_type & p_type);
 
         static inline
-        const std::string key_to_string(const t_gif_data_block_key & p_key);
+        std::string key_to_string(const t_gif_data_block_key & p_key);
 
         inline
         const t_gif_data_block_type & get_type() const;
@@ -89,7 +89,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_data_block::type_to_string(const t_gif_data_block_type & p_type)
+    std::string gif_data_block::type_to_string(const t_gif_data_block_type & p_type)
     {
         switch(p_type)
         {
@@ -119,7 +119,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    const std::string gif_data_block::key_to_string(const t_gif_data_block_key & p_key)
+    std::string gif_data_block::key_to_string(const t_gif_data_block_key & p_key)
     {
         switch(p_key)
         {

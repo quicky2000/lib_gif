@@ -102,7 +102,7 @@ namespace lib_gif
         unsigned int get_size_of_local_color_table() const;
 
         inline
-        void set_size_of_local_color_table(const unsigned int p_size);
+        void set_size_of_local_color_table(unsigned int p_size);
 
         uint16_t m_image_left_position;
 
@@ -277,7 +277,7 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    void gif_image_descriptor::set_size_of_local_color_table(const unsigned int p_size)
+    void gif_image_descriptor::set_size_of_local_color_table(unsigned int p_size)
     {
         if(p_size > 7)
         {
