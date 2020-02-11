@@ -73,16 +73,12 @@ namespace lib_gif
         {
             case t_gif_extension_block_key::PLAIN_TEXT_EXTENSION:
                 return "PLAIN_TEXT_EXTENSION";
-                break;
             case t_gif_extension_block_key::GRAPHIC_CONTROL_EXTENSION:
                 return "GRAPHIC_CONTROL_EXTENSION";
-                break;
             case t_gif_extension_block_key::COMMENT_EXTENSION:
                 return "COMMENT_EXTENSION";
-                break;
             case t_gif_extension_block_key::APPLICATION_EXTENSION :
                 return "APPLICATION_EXTENSION";
-                break;
             default:
                 std::stringstream l_key_stream;
                 l_key_stream << "0x" << std::hex << (unsigned int)p_key;

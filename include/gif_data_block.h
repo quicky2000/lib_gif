@@ -95,22 +95,16 @@ namespace lib_gif
         {
             case t_gif_data_block_type::GRAPHIC_BLOCK:
                 return "GRAPHIC_BLOCK";
-                break;
             case t_gif_data_block_type::GRAPHICAL_CONTROL_EXTENSION:
                 return "GRAPHICAL_CONTROL_EXTENSION";
-                break;
             case t_gif_data_block_type::APPLICATION_EXTENSION:
                 return "APPLICATION_EXTENSION";
-                break;
             case t_gif_data_block_type::COMMENT_EXTENSION:
                 return "COMMENT_EXTENSION";
-                break;
             case t_gif_data_block_type::PLAIN_TEXT_EXTENSION:
                 return "PLAIN_TEXT_EXTENSION";
-                break;
             case t_gif_data_block_type::TRAILER:
                 return "TRAILER";
-                break;
             default:
                 std::stringstream l_type_stream;
                 l_type_stream << "0x" << std::hex << (unsigned int)p_type;
@@ -125,13 +119,10 @@ namespace lib_gif
         {
             case t_gif_data_block_key::EXTENSION:
                 return "EXTENSION";
-                break;
             case t_gif_data_block_key::IMAGE:
                 return "IMAGE";
-                break;
             case t_gif_data_block_key::TRAILER:
                 return "TRAILER";
-                break;
             default:
                 std::stringstream l_key_stream;
                 l_key_stream << "0x" << std::hex << (unsigned int)p_key;
