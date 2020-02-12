@@ -102,7 +102,7 @@ namespace lib_gif
     {
         if("GIF" != p_signature)
         {
-            throw quicky_exception::quicky_logic_exception("GIF header signature is \""+p_signature+"\" instead of \"GIF\"",__LINE__,__FILE__);
+            throw quicky_exception::quicky_logic_exception(R"(GIF header signature is ")" + p_signature + R"(" instead of "GIF")",__LINE__,__FILE__);
         }
         strncpy((char*)m_signature,p_signature.c_str(),3);
     }
