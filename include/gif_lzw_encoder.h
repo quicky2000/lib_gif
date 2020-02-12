@@ -68,7 +68,6 @@ namespace lib_gif
         if(gif_lzw_base<T>::get_dictionnary().contains(l_new_entry))
         {
             gif_lzw_base<T>::set_word(l_new_entry);
-            l_result = false;
         }
         else
         {
