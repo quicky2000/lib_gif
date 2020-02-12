@@ -234,12 +234,21 @@ namespace lib_gif
     , m_content(nullptr)
     {
         p_file.read((char*) & m_descriptor,m_descriptor.get_size());
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete image descriptor", __LINE__, __FILE__);
+        }
+
         m_descriptor.check();
         if(m_descriptor.get_local_color_table_flag())
         {
             m_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_local_color_table(),p_file);
         }
         p_file.read((char*) &m_lzw_minimum_code_size,sizeof(uint8_t));
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete LZW minimum code size", __LINE__, __FILE__);
+        }
         uint8_t * l_compressed_data = nullptr;
         size_t l_compressed_data_size = 0;
         bool l_continu;

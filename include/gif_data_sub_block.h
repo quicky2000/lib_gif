@@ -72,6 +72,11 @@ namespace lib_gif
         std::cout << "Current position : 0x" << std::hex << p_file.tellg() << std::dec << std::endl ;
 #endif
         p_file.read((char*)&m_size,sizeof(m_size));
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete data sub block size", __LINE__, __FILE__);
+        }
+
 #ifdef DEBUG_GIF_SUB_DATA_BLOCK
         std::cout << "Size : " << (unsigned int) m_size << std::endl ;
 #endif
@@ -81,6 +86,10 @@ namespace lib_gif
             throw quicky_exception::quicky_logic_exception("Failed to allocate memory for Image Data Sub Block",__LINE__,__FILE__);
         }
         p_file.read((char*)m_data,m_size);
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete data sub block", __LINE__, __FILE__);
+        }
 
     }
 

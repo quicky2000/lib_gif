@@ -101,6 +101,11 @@ namespace lib_gif
     , m_supported(false)
     {
         p_file.read((char*)&m_block_size,12);
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete application extension", __LINE__, __FILE__);
+        }
+
         if(11 != m_block_size)
         {
             std::stringstream l_size_stream;

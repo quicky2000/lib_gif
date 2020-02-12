@@ -133,6 +133,11 @@ namespace lib_gif
       std::cout << "Current position : 0x" << std::hex << p_file.tellg() << std::dec << std::endl ;
 #endif //DEBUG_GIF_PLAIN_TEXT_EXTENSION
         p_file.read((char*)&m_block_size,13);
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete plain text extension block size", __LINE__, __FILE__);
+        }
+
         if(12 != m_block_size)
         {
             std::stringstream l_size_stream;

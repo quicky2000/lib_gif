@@ -26,6 +26,10 @@ namespace lib_gif
     gif::gif(std::ifstream & p_file)
     {
         p_file.read((char*)&m_header,m_header.get_size());
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete header", __LINE__, __FILE__);
+        }
         m_logical_screen.read(p_file);
         gif_data_block * l_last_block = nullptr;
         do

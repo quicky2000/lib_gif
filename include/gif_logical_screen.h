@@ -151,7 +151,10 @@ namespace lib_gif
     void gif_logical_screen::read(std::ifstream & p_file)
     {
         p_file.read((char*) & m_descriptor,m_descriptor.get_size());
-
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete logical screen descriptor", __LINE__, __FILE__);
+        }
         if(m_descriptor.get_global_color_table_flag())
         {
             m_global_color_table = new gif_color_table(m_descriptor.get_decoded_size_of_global_color_table(),p_file);

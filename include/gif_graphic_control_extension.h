@@ -95,6 +95,11 @@ namespace lib_gif
     : gif_graphic_control_extension(0, false, 0)
     {
         p_file.read((char*)&m_block_size,6);
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete graphic control extension size", __LINE__, __FILE__);
+        }
+
         if(4 != m_block_size)
         {
             std::stringstream l_size_stream;

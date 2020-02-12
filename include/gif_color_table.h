@@ -71,6 +71,10 @@ namespace lib_gif
     : gif_color_table(p_size)
     {
         p_file.read((char*) m_colors,p_size * sizeof(gif_color));
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete color table", __LINE__, __FILE__);
+        }
     }
 
     //----------------------------------------------------------------------------

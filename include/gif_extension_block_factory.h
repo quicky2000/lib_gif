@@ -41,6 +41,11 @@ namespace lib_gif
         gif_extension_block * l_result = nullptr;
         gif_extension_block::t_gif_extension_block_key l_block_type_identifier;
         p_file.read((char*)&l_block_type_identifier,sizeof(gif_extension_block::t_gif_extension_block_key));
+        if((p_file.rdstate() & std::ifstream::failbit) || (p_file.rdstate() & std::ifstream::eofbit))
+        {
+            throw quicky_exception::quicky_logic_exception("Incomplete extension block identifier", __LINE__, __FILE__);
+        }
+
 #ifdef DEBUG_GIF_EXTENSION_BLOCK_FACTORY
         std::cout << "Extension Block key : 0x" << std::hex << (unsigned int) l_block_type_identifier << std::dec << std::endl ;
 #endif // DEBUG_GIF_EXTENSION_BLOCK_FACTORY
