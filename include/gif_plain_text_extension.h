@@ -149,7 +149,7 @@ namespace lib_gif
         std::cout << "Foreground color index : " << (unsigned int) m_foreground_color_index << std::endl ;
         std::cout << "Background color index : " << (unsigned int) m_background_color_index << std::endl ;
 #endif //DEBUG_GIF_PLAIN_TEXT_EXTENSION
-        bool l_continu = true;
+        bool l_continu;
         do
         {
             gif_data_sub_block l_data_sub_block(p_file);
