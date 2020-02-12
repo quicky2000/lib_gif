@@ -180,7 +180,7 @@ namespace lib_gif
     //----------------------------------------------------------------------------
     float gif_logical_screen_descriptor::get_decoded_pixel_aspect_ratio() const
     {
-        return m_pixel_aspect_ratio ? (((float)m_pixel_aspect_ratio) + 15.0) / 64.0 : 0;
+        return m_pixel_aspect_ratio ? (((float)m_pixel_aspect_ratio) + 15.0f) / 64.0f : 0.0f;
     }
   
     //----------------------------------------------------------------------------
@@ -246,7 +246,7 @@ namespace lib_gif
         set_global_color_table_flag(p_size);
         if(p_size)
         {
-            set_size_of_global_color_table(log(p_size) /log(2) - 1);
+            set_size_of_global_color_table((unsigned int)(log(p_size) /log(2)) - 1);
         }
         else
         {
