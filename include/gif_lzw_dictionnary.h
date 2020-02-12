@@ -82,7 +82,7 @@ namespace lib_gif
     {
         for(unsigned int l_index = 0 ; l_index < p_size ; ++l_index)
         {
-            gif_lzw_dictionnary_entry<T> * l_new_entry = new gif_lzw_dictionnary_entry<T>((T)l_index);
+            auto l_new_entry = new gif_lzw_dictionnary_entry<T>((T)l_index);
             m_content2index.insert(typename std::map<gif_lzw_dictionnary_entry<T>,unsigned int>::value_type(*l_new_entry,l_index));
             m_content.push_back(l_new_entry);
         }
