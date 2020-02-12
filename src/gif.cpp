@@ -16,11 +16,8 @@
 */
 
 #include "gif.h"
-#include "gif_image_descriptor.h"
 #include "gif_data_block_factory.h"
 #include "gif_data_block.h"
-#include <fstream>
-#include <cinttypes>
 #include <iostream>
 
 namespace lib_gif
