@@ -262,7 +262,7 @@ namespace lib_gif
     	m_content = new t_content[m_descriptor.get_image_width() * m_descriptor.get_image_height()];
         quicky_utils::quicky_bitfield<uint64_t> l_bitfield(l_compressed_data_size * 8);
         unsigned int l_first_code = 0;
-        for(unsigned int l_index = 0 ; l_index < l_compressed_data_size ; ++l_index)
+        for(size_t l_index = 0 ; l_index < l_compressed_data_size ; ++l_index)
         {
             l_bitfield.set(l_compressed_data[l_index],8,8 * l_index);
         }
@@ -298,7 +298,7 @@ namespace lib_gif
             std::cout << std::hex << " Decoded value 0x" << (unsigned int)l_extracted_value << std::dec << "\tWidth : " << l_current_lzw_minimum_code_size + 1 << std::endl ;
 #endif // DEBUG_GIF_IMAGE
             // Output entry
-            for(unsigned int l_index = 0 ; l_index < l_decoded_value.size() ; ++l_index)
+            for(size_t l_index = 0 ; l_index < l_decoded_value.size() ; ++l_index)
             {
                 m_content[l_content_index + l_index] = l_decoded_value[l_index];
             }
