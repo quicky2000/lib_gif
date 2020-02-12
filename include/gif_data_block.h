@@ -63,7 +63,7 @@ namespace lib_gif
         void write(std::ostream & p_stream) const = 0;
 
         inline virtual
-        ~gif_data_block(){}
+        ~gif_data_block()=default;
 
         virtual
         void print(std::ostream & p_stream) const = 0;

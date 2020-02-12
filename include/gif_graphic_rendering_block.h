@@ -36,7 +36,7 @@ namespace lib_gif
         const uint16_t & get_image_height() const = 0;
 
         virtual inline
-        ~gif_graphic_rendering_block(){}
+        ~gif_graphic_rendering_block() = default;
 
         virtual
         void print(std::ostream & p_stream) const = 0;

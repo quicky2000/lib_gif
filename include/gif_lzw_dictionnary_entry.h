@@ -32,7 +32,7 @@ namespace lib_gif
         gif_lzw_dictionnary_entry(const T & p_char);
 
         inline
-        gif_lzw_dictionnary_entry();
+        gif_lzw_dictionnary_entry() = default;
 
         inline
         gif_lzw_dictionnary_entry<T> & operator+(const T & p_char);
@@ -58,12 +58,6 @@ namespace lib_gif
     template <typename T>
     gif_lzw_dictionnary_entry<T>::gif_lzw_dictionnary_entry(const T & p_char)
     : m_word(1, p_char)
-    {
-    }
-
-    //----------------------------------------------------------------------------
-    template <typename T>
-    gif_lzw_dictionnary_entry<T>::gif_lzw_dictionnary_entry()
     {
     }
 
