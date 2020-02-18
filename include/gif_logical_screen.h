@@ -114,8 +114,14 @@ namespace lib_gif
                                                             , const gif_color & p_color
                                                             )
     {
-        if(m_global_color_table) return m_global_color_table->set_color(p_index,p_color);
-        throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table",__LINE__,__FILE__);
+        if(m_global_color_table)
+        {
+            m_global_color_table->set_color(p_index,p_color);
+        }
+        else
+        {
+            throw quicky_exception::quicky_logic_exception("Try to access to non existing global color table", __LINE__, __FILE__);
+        }
     }
 
     //----------------------------------------------------------------------------
