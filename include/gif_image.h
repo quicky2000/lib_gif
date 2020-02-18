@@ -97,6 +97,10 @@ namespace lib_gif
         inline
         void write(std::ostream & p_stream) const override;
 
+        inline
+        void set_color_in_color_table( const size_t & p_index
+                                     , const gif_color & p_color
+                                     );
       private:
 
         gif_image_descriptor m_descriptor;
@@ -473,6 +477,16 @@ namespace lib_gif
         p_stream << "GIF Image Data :" << std::endl ;
         p_stream << "----------------------------" << std::endl ;
         p_stream << "LZW minimum code size : " << (unsigned int) m_lzw_minimum_code_size << std::endl ;
+    }
+
+    //-------------------------------------------------------------------------
+    void
+    gif_image::set_color_in_color_table( const size_t & p_index
+                                       , const gif_color & p_color
+                                       )
+    {
+        assert(m_color_table != nullptr);
+        m_color_table->set_color(p_index, p_color);
     }
 
 }
