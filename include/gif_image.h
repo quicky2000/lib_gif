@@ -45,6 +45,10 @@ namespace lib_gif
                  , const uint16_t & p_image_height
                  , const uint16_t & p_image_left_position
                  , const uint16_t & p_image_top_position
+                 , bool p_local_color_table_flag = false
+                 , bool p_interlace_flag = false
+                 , bool p_sorted_flag = false
+                 , unsigned int p_local_table_size = 0
                  );
 
         explicit inline
@@ -123,13 +127,17 @@ namespace lib_gif
     }
 
     //----------------------------------------------------------------------------
-    gif_image::gif_image( const uint16_t & p_image_width
-                        , const uint16_t & p_image_height
-                        , const uint16_t & p_image_left_position
-                        , const uint16_t & p_image_top_position
+    gif_image::gif_image(const uint16_t & p_image_width,
+                         const uint16_t & p_image_height,
+                         const uint16_t & p_image_left_position,
+                         const uint16_t & p_image_top_position,
+                         bool p_local_color_table_flag,
+                         bool p_interlace_flag,
+                         bool p_sorted_flag,
+                         unsigned int p_local_table_size
                         )
-    : m_descriptor(p_image_width, p_image_height, p_image_left_position, p_image_top_position)
-    , m_color_table(nullptr)
+    : m_descriptor(p_image_width, p_image_height, p_image_left_position, p_image_top_position, p_local_color_table_flag, p_interlace_flag, p_sorted_flag, p_local_table_size)
+    , m_color_table(m_descriptor.get_local_color_table_flag() ? new gif_color_table(m_descriptor.get_decoded_size_of_local_color_table()) : nullptr)
     , m_lzw_minimum_code_size(8)
     , m_content(new t_content[m_descriptor.get_image_width() * m_descriptor.get_image_height()])
     {
